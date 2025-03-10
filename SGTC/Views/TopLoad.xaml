@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="SGTC.Views.TopLoad"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SGTC.Views"
+             xmlns:vm="clr-namespace:SGTC.ViewModels.Topload"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="White">
+            
+    <Grid x:Name="TopLoadGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <!-- Column Headers -->
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="16" Padding="0 5">Top Load</TextBlock>
+
+        <!-- Top Load Rows -->
+        <TextBlock Grid.Column="0" Grid.Row="1">Top Load Type</TextBlock>
+        <ComboBox Grid.Column="1" Grid.Row="1" x:Name="TopLoadTypeInput" SelectedIndex="0" ItemsSource="{Binding TopLoadTypes}" SelectedItem="{Binding SelectedTopLoadType}">
+        </ComboBox>
+
+        <ContentControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="{Binding RequiredRows}" Content="{Binding SelectedTopLoadType}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type vm:TorusViewModel}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Grid.Row="0">Inner Diameter (mm)</TextBlock>
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="0" x:Name="TopLoadTorusInDiameterInput"/>
+
+                        <TextBlock Grid.Column="0" Grid.Row="1">Outer Diameter (mm)</TextBlock>
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="0" x:Name="TopLoadTorusOutDiameterInput"/>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type vm:BallViewModel}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Grid.Row="0">Diameter (mm)</TextBlock>
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="0" x:Name="TopLoadBallDiameterInput"/>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type vm:NoneViewModel}"></DataTemplate>
+            </ContentControl.Resources>
+
+        </ContentControl>
+
+    </Grid>
+</UserControl>
