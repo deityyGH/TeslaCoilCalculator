@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SGTC.ViewModels;
 
 namespace SGTC.Views
 {
@@ -23,6 +24,7 @@ namespace SGTC.Views
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
 
     }

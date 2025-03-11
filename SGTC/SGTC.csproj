@@ -55,10 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="Models\CoilCalculatorData.cs" />
-    <Compile Include="ViewModels\Tabs\MainViewModel.cs" />
-    <Compile Include="ViewModels\Tabs\PrimaryCircuitViewModel.cs" />
-    <Compile Include="ViewModels\Tabs\TabsTypeViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PrimaryCircuitViewModel.cs" />
+    <Compile Include="ViewModels\ResultViewModel.cs" />
+    <Compile Include="ViewModels\SecondaryCircuitViewModel.cs" />
+    <Compile Include="ViewModels\TabsTypeViewModel.cs" />
+    <Compile Include="ViewModels\TopLoadViewModel.cs" />
     <Compile Include="Views\SecondaryCircuit.xaml.cs">
       <DependentUpon>SecondaryCircuit.xaml</DependentUpon>
     </Compile>
@@ -123,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Tabs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -29,16 +29,16 @@
 
         <!-- Primary coil rows -->
         <TextBlock Grid.Column="0" Grid.Row="1">Turns</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="1" Text="0" x:Name="SecondaryTurnsInput"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SecondaryTurns}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="2">Core Diameter (mm)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="2" Text="0" x:Name="SecondaryCoreDiameterInput"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SecondaryCoreDiameter}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="3">Wire Diameter (mm)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="3" Text="0" x:Name="SecondaryWireDiameterInput"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SecondaryWireDiameter}" x:Name="SecondaryWireDiameterInput"/>
 
         <TextBlock Grid.Column="0" Grid.Row="4">Wire Insulation Diameter  (mm)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="4" Text="0" x:Name="SecondaryWireInsulationDiameterInput"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SecondaryWireInsulationDiameter}"/>
 
     </Grid>
 </UserControl>

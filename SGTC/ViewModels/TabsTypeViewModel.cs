@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-namespace SGTC.ViewModels.Tabs
+namespace SGTC.ViewModels
 {
     class TabsTypeViewModel
     {
