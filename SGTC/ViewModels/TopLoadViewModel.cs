@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SGTC.Core;
-using SGTC.Models;
 
 namespace SGTC.ViewModels
 {
@@ -14,8 +13,8 @@ namespace SGTC.ViewModels
     {
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
 
-        private ObservableObject _currentTopLoadContentView;
-        public ObservableObject CurrentTopLoadContentView
+        private object _currentTopLoadContentView;
+        public object CurrentTopLoadContentView
         {
             get => _currentTopLoadContentView;
             set
@@ -46,13 +45,15 @@ namespace SGTC.ViewModels
                 {
                     _data.TopLoadType = value;
                     OnPropertyChanged();
+                    UpdateTopLoadContentView();
                 }
             }
         }
 
         //private readonly NoneViewModel _noneViewModel;
-        private readonly TorusViewModel _torusViewModel;
-        private readonly SphereViewModel _sphereViewModel;
+        public TorusViewModel _torusViewModel { get; set; }
+        public SphereViewModel _sphereViewModel { get; set; }
+        public NoneViewModel _noneViewModel { get; set; }
 
         public TopLoadViewModel()
         {
@@ -65,14 +66,18 @@ namespace SGTC.ViewModels
 
             _torusViewModel = new TorusViewModel();
             _sphereViewModel = new SphereViewModel();
+            _noneViewModel = new NoneViewModel();
+            UpdateTopLoadContentView();
         }
 
-        private void UpdateTopContentView()
+        private void UpdateTopLoadContentView()
         {
             CurrentTopLoadContentView = SelectedTopLoadType switch
             {
                 TopLoadType.Torus => _torusViewModel,
-                TopLoadType.Sphere => _sphereViewModel
+                TopLoadType.Sphere => _sphereViewModel,
+                TopLoadType.None => _noneViewModel,
+                _ => _noneViewModel
             };
         }
     }

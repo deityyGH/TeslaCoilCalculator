@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SGTC.Views
 {
     /// <summary>
-    /// Interaction logic for PrimaryCircuit.xaml
+    /// Interaction logic for Result.xaml
     /// </summary>
-    public partial class PrimaryCircuit : UserControl
+    public partial class Result : UserControl
     {
-        public PrimaryCircuit()
+        public Result()
         {
             InitializeComponent();
         }

@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using SGTC.ViewModels.TopLoad;
+using SGTC.ViewModels;
 
 namespace SGTC.Views
 {
@@ -8,7 +8,7 @@ namespace SGTC.Views
         public TopLoad()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            //DataContext = new TopLoadViewModel();
         }
 
     }

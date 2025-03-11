@@ -4,12 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SGTC.Views"
-             xmlns:vm="clr-namespace:SGTC.ViewModels.TopLoad"
+             xmlns:vm="clr-namespace:SGTC.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
             
-    <Grid x:Name="TopLoadGrid">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="5,2"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <!-- Style for TextBox -->
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="5,2"/>
+                <Setter Property="Padding" Value="5"/>
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="5,2"/>
+                <Setter Property="Padding" Value="5"/>
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -18,9 +35,9 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -33,14 +50,26 @@
         <ComboBox Grid.Column="1" Grid.Row="1" x:Name="TopLoadTypeInput" SelectedIndex="0" ItemsSource="{Binding TopLoadTypes}" SelectedItem="{Binding SelectedTopLoadType}">
         </ComboBox>
 
-        <ContentControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="{Binding RequiredRows}" Content="{Binding SelectedTopLoadType}">
+        <ContentControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Content="{Binding CurrentTopLoadContentView}">
             <ContentControl.Resources>
                 <DataTemplate 
                     DataType="{x:Type vm:TorusViewModel}">
                     <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="5,2"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                            <!-- Style for TextBox -->
+                            <Style TargetType="TextBox">
+                                <Setter Property="Margin" Value="5,2"/>
+                                <Setter Property="Padding" Value="5"/>
+                            </Style>
+                        </Grid.Resources>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -55,10 +84,22 @@
                     </Grid>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type vm:BallViewModel}">
+                <DataTemplate DataType="{x:Type vm:SphereViewModel}">
                     <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="5,2"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                            <!-- Style for TextBox -->
+                            <Style TargetType="TextBox">
+                                <Setter Property="Margin" Value="5,2"/>
+                                <Setter Property="Padding" Value="5"/>
+                            </Style>
+                        </Grid.Resources>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -66,7 +107,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Grid.Row="0">Diameter (mm)</TextBlock>
-                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding TopLoadBallDiameter}" x:Name="TopLoadBallDiameterInput"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding TopLoadSphereDiameter}" x:Name="TopLoadBallDiameterInput"/>
                     </Grid>
                 </DataTemplate>
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SGTC.Views"
         xmlns:vm="clr-namespace:SGTC.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="800">
     <Grid>
         
         <Grid.ColumnDefinitions>
@@ -35,7 +35,7 @@
         </StackPanel>
         
         <!-- Calculators -->
-        <Grid Grid.Row="2" Grid.Column="1">
+        <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
             <ContentControl Content="{Binding CurrentView}">
                 <ContentControl.Resources>
 
@@ -56,8 +56,10 @@
 
                     <!-- Result -->
                     <DataTemplate DataType="{x:Type vm:ResultViewModel}">
-                        <local:TopLoad/>
+                        <local:Result/>
                     </DataTemplate>
+                    
+                    
                 </ContentControl.Resources>
             </ContentControl>
         </Grid>

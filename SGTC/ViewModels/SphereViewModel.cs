@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SGTC.Core;
+using SGTC.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +8,22 @@ using System.Threading.Tasks;
 
 namespace SGTC.ViewModels
 {
-    public class SphereViewModel
+
+    public class SphereViewModel : ObservableObject
     {
-        private double _diameter;
-        public double Diameter
+        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+        public double TopLoadSphereDiameter
         {
-            get => _diameter;
+            get => _data.TopLoadSphereDiameter;
             set
             {
-                _diameter = value;
-
+                if (_data.TopLoadSphereDiameter != value)
+                {
+                    _data.TopLoadSphereDiameter = value;
+                    OnPropertyChanged();
+                }
             }
         }
     }
 }
+
