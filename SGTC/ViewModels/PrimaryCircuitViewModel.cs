@@ -7,108 +7,113 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using SGTC.Models;
+using SGTC.Core;
 
 namespace SGTC.ViewModels
 {
-    public class PrimaryCircuitViewModel : INotifyPropertyChanged
+    public class PrimaryCircuitViewModel : ObservableObject
     {
-        private double _primaryTurns;
+        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+
+
         public double PrimaryTurns
         {
-            get => _primaryTurns;
+            get => _data.PrimaryTurns;
             set
             {
-                if (_primaryTurns != value)
+                if (_data.PrimaryTurns != value)
                 {
-                    _primaryTurns = value;
+                    _data.PrimaryTurns = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        private double _primaryWireDiameter;
+        public double PrimaryCoreDiameter
+        {
+            get => _data.PrimaryCoreDiameter;
+            set
+            {
+                _data.PrimaryCoreDiameter = value;
+                OnPropertyChanged();
+            }
+        }
+
         public double PrimaryWireDiameter
         {
-            get => _primaryWireDiameter;
+            get => _data.PrimaryWireDiameter;
             set
             {
-                _primaryWireDiameter = value;
+                _data.PrimaryWireDiameter = value;
                 OnPropertyChanged();
             }
         }
 
-        private double _primaryWireInsulationDiameter;
+
         public double PrimaryWireInsulationDiameter
         {
-            get => _primaryWireInsulationDiameter;
+            get => _data.PrimaryWireInsulationDiameter;
             set
             {
-                _primaryWireInsulationDiameter = value;
+                _data.PrimaryWireInsulationDiameter = value;
                 OnPropertyChanged();
             }
         }
 
-        private double _primaryWireSpacing;
         public double PrimaryWireSpacing
         {
-            get => _primaryWireSpacing;
+            get => _data.PrimaryWireSpacing;
             set
             {
-                _primaryWireSpacing = value;
+                _data.PrimaryWireSpacing = value;
                 OnPropertyChanged();
             }
         }
 
-        private double _primaryWindingType;
         public double PrimaryWindingType
         {
-            get => _primaryWindingType;
+            get => _data.PrimaryWindingType;
             set
             {
-                _primaryWindingType = value;
+                _data.PrimaryWindingType = value;
                 OnPropertyChanged();
             }
         }
 
-        private string _primaryCapacitorConnectionType;
+
         public string PrimaryCapacitorConnectionType
         {
-            get => _primaryCapacitorConnectionType;
+            get => _data.PrimaryCapacitorConnectionType;
             set
             {
-                _primaryCapacitorConnectionType = value;
+                _data.PrimaryCapacitorConnectionType = value;
                 OnPropertyChanged();
             }
         }
 
-        private double _primaryCapacitance;
+
         public double PrimaryCapacitance
         {
-            get => _primaryCapacitance;
+            get => _data.PrimaryCapacitance;
             set
             {
-                _primaryCapacitance = value;
+                _data.PrimaryCapacitance = value;
                 OnPropertyChanged();
             }
         }
 
-        private int _primaryCapacitorAmount;
+
         public int PrimaryCapacitorAmount
         {
-            get => _primaryCapacitorAmount;
+            get => _data.PrimaryCapacitorAmount;
             set
             {
-                _primaryCapacitorAmount = value;
+                _data.PrimaryCapacitorAmount = value;
                 OnPropertyChanged();
             }
         }
 
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

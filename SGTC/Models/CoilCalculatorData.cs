@@ -8,6 +8,19 @@ namespace SGTC.Models
 {
     public class CoilCalculatorData
     {
+
+        private static CoilCalculatorData _instance;
+        public static CoilCalculatorData Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new CoilCalculatorData();
+                }
+                return _instance;
+            }
+        }
         // Primary tab
         public double PrimaryTurns { get; set; } = 0;
         public double PrimaryCoreDiameter { get; set; } = 0;
@@ -32,5 +45,7 @@ namespace SGTC.Models
         public double TopLoadTorusOutDiameter { get; set; } = 0;
         public double TopLoadBallDiameter { get; set; } = 0;
 
+
+        private CoilCalculatorData() { }
     }
 }
