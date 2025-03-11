@@ -27,8 +27,8 @@ namespace SGTC.Models
         public double PrimaryWireDiameter { get; set; } = 0;
         public double PrimaryWireInsulationDiameter { get; set; } = 0;
         public double PrimaryWireSpacing { get; set; } = 0;
-        public double PrimaryWindingType { get; set; } = 0;
-        public string PrimaryCapacitorConnectionType { get; set; } = "Series";
+        public PrimaryWindingType PrimaryWindingType { get; set; } = PrimaryWindingType.Solenoid;
+        public PrimaryCapacitorConnectionType PrimaryCapacitorConnectionType { get; set; } = PrimaryCapacitorConnectionType.Series;
         public double PrimaryCapacitance { get; set; } = 0;
         public int PrimaryCapacitorAmount { get; set; } = 0;
 
@@ -40,10 +40,10 @@ namespace SGTC.Models
         public double SecondaryWireInsulationDiameter { get; set; } = 0;
 
         // Top Load tab
-        public string TopLoadType { get; set; } = "Torus";
+        public TopLoadType TopLoadType { get; set; } = TopLoadType.None;
         public double TopLoadTorusInDiameter { get; set; } = 0;
         public double TopLoadTorusOutDiameter { get; set; } = 0;
-        public double TopLoadBallDiameter { get; set; } = 0;
+        public double TopLoadSphereDiameter { get; set; } = 0;
 
 
         private CoilCalculatorData() { }

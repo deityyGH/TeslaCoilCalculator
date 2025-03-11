@@ -58,7 +58,7 @@
 
         <!-- Primary capacitor bank rows-->
         <TextBlock Grid.Column="0" Grid.Row="9">Capacitor Connection</TextBlock>
-        <ComboBox Grid.Column="1" Grid.Row="9" x:Name="PrimaryCapacitorConnectionInput" SelectedIndex="0" ItemsSource="{Binding CapacitorConnectionTypes}" SelectedItem="{Binding SelectedCapacitorConnectionType}">
+        <ComboBox Grid.Column="1" Grid.Row="9" x:Name="PrimaryCapacitorConnectionInput" SelectedIndex="0" ItemsSource="{Binding PrimaryCapacitorConnectionTypes}" SelectedItem="{Binding SelectedPrimaryCapacitorConnectionType}">
         </ComboBox>
 
         <TextBlock Grid.Column="0" Grid.Row="10">Capacitance (nF)</TextBlock>

@@ -4,7 +4,7 @@ namespace SGTC.ViewModels.TopLoad
 {
     public class TorusViewModel : TopLoadTypeViewModel
     {
-        private readonly CoilCalculatorData _data;
+
         private double _innerDiameter;
         public double InnerDiameter
         {
@@ -13,7 +13,6 @@ namespace SGTC.ViewModels.TopLoad
             set
             {
                 _innerDiameter = value;
-                _data.TopLoadTorusInDiameter = value;
                 OnPropertyChanged();
             }
         }

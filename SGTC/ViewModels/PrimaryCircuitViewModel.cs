@@ -15,6 +15,29 @@ namespace SGTC.ViewModels
     {
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
 
+        // Combo box
+        private ObservableCollection<PrimaryWindingType> _primaryWindingTypes;
+        public ObservableCollection<PrimaryWindingType> PrimaryWindingTypes
+        {
+            get => _primaryWindingTypes;
+            set
+            {
+                _primaryWindingTypes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<PrimaryCapacitorConnectionType> _primaryCapacitorConnectionTypes;
+        public ObservableCollection<PrimaryCapacitorConnectionType> PrimaryCapacitorConnectionTypes
+        {
+            get => _primaryCapacitorConnectionTypes;
+            set
+            {
+                _primaryCapacitorConnectionTypes = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public double PrimaryTurns
         {
@@ -34,8 +57,11 @@ namespace SGTC.ViewModels
             get => _data.PrimaryCoreDiameter;
             set
             {
-                _data.PrimaryCoreDiameter = value;
-                OnPropertyChanged();
+                if (_data.PrimaryCoreDiameter != value)
+                {
+                    _data.PrimaryCoreDiameter = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -44,19 +70,26 @@ namespace SGTC.ViewModels
             get => _data.PrimaryWireDiameter;
             set
             {
-                _data.PrimaryWireDiameter = value;
-                OnPropertyChanged();
+                if (_data.PrimaryWireDiameter != value)
+                {
+                    _data.PrimaryWireDiameter = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
+        
 
         public double PrimaryWireInsulationDiameter
         {
             get => _data.PrimaryWireInsulationDiameter;
             set
             {
-                _data.PrimaryWireInsulationDiameter = value;
-                OnPropertyChanged();
+                if (_data.PrimaryWireInsulationDiameter != value)
+                {
+                    _data.PrimaryWireInsulationDiameter = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -65,29 +98,39 @@ namespace SGTC.ViewModels
             get => _data.PrimaryWireSpacing;
             set
             {
-                _data.PrimaryWireSpacing = value;
-                OnPropertyChanged();
+                if (_data.PrimaryWireSpacing != value)
+                {
+                    _data.PrimaryWireSpacing = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        public double PrimaryWindingType
+        public PrimaryWindingType SelectedPrimaryWindingType
         {
             get => _data.PrimaryWindingType;
             set
             {
-                _data.PrimaryWindingType = value;
-                OnPropertyChanged();
+                if (_data.PrimaryWindingType != value)
+                {
+                    _data.PrimaryWindingType = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
 
-        public string PrimaryCapacitorConnectionType
+        public PrimaryCapacitorConnectionType SelectedPrimaryCapacitorConnectionType
         {
             get => _data.PrimaryCapacitorConnectionType;
             set
             {
-                _data.PrimaryCapacitorConnectionType = value;
-                OnPropertyChanged();
+                Console.WriteLine(_data.PrimaryCapacitorConnectionType);
+                if (_data.PrimaryCapacitorConnectionType != value)
+                {
+                    _data.PrimaryCapacitorConnectionType = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -97,8 +140,11 @@ namespace SGTC.ViewModels
             get => _data.PrimaryCapacitance;
             set
             {
-                _data.PrimaryCapacitance = value;
-                OnPropertyChanged();
+                if (_data.PrimaryCapacitance != value)
+                {
+                    _data.PrimaryCapacitance = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -108,12 +154,33 @@ namespace SGTC.ViewModels
             get => _data.PrimaryCapacitorAmount;
             set
             {
-                _data.PrimaryCapacitorAmount = value;
-                OnPropertyChanged();
+                if (_data.PrimaryCapacitorAmount != value)
+                {
+                    _data.PrimaryCapacitorAmount = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
 
+        public PrimaryCircuitViewModel()
+        {
+
+            PrimaryWindingTypes = new ObservableCollection<PrimaryWindingType>
+            {
+                PrimaryWindingType.Solenoid,
+                PrimaryWindingType.FlatSpiral,
+                PrimaryWindingType.Conical
+            };
+
+            PrimaryCapacitorConnectionTypes = new ObservableCollection<PrimaryCapacitorConnectionType>
+            {
+                PrimaryCapacitorConnectionType.Series,
+                PrimaryCapacitorConnectionType.Parallel
+            };
+        }
+
+        
 
     }
 }
