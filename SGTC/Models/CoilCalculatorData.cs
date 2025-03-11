@@ -10,6 +10,7 @@ namespace SGTC.Models
     {
         // Primary tab
         public double PrimaryTurns { get; set; } = 0;
+        public double PrimaryCoreDiameter { get; set; } = 0;
         public double PrimaryWireDiameter { get; set; } = 0;
         public double PrimaryWireInsulationDiameter { get; set; } = 0;
         public double PrimaryWireSpacing { get; set; } = 0;

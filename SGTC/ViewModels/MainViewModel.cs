@@ -7,10 +7,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using SGTC.Core;
 
 namespace SGTC.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ObservableObject
     {
         private object _currentView;
         public object CurrentView
@@ -23,70 +24,47 @@ namespace SGTC.ViewModels
             }
         }
 
-        public ICommand NavigateCommand { get; set; }
+        // Buttons for changing tabs
+        public RelayCommand PrimaryViewCommand { get; set; }
+        public RelayCommand SecondaryViewCommand { get; set; }
+        public RelayCommand TopLoadViewCommand { get; set; }
+        public RelayCommand ResultViewCommand { get; set; }
 
-        private PrimaryCircuitViewModel primaryViewModel;
-        private SecondaryCircuitViewModel secondaryViewModel;
-        private TopLoadViewModel topLoadViewModel;
-        private ResultViewModel resultViewModel;
+        // View models
+        public PrimaryCircuitViewModel PrimaryViewModel { get; set; }
+        public SecondaryCircuitViewModel SecondaryViewModel { get; set; }
+        public TopLoadViewModel TopLoadViewModel { get; set; }
+        public ResultViewModel ResultViewModel { get; set; }
 
         public MainViewModel()
         {
-            primaryViewModel = new PrimaryCircuitViewModel();
-            secondaryViewModel = new SecondaryCircuitViewModel();
-            topLoadViewModel = new TopLoadViewModel();
-            resultViewModel = new ResultViewModel();
+            PrimaryViewModel = new PrimaryCircuitViewModel();
+            SecondaryViewModel = new SecondaryCircuitViewModel();
+            TopLoadViewModel = new TopLoadViewModel();
+            ResultViewModel = new ResultViewModel();
 
-            CurrentView = primaryViewModel;
+            CurrentView = PrimaryViewModel;
 
-            NavigateCommand = new RelayCommand(Navigate);
-
-        }
-
-
-        private void Navigate(object parameter)
-        {
-            switch (parameter.ToString())
+            PrimaryViewCommand = new RelayCommand(o =>
             {
-                case "Primary":
-                    CurrentView = primaryViewModel;
-                    break;
-                case "Secondary":
-                    CurrentView = secondaryViewModel;
-                    break;
-                case "TopLoad":
-                    CurrentView = topLoadViewModel;
-                    break;
-                case "Result":
-                    // CalculateResults();
-                    CurrentView = resultViewModel;
-                    break;
-            }
-        }
+                CurrentView = PrimaryViewModel;
+            });
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-
-        public class RelayCommand : ICommand
-        {
-            private readonly Action<object> _execute;
-
-            public RelayCommand(Action<object> execute)
+            SecondaryViewCommand = new RelayCommand(o =>
             {
-                _execute = execute;
-            }
+                CurrentView = SecondaryViewModel;
+            });
 
-            public bool CanExecute(object parameter) => true;
-            public void Execute(object parameter) => _execute(parameter);
-            public event EventHandler CanExecuteChanged
+            TopLoadViewCommand = new RelayCommand(o =>
             {
-                add { CommandManager.RequerySuggested += value; }
-                remove { CommandManager.RequerySuggested -= value; }
-            }
+                CurrentView = TopLoadViewModel;
+            });
+
+            ResultViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = ResultViewModel;
+            });
+
         }
     }
 }
