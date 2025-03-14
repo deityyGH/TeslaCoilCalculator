@@ -48,6 +48,7 @@ namespace SGTC.Core
             public static readonly Unit Hertz = new Unit("Hertz", 0, "Hz", "Frequency");
             public static readonly Unit Farad = new Unit("Farad", 0, "F", "Capacitance");
             public static readonly Unit Henry = new Unit("Henry", 0, "H", "Inductance");
+            public static readonly Unit Ohm = new Unit("Ohm", 0, "Ω", "Resistance");
 
             public override string ToString() => $"{Name} ({Symbol})";
         }

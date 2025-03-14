@@ -23,38 +23,15 @@ namespace SGTC.Models
         public string PrimaryCapacitance { get; set; }
 
         // Secondary + topload
-        public double SecondaryResonance { get; set; } = 0;
-        public double SecondaryInductance { get; set; } = 0;
-        public double SecondaryXc { get; set; } = 0;
-        public double SecondaryXl { get; set; } = 0;
-        public double SecondaryWireLength { get; set; } = 0;
-        public double SecondaryWireWeight { get; set; } = 0;
-        public double SecondaryCoilHeight { get; set; } = 0;
-        public double TopLoadCapacitance { get; set; } = 0;
-        public double SecondaryResonanceNoTopLoad { get; set; } = 0;
-
-
-        // Units
-
-        public string PrimaryResonanceUnit { get; set; } = "";
-        public string PrimaryInductanceUnit { get; set; } = "";
-        public string PrimaryXcUnit { get; set; } = "";
-        public string PrimaryXlUnit { get; set; } = "";
-        public string PrimaryWireLengthUnit { get; set; } = "";
-        public string PrimaryWireWeightUnit { get; set; } = "";
-        public string PrimaryCoilHeightUnit { get; set; } = "";
-        public string PrimaryCapacitanceUnit { get; set; } = "";
-
-        // Secondary + topload
-        public string SecondaryResonanceUnit { get; set; } = "";
-        public string SecondaryInductanceUnit { get; set; } = "";
-        public string SecondaryXcUnit { get; set; } = "";
-        public string SecondaryXlUnit { get; set; } = "";
-        public string SecondaryWireLengthUnit { get; set; } = "";
-        public string SecondaryWireWeightUnit { get; set; } = "";
-        public string SecondaryCoilHeightUnit { get; set; } = "";
-        public string TopLoadCapacitanceUnit { get; set; } = "";
-        public string SecondaryResonanceNoTopLoadUnit { get; set; } = "";
+        public string SecondaryResonance { get; set; }
+        public string SecondaryInductance { get; set; }
+        public string SecondaryXc { get; set; }
+        public string SecondaryXl { get; set; }
+        public string SecondaryWireLength { get; set; }
+        public string SecondaryWireWeight { get; set; }
+        public string SecondaryCoilHeight { get; set; }
+        public string TopLoadCapacitance { get; set; }
+        public string SecondaryResonanceNoTopLoad { get; set; }
 
         private CoilCalculatorResult() { }
     }

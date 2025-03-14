@@ -126,7 +126,7 @@ namespace SGTC.ViewModels
 
 
         // ========= Secondary ========= //
-        public double SecondaryResonance
+        public string SecondaryResonance
         {
             get => _result.SecondaryResonance;
             set
@@ -139,7 +139,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        public double SecondaryInductance
+        public string SecondaryInductance
         {
             get => _result.SecondaryInductance;
             set
@@ -152,7 +152,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        public double SecondaryXc
+        public string SecondaryXc
         {
             get => _result.SecondaryXc;
             set
@@ -165,7 +165,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        public double SecondaryXl
+        public string SecondaryXl
         {
             get => _result.SecondaryXl;
             set
@@ -178,7 +178,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        public double SecondaryWireLength
+        public string SecondaryWireLength
         {
             get => _result.SecondaryWireLength;
             set
@@ -191,7 +191,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        public double SecondaryWireWeight
+        public string SecondaryWireWeight
         {
             get => _result.SecondaryWireWeight;
             set
@@ -204,7 +204,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        public double SecondaryCoilHeight
+        public string SecondaryCoilHeight
         {
             get => _result.SecondaryCoilHeight;
             set
@@ -217,7 +217,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        public double TopLoadCapacitance
+        public string TopLoadCapacitance
         {
             get => _result.TopLoadCapacitance;
             set
@@ -230,7 +230,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        public double SecondaryResonanceNoTopLoad
+        public string SecondaryResonanceNoTopLoad
         {
             get => _result.SecondaryResonanceNoTopLoad;
             set
@@ -238,238 +238,6 @@ namespace SGTC.ViewModels
                 if (_result.SecondaryResonanceNoTopLoad != value)
                 {
                     _result.SecondaryResonanceNoTopLoad = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-
-        // ====== Units ====== //
-
-        public string PrimaryResonanceUnit
-        {
-            get => _result.PrimaryResonanceUnit;
-            set
-            {
-                if (_result.PrimaryResonanceUnit != value)
-                {
-                    _result.PrimaryResonanceUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        public string PrimaryInductanceUnit
-        {
-            get => _result.PrimaryInductanceUnit;
-            set
-            {
-                if (_result.PrimaryInductanceUnit != value)
-                {
-                    _result.PrimaryInductanceUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        public string PrimaryXcUnit
-        {
-            get => _result.PrimaryXcUnit;
-            set
-            {
-                if (_result.PrimaryXcUnit != value)
-                {
-                    _result.PrimaryXcUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        public string PrimaryXlUnit
-        {
-            get => _result.PrimaryXlUnit;
-            set
-            {
-                if (_result.PrimaryXlUnit != value)
-                {
-                    _result.PrimaryXlUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        public string PrimaryWireLengthUnit
-        {
-            get => _result.PrimaryWireLengthUnit;
-            set
-            {
-                if (_result.PrimaryWireLengthUnit != value)
-                {
-                    _result.PrimaryWireLengthUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        public string PrimaryWireWeightUnit
-        {
-            get => _result.PrimaryWireWeightUnit;
-            set
-            {
-                if (_result.PrimaryWireWeightUnit != value)
-                {
-                    _result.PrimaryWireWeightUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string PrimaryCoilHeightUnit
-        {
-            get => _result.PrimaryCoilHeightUnit;
-            set
-            {
-                if (_result.PrimaryCoilHeightUnit != value)
-                {
-                    _result.PrimaryCoilHeightUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string PrimaryCapacitanceUnit
-        {
-            get => _result.PrimaryCapacitanceUnit;
-            set
-            {
-                if (_result.PrimaryCapacitanceUnit != value)
-                {
-                    _result.PrimaryCapacitanceUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        // ========= Secondary ========= //
-        public string SecondaryResonanceUnit
-        {
-            get => _result.SecondaryResonanceUnit;
-            set
-            {
-                if (_result.SecondaryResonanceUnit != value)
-                {
-                    _result.SecondaryResonanceUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SecondaryInductanceUnit
-        {
-            get => _result.SecondaryInductanceUnit;
-            set
-            {
-                if (_result.SecondaryInductanceUnit != value)
-                {
-                    _result.SecondaryInductanceUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SecondaryXcUnit
-        {
-            get => _result.SecondaryXcUnit;
-            set
-            {
-                if (_result.SecondaryXcUnit != value)
-                {
-                    _result.SecondaryXcUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SecondaryXlUnit
-        {
-            get => _result.SecondaryXlUnit;
-            set
-            {
-                if (_result.SecondaryXlUnit != value)
-                {
-                    _result.SecondaryXlUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SecondaryWireLengthUnit
-        {
-            get => _result.SecondaryWireLengthUnit;
-            set
-            {
-                if (_result.SecondaryWireLengthUnit != value)
-                {
-                    _result.SecondaryWireLengthUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SecondaryWireWeightUnit
-        {
-            get => _result.SecondaryWireWeightUnit;
-            set
-            {
-                if (_result.SecondaryWireWeightUnit != value)
-                {
-                    _result.SecondaryWireWeightUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SecondaryCoilHeightUnit
-        {
-            get => _result.SecondaryCoilHeightUnit;
-            set
-            {
-                if (_result.SecondaryCoilHeightUnit != value)
-                {
-                    _result.SecondaryCoilHeightUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string TopLoadCapacitanceUnit
-        {
-            get => _result.TopLoadCapacitanceUnit;
-            set
-            {
-                if (_result.TopLoadCapacitanceUnit != value)
-                {
-                    _result.TopLoadCapacitanceUnit = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SecondaryResonanceNoTopLoadUnit
-        {
-            get => _result.SecondaryResonanceNoTopLoadUnit;
-            set
-            {
-                if (_result.SecondaryResonanceNoTopLoadUnit != value)
-                {
-                    _result.SecondaryResonanceNoTopLoadUnit = value;
                     OnPropertyChanged();
                 }
             }

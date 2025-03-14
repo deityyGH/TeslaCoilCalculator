@@ -34,10 +34,10 @@ namespace SGTC.Models
 
 
         // Secondary tab
-        public double SecondaryTurns { get; set; } = 0;
-        public double SecondaryCoreDiameter { get; set; } = 0;
-        public double SecondaryWireDiameter { get; set; } = 0;
-        public double SecondaryWireInsulationDiameter { get; set; } = 0;
+        public double SecondaryTurns { get; set; } = 900;
+        public double SecondaryCoreDiameter { get; set; } = 75;
+        public double SecondaryWireDiameter { get; set; } = 0.18;
+        public double SecondaryWireInsulationDiameter { get; set; } = 0.2;
 
         // Top Load tab
         public TopLoadType TopLoadType { get; set; } = TopLoadType.None;
