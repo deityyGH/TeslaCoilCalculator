@@ -57,19 +57,9 @@ namespace SGTC.Core
             _result.PrimaryResonance = UnitConverter.AutoScale(PrimaryResonance, UnitConverter.Unit.Hertz);
             _result.PrimaryXc = UnitConverter.AutoScale(PrimaryXc, UnitConverter.Unit.Ohm);
             _result.PrimaryXl = UnitConverter.AutoScale(PrimaryXl, UnitConverter.Unit.Ohm);
-            _result.PrimaryWireLength = $"{PrimaryWireLength:F2} m";
-            _result.PrimaryWireWeight = $"{PrimaryWireWeight:F2} g";
+            _result.PrimaryWireLength = UnitConverter.AutoScale(PrimaryWireLength, UnitConverter.Unit.Meter);
+            _result.PrimaryWireWeight = UnitConverter.AutoScale(PrimaryWireWeight, UnitConverter.Unit.Gram);
 
-        }
-
-        private static double ConvertMmToIn(double mmValue)
-        {
-            return mmValue / 25.4;
-        }
-
-        private static double ConvertInToMm(double inValue)
-        {
-            return inValue * 25.4;
         }
 
 
@@ -101,9 +91,9 @@ namespace SGTC.Core
             {
                 // L = (N^2 * d^2) / (18 * d + 40 * s)
                 // where N = turns, d = diameter in inches, s = spacing in inches
-                double diameter = ConvertMmToIn(_data.PrimaryCoreDiameter + _data.PrimaryWireInsulationDiameter);
+                double diameter = UnitConverter.ConvertMmToIn(_data.PrimaryCoreDiameter + _data.PrimaryWireInsulationDiameter);
                 double turns = _data.PrimaryTurns;
-                double coilHeight = ConvertMmToIn(PrimaryCoilHeight);
+                double coilHeight = UnitConverter.ConvertMmToIn(PrimaryCoilHeight);
 
 
                 
@@ -115,7 +105,7 @@ namespace SGTC.Core
                 }
                       
                 PrimaryInductance = (Math.Pow(turns, 2) * Math.Pow(diameter, 2)) / denominator;
-                PrimaryInductance = PrimaryInductance * Math.Pow(10, -6);
+                PrimaryInductance *= Math.Pow(10, -6);
             }
         }
         
@@ -167,9 +157,9 @@ namespace SGTC.Core
         {
             double CuDensity = 8.96;
 
-            double CoreRadius = (_data.PrimaryCoreDiameter / 2) / 10; // convert to cm
-            double WireCrossSection = Math.PI * Math.Pow(CoreRadius, 2);
-            double Volume = WireCrossSection * (PrimaryWireLength / 10);
+            double WireRadius = (_data.PrimaryWireDiameter / 2) / 10; // convert to cm
+            double WireCrossSection = Math.PI * Math.Pow(WireRadius, 2);
+            double Volume = WireCrossSection * (PrimaryWireLength * 100);
             PrimaryWireWeight = Volume * CuDensity;
         }
     }

@@ -49,6 +49,8 @@ namespace SGTC.Core
             public static readonly Unit Farad = new Unit("Farad", 0, "F", "Capacitance");
             public static readonly Unit Henry = new Unit("Henry", 0, "H", "Inductance");
             public static readonly Unit Ohm = new Unit("Ohm", 0, "Ω", "Resistance");
+            public static readonly Unit Meter = new Unit("Meter", 0, "m", "Length");
+            public static readonly Unit Gram = new Unit("Gram", 0, "g", "Weight");
 
             public override string ToString() => $"{Name} ({Symbol})";
         }
@@ -107,6 +109,11 @@ namespace SGTC.Core
             int powerDifference = fromUnit.Power - toUnit.Power;
             return value * Math.Pow(10, powerDifference);
 
+        }
+
+        public static double ConvertMmToIn(double mmValue)
+        {
+            return mmValue / 25.4;
         }
     }
 }

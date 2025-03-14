@@ -85,7 +85,6 @@
     <Compile Include="ViewModels\SecondaryCircuitViewModel.cs" />
     <Compile Include="ViewModels\SphereViewModel.cs" />
     <Compile Include="ViewModels\TopLoadViewModel.cs" />
-    <Compile Include="ViewModels\TopLoad\SphereViewModel.cs" />
     <Compile Include="ViewModels\TorusViewModel.cs" />
     <Compile Include="Views\Result.xaml.cs">
       <DependentUpon>Result.xaml</DependentUpon>
@@ -96,11 +95,6 @@
     <Compile Include="Views\TopLoad.xaml.cs">
       <DependentUpon>TopLoad.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\TopLoad\BallViewModel.cs" />
-    <Compile Include="ViewModels\TopLoad\MainViewModel.cs" />
-    <Compile Include="ViewModels\TopLoad\NoneViewModel.cs" />
-    <Compile Include="ViewModels\TopLoad\TopLoadViewModel.cs" />
-    <Compile Include="ViewModels\TopLoad\TorusViewModel.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

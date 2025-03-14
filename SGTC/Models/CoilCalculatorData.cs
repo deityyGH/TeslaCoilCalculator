@@ -40,9 +40,9 @@ namespace SGTC.Models
         public double SecondaryWireInsulationDiameter { get; set; } = 0.2;
 
         // Top Load tab
-        public TopLoadType TopLoadType { get; set; } = TopLoadType.None;
-        public double TopLoadTorusInDiameter { get; set; } = 0;
-        public double TopLoadTorusOutDiameter { get; set; } = 0;
+        public TopLoadType TopLoadType { get; set; } = TopLoadType.Torus;
+        public double TopLoadTorusInDiameter { get; set; } = 56;
+        public double TopLoadTorusOutDiameter { get; set; } = 166;
         public double TopLoadSphereDiameter { get; set; } = 0;
 
 

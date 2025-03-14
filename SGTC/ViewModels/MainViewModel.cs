@@ -65,6 +65,7 @@ namespace SGTC.ViewModels
                 
                 //SecondaryCalculator.Run(ResultViewModel);
                 PrimaryCalculator.Run();
+                SecondaryCalculator.Run();
                 CurrentView = ResultViewModel;
             });
 
