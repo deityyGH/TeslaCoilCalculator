@@ -22,15 +22,15 @@ namespace SGTC.Models
             }
         }
         // Primary tab
-        public double PrimaryTurns { get; set; } = 0;
-        public double PrimaryCoreDiameter { get; set; } = 0;
-        public double PrimaryWireDiameter { get; set; } = 0;
-        public double PrimaryWireInsulationDiameter { get; set; } = 0;
+        public double PrimaryTurns { get; set; } = 10;
+        public double PrimaryCoreDiameter { get; set; } = 87.6;
+        public double PrimaryWireDiameter { get; set; } = 1.75;
+        public double PrimaryWireInsulationDiameter { get; set; } = 2.4;
         public double PrimaryWireSpacing { get; set; } = 0;
         public PrimaryWindingType PrimaryWindingType { get; set; } = PrimaryWindingType.Solenoid;
-        public PrimaryCapacitorConnectionType PrimaryCapacitorConnectionType { get; set; } = PrimaryCapacitorConnectionType.Series;
-        public double PrimaryCapacitance { get; set; } = 0;
-        public int PrimaryCapacitorAmount { get; set; } = 0;
+        public PrimaryCapacitorConnectionType PrimaryCapacitorConnectionType { get; set; } = PrimaryCapacitorConnectionType.Parallel;
+        public double PrimaryCapacitance { get; set; } = 6;
+        public int PrimaryCapacitorAmount { get; set; } = 4;
 
 
         // Secondary tab

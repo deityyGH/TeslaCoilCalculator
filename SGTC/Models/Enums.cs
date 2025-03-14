@@ -25,4 +25,17 @@ namespace SGTC.Models
         Torus,
         Sphere
     }
+
+    //public enum Unit
+    //{
+    //    Pico = -12,
+    //    Nano = -9,
+    //    Micro = -6,
+    //    Mili = -3,
+    //    Base = 0,
+    //    Kilo = 3,
+    //    Mega = 6
+    //}
+
+
 }

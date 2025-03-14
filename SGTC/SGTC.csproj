@@ -72,8 +72,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\ObservableObject.cs" />
+    <Compile Include="Core\SecondaryCalculator.cs" />
+    <Compile Include="Core\UnitCoverter.cs" />
     <Compile Include="Models\CoilCalculatorData.cs" />
+    <Compile Include="Models\CoilCalculatorResult.cs" />
     <Compile Include="Models\Enums.cs" />
+    <Compile Include="Core\PrimaryCalculator.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NoneViewModel.cs" />
     <Compile Include="ViewModels\PrimaryCircuitViewModel.cs" />

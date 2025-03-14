@@ -28,6 +28,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -51,7 +52,8 @@
         <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" FontSize="14" HorizontalAlignment="Center">Primary</TextBlock>
 
         <TextBlock Grid.Column="0" Grid.Row="2">Resonance</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PrimaryResonance}" />
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PrimaryResonance}"/>
+
 
         <TextBlock Grid.Column="0" Grid.Row="3">Inductance</TextBlock>
         <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding PrimaryInductance}" />
@@ -69,12 +71,15 @@
         <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding PrimaryWireWeight}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="8">Coil Height</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding PrimaryHeight}"/>
+        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding PrimaryCoilHeight}"/>
 
+
+        <TextBlock Grid.Column="0" Grid.Row="9">Capacitance</TextBlock>
+        <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding PrimaryCapacitance}"/>
 
         <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" FontSize="14" HorizontalAlignment="Center">Secondary</TextBlock>
 
-        <TextBlock Grid.Column="2" Grid.Row="2">Resonance</TextBlock>
+        <TextBlock Grid.Column="2" Grid.Row="2" Text="Resonance {Binding SecondaryResonanceUnit}"/>
         <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding SecondaryResonance}" />
 
         <TextBlock Grid.Column="2" Grid.Row="3">Inductance</TextBlock>
@@ -93,10 +98,13 @@
         <TextBox Grid.Column="3" Grid.Row="7" Text="{Binding SecondaryWireWeight}"/>
 
         <TextBlock Grid.Column="2" Grid.Row="8">Coil Height</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding SecondaryHeight}"/>
+        <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding SecondaryCoilHeight}"/>
 
         <TextBlock Grid.Column="2" Grid.Row="9">Top Load Capacitance</TextBlock>
         <TextBox Grid.Column="3" Grid.Row="9" Text="{Binding TopLoadCapacitance}"/>
+
+        <TextBlock Grid.Column="2" Grid.Row="10">Resonance W/O Top Load</TextBlock>
+        <TextBox Grid.Column="3" Grid.Row="10" Text="{Binding SecondaryResonanceNoTopLoad}"/>
     </Grid>
     
 </UserControl>

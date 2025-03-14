@@ -62,9 +62,15 @@ namespace SGTC.ViewModels
 
             ResultViewCommand = new RelayCommand(o =>
             {
+                
+                //SecondaryCalculator.Run(ResultViewModel);
+                PrimaryCalculator.Run();
                 CurrentView = ResultViewModel;
             });
 
         }
+
+
+
     }
 }
