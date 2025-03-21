@@ -29,7 +29,7 @@ namespace SGTC.Core
         public static void Run()
         {
             CalculateData();
-            DisplayData();
+            //DisplayData();
         }
 
         private static void CalculateData()
@@ -44,19 +44,19 @@ namespace SGTC.Core
             CalculateWireWeight();
         }
 
-        private static void DisplayData()
-        {
-            _result.SecondaryCoilHeight = $"{SecondaryCoilHeight:F2} mm";
-            _result.SecondaryInductance = UnitConverter.AutoScale(SecondaryInductance, UnitConverter.Unit.Henry);
-            _result.SecondaryResonance = UnitConverter.AutoScale(SecondaryResonance, UnitConverter.Unit.Hertz);
-            _result.TopLoadCapacitance = UnitConverter.AutoScale(TopLoadCapacitance, UnitConverter.Unit.Farad);
-            _result.SecondaryResonanceNoTopLoad = UnitConverter.AutoScale(SecondaryResonanceNoTopLoad, UnitConverter.Unit.Hertz);
-            _result.SecondaryXc = UnitConverter.AutoScale(SecondaryXc, UnitConverter.Unit.Ohm);
-            _result.SecondaryXl = UnitConverter.AutoScale(SecondaryXl, UnitConverter.Unit.Ohm);
-            _result.SecondaryWireLength = UnitConverter.AutoScale(SecondaryWireLength, UnitConverter.Unit.Meter);
-            _result.SecondaryWireWeight = UnitConverter.AutoScale(SecondaryWireWeight, UnitConverter.Unit.Gram);
+        //private static void DisplayData()
+        //{
+        //    _result.SecondaryCoilHeight = $"{SecondaryCoilHeight:F2} mm";
+        //    _result.SecondaryInductance = UnitConverter.AutoScale(SecondaryInductance, UnitConverter.Unit.Henry);
+        //    _result.SecondaryResonance = UnitConverter.AutoScale(SecondaryResonance, UnitConverter.Unit.Hertz);
+        //    _result.TopLoadCapacitance = UnitConverter.AutoScale(TopLoadCapacitance, UnitConverter.Unit.Farad);
+        //    _result.SecondaryResonanceNoTopLoad = UnitConverter.AutoScale(SecondaryResonanceNoTopLoad, UnitConverter.Unit.Hertz);
+        //    _result.SecondaryXc = UnitConverter.AutoScale(SecondaryXc, UnitConverter.Unit.Ohm);
+        //    _result.SecondaryXl = UnitConverter.AutoScale(SecondaryXl, UnitConverter.Unit.Ohm);
+        //    _result.SecondaryWireLength = UnitConverter.AutoScale(SecondaryWireLength, UnitConverter.Unit.Meter);
+        //    _result.SecondaryWireWeight = UnitConverter.AutoScale(SecondaryWireWeight, UnitConverter.Unit.Gram);
 
-        }
+        //}
 
 
         private static void CalculateResonance()

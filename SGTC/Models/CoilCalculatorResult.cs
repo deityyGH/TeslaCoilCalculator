@@ -13,25 +13,26 @@ namespace SGTC.Models
 
 
         // Primary
-        public string PrimaryResonance { get; set; }
-        public string PrimaryInductance { get; set; }
-        public string PrimaryXc { get; set; }
-        public string PrimaryXl { get; set; }
-        public string PrimaryWireLength { get; set; }
-        public string PrimaryWireWeight { get; set; }
-        public string PrimaryCoilHeight { get; set; }
-        public string PrimaryCapacitance { get; set; }
+        public double PrimaryResonance { get; set; }
+        public double PrimaryInductance { get; set; }
+        public double PrimaryXc { get; set; }
+        public double PrimaryXl { get; set; }
+        public double PrimaryWireLength { get; set; }
+        public double PrimaryWireWeight { get; set; }
+        public double PrimaryCoilHeight { get; set; }
+        public double PrimaryCapacitance { get; set; }
 
         // Secondary + topload
-        public string SecondaryResonance { get; set; }
-        public string SecondaryInductance { get; set; }
-        public string SecondaryXc { get; set; }
-        public string SecondaryXl { get; set; }
-        public string SecondaryWireLength { get; set; }
-        public string SecondaryWireWeight { get; set; }
-        public string SecondaryCoilHeight { get; set; }
-        public string TopLoadCapacitance { get; set; }
-        public string SecondaryResonanceNoTopLoad { get; set; }
+        public double SecondaryResonance { get; set; }
+        public double SecondaryInductance { get; set; }
+        public double SecondaryXc { get; set; }
+        public double SecondaryXl { get; set; }
+        public double SecondaryWireLength { get; set; }
+        public double SecondaryWireWeight { get; set; }
+        public double SecondaryCoilHeight { get; set; }
+        public double TotalCapacitance { get; set; }
+        public double NoTopLoadCapacitance { get; set; }
+        public double SecondaryResonanceNoTopLoad { get; set; }
 
         private CoilCalculatorResult() { }
     }

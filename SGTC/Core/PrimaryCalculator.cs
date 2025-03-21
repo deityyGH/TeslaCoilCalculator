@@ -13,14 +13,14 @@ namespace SGTC.Core
     {
         private static readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private static readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
-        private static double PrimaryResonance { get; set; } = 0;
-        private static double PrimaryInductance { get; set; } = 0;
-        private static double PrimaryXc { get; set; } = 0;
-        private static double PrimaryXl { get; set; } = 0;
-        private static double PrimaryWireLength { get; set; } = 0;
-        private static double PrimaryWireWeight { get; set; } = 0;
-        private static double PrimaryCoilHeight { get; set; } = 0;
-        private static double PrimaryCapacitance { get; set; } = 0;
+        //private static double PrimaryResonance { get; set; }
+        //private static double PrimaryInductance { get; set; }
+        //private static double PrimaryXc { get; set; }
+        //private static double PrimaryXl { get; set; }
+        //private static double PrimaryWireLength { get; set; }
+        //private static double PrimaryWireWeight { get; set; }
+        //private static double PrimaryCoilHeight { get; set; }
+        //private static double PrimaryCapacitance { get; set; }
 
 
 
@@ -33,134 +33,203 @@ namespace SGTC.Core
 
         public static void Run()
         {
-            CalculateData();
-            DisplayData();
+            CalculatePrimary();
+            CalculateSecondary();
         }
 
-        private static void CalculateData()
+        private static void CalculatePrimary()
         {
-            CalculateCoilLength();
-            CalculateInductance();
-            CalculateCapacitance();
-            CalculateResonance();
-            CalculateCapacitiveReactance();
-            CalculateInductiveReactance();
-            CalculateWireLength();
-            CalculateWireWeight();
+            double CoilHeight = CalculateCoilHeight(_data.PrimaryWindingType, _data.PrimaryTurns, _data.PrimaryWireInsulationDiameter, _data.PrimaryWireSpacing);
+            double Inductance = CalculateInductance(_data.PrimaryWindingType, _data.PrimaryTurns, _data.PrimaryCoreDiameter, _data.PrimaryWireInsulationDiameter, CoilHeight);
+            double Capacitance = CalculateCapacitance(_data.PrimaryCapacitorConnectionType, _data.PrimaryCapacitance,_data.PrimaryCapacitorAmount);
+            double Resonance = CalculateResonance(Inductance, Capacitance);
+            double Xc = CalculateCapacitiveReactance(Resonance, Capacitance);
+            double Xl = CalculateInductiveReactance(Resonance, Inductance);
+            double WireLength = CalculateWireLength(_data.PrimaryTurns, _data.PrimaryCoreDiameter);
+            double WireWeight = CalculateWireWeight(_data.PrimaryWireDiameter, WireLength);
+
+            _result.PrimaryCoilHeight = CoilHeight;
+            _result.PrimaryInductance = Inductance;
+            _result.PrimaryCapacitance = Capacitance;
+            _result.PrimaryResonance = Resonance;
+            _result.PrimaryXc = Xc;
+            _result.PrimaryXl = Xl;
+            _result.PrimaryWireLength = WireLength;
+            _result.PrimaryWireWeight = WireWeight;
         }
 
-        private static void DisplayData()
+        private static void CalculateSecondary()
         {
-            _result.PrimaryCoilHeight = $"{PrimaryCoilHeight:F2} mm";
-            _result.PrimaryInductance = UnitConverter.AutoScale(PrimaryInductance, UnitConverter.Unit.Henry);
-            _result.PrimaryCapacitance = UnitConverter.AutoScale(PrimaryCapacitance, UnitConverter.Unit.Farad);
-            _result.PrimaryResonance = UnitConverter.AutoScale(PrimaryResonance, UnitConverter.Unit.Hertz);
-            _result.PrimaryXc = UnitConverter.AutoScale(PrimaryXc, UnitConverter.Unit.Ohm);
-            _result.PrimaryXl = UnitConverter.AutoScale(PrimaryXl, UnitConverter.Unit.Ohm);
-            _result.PrimaryWireLength = UnitConverter.AutoScale(PrimaryWireLength, UnitConverter.Unit.Meter);
-            _result.PrimaryWireWeight = UnitConverter.AutoScale(PrimaryWireWeight, UnitConverter.Unit.Gram);
+            double CoilHeight = CalculateCoilHeight(PrimaryWindingType.Solenoid, _data.SecondaryTurns, _data.SecondaryWireInsulationDiameter, 0);
+            double Inductance = CalculateInductance(PrimaryWindingType.Solenoid, _data.SecondaryTurns, _data.SecondaryCoreDiameter, _data.SecondaryWireInsulationDiameter, CoilHeight);
+            double Capacitance = CalculateSecondaryCoilCapacitance(_data.SecondaryWireInsulationDiameter, CoilHeight, _data.SecondaryCoreDiameter, true, true);
+            double CapacitanceNoTopLoad = CalculateSecondaryCoilCapacitance(_data.SecondaryWireInsulationDiameter, CoilHeight, _data.SecondaryCoreDiameter, false, true);
+
+            double Resonance = CalculateResonance(Inductance, Capacitance);
+            double ResonanceNoTopLoad = CalculateResonance(Inductance, CapacitanceNoTopLoad);
+            double Xc = CalculateCapacitiveReactance(Resonance, Capacitance);
+            double Xl = CalculateInductiveReactance(Resonance, Inductance);
+            double WireLength = CalculateWireLength(_data.SecondaryTurns, _data.SecondaryCoreDiameter);
+            double WireWeight = CalculateWireWeight(_data.SecondaryWireDiameter, WireLength);
+
+            _result.SecondaryCoilHeight = CoilHeight;
+            _result.SecondaryInductance = Inductance;
+            _result.SecondaryResonance = Resonance;
+            _result.SecondaryResonanceNoTopLoad = ResonanceNoTopLoad;
+            _result.SecondaryXc = Xc;
+            _result.SecondaryXl = Xl;
+            _result.SecondaryWireLength = WireLength;
+            _result.SecondaryWireWeight = WireWeight;
+            _result.TotalCapacitance = Capacitance;
+            _result.NoTopLoadCapacitance = CapacitanceNoTopLoad;
+        }
+
+        //private static void DisplayData()
+        //{
+        //    _result.PrimaryCoilHeight = $"{PrimaryCoilHeight:F2} mm";
+        //    _result.PrimaryInductance = UnitConverter.AutoScale(PrimaryInductance, UnitConverter.Unit.Henry);
+        //    _result.PrimaryCapacitance = UnitConverter.AutoScale(PrimaryCapacitance, UnitConverter.Unit.Farad);
+        //    _result.PrimaryResonance = UnitConverter.AutoScale(PrimaryResonance, UnitConverter.Unit.Hertz);
+        //    _result.PrimaryXc = UnitConverter.AutoScale(PrimaryXc, UnitConverter.Unit.Ohm);
+        //    _result.PrimaryXl = UnitConverter.AutoScale(PrimaryXl, UnitConverter.Unit.Ohm);
+        //    _result.PrimaryWireLength = UnitConverter.AutoScale(PrimaryWireLength, UnitConverter.Unit.Meter);
+        //    _result.PrimaryWireWeight = UnitConverter.AutoScale(PrimaryWireWeight, UnitConverter.Unit.Gram);
+
+        //}
+
+
+
+        public static double CalculateSecondaryTorusCapacitance(double outDiameter, double inDiameter)
+        {
+            // C = 2.8 * (1.2781 - (D2/D1)) * SQRT((2 * pi^2 * (D1-D2) * (D2/2)) \ 4 * pi)
+            // D1 -> outside diameter of toroid in inches
+            // D2 -> diameter of cross section of toroid in inches
+            // capacitance in picofarads
+            
+            double TorusThickness = (outDiameter - inDiameter) / 2;
+
+            double D1 = UnitConverter.ConvertMmToIn(outDiameter);
+            double D2 = UnitConverter.ConvertMmToIn(TorusThickness);
+
+            double firstPart = 1.2781 - (D2 / D1);
+            double secondPart = (2 * Math.Pow(Math.PI, 2) * (D1 - D2) * (D2 / 2)) / (4 * Math.PI);
+            double TopLoadCapacitance = 2.8 * firstPart * Math.Sqrt(secondPart);
+            TopLoadCapacitance *= Math.Pow(10, -12);
+
+            return TopLoadCapacitance;
 
         }
 
-
-
-        private static void CalculateResonance()
+        public static double CalculateSecondaryCoilCapacitance(double wireInsDiameter, double coilHeight, double coreDiameter, bool useTopLoad, bool useStrayC = true)
         {
-            double denominator = 2 * Math.PI * Math.Sqrt(PrimaryInductance * PrimaryCapacitance);
-            if (denominator == 0)
+            double strayCapacitance = 0;
+            double TopLoadCapacitance = 0;
+
+            double SecondaryCoilCapacitance = (wireInsDiameter / 10) * ((coilHeight / 10) * (coreDiameter / 10));
+            SecondaryCoilCapacitance *= Math.Pow(10, -12);
+            if (useTopLoad)
             {
-                PrimaryResonance = 0;
-                return;
+                TopLoadCapacitance = CalculateSecondaryTorusCapacitance(_data.TopLoadTorusOutDiameter, _data.TopLoadTorusInDiameter);
             }
-            PrimaryResonance = 1 / denominator;
+
+            if (useStrayC)
+            {
+                strayCapacitance = 7 * Math.Pow(10, -12);
+            }
+
+            return SecondaryCoilCapacitance + strayCapacitance + TopLoadCapacitance;
         }
 
-        private static void CalculateCoilLength()
+        public static double CalculateResonance(double primaryInductance, double primaryCapacitance)
         {
-            if (_data.PrimaryWindingType == PrimaryWindingType.Solenoid)
+
+            double denominator = 2 * Math.PI * Math.Sqrt(primaryInductance * primaryCapacitance);
+            return denominator == 0 ? 0 : 1 / denominator;
+        }
+
+        public static double CalculateCoilHeight(PrimaryWindingType windingType, double turns, double wireInsDiameter, double wireSpacing)
+        {
+            if (windingType == PrimaryWindingType.Solenoid)
             {
-                PrimaryCoilHeight = _data.PrimaryTurns * (_data.PrimaryWireInsulationDiameter + _data.PrimaryWireSpacing);
+                return turns * (wireInsDiameter + wireSpacing);
                 
             }
+            return 0;
         }
 
-        private static void CalculateInductance()
+        public static double CalculateInductance(PrimaryWindingType windingType, double turns, double coreDiameter, double wireInsDiameter, double coilHeight)
         {
             
-            if (_data.PrimaryWindingType == PrimaryWindingType.Solenoid)
+            if (windingType == PrimaryWindingType.Solenoid)
             {
                 // L = (N^2 * d^2) / (18 * d + 40 * s)
                 // where N = turns, d = diameter in inches, s = spacing in inches
-                double diameter = UnitConverter.ConvertMmToIn(_data.PrimaryCoreDiameter + _data.PrimaryWireInsulationDiameter);
-                double turns = _data.PrimaryTurns;
-                double coilHeight = UnitConverter.ConvertMmToIn(PrimaryCoilHeight);
+                double diameter = UnitConverter.ConvertMmToIn(coreDiameter + wireInsDiameter);
+                double coilHeightIn = UnitConverter.ConvertMmToIn(coilHeight);
 
 
                 
-                double denominator = (18 * diameter) + (40 * coilHeight);
-                if (denominator == 0)
-                {
-                    PrimaryInductance = 0;
-                    return;
-                }
+                double denominator = (18 * diameter) + (40 * coilHeightIn);
+                if (denominator == 0) return 0;
                       
-                PrimaryInductance = (Math.Pow(turns, 2) * Math.Pow(diameter, 2)) / denominator;
+                double PrimaryInductance = Math.Pow(turns, 2) * Math.Pow(diameter, 2) / denominator;
                 PrimaryInductance *= Math.Pow(10, -6);
+
+                return PrimaryInductance;
             }
+
+            return 0;
         }
-        
-        
 
-        private static void CalculateCapacitance()
+
+
+        public static double CalculateCapacitance(PrimaryCapacitorConnectionType connectionType, double capacitance, int numberOfCapacitors)
         {
-            double capacitance = _data.PrimaryCapacitance * Math.Pow(10, -9);
-            int numberOfCapacitors = _data.PrimaryCapacitorAmount;
+            double capacitanceBase = capacitance * Math.Pow(10, -9);
             
-            if (_data.PrimaryCapacitorConnectionType == PrimaryCapacitorConnectionType.Parallel)
+            if (connectionType == PrimaryCapacitorConnectionType.Parallel)
             {
-                PrimaryCapacitance = capacitance * _data.PrimaryCapacitorAmount;
-                return;
+                return capacitanceBase * numberOfCapacitors;
             }
 
-            if (_data.PrimaryCapacitorAmount == 1)
+            if (numberOfCapacitors == 1)
             {
-                PrimaryCapacitance = capacitance;
-                return;
+                return capacitanceBase;
             }
 
             double totalCapacitance = 0;
             for (int i = 0; i < numberOfCapacitors; i++)
             {
-                totalCapacitance = (1 / capacitance) + totalCapacitance;
+                totalCapacitance = (1 / capacitanceBase) + totalCapacitance;
             }
 
-            PrimaryCapacitance = totalCapacitance;
+            return totalCapacitance;
         }
 
-    
-        private static void CalculateCapacitiveReactance()
+
+        public static double CalculateCapacitiveReactance(double resonance, double capacitance)
         {
-            PrimaryXc = 1 / (2 * Math.PI * PrimaryResonance * PrimaryCapacitance);
+            return 1 / (2 * Math.PI * resonance * capacitance);
         }
-        private static void CalculateInductiveReactance()
+        public static double CalculateInductiveReactance(double resonance, double inductance)
         {
-            PrimaryXl = 2 * Math.PI * PrimaryResonance * PrimaryInductance;
+            return 2 * Math.PI * resonance * inductance;
         }
 
 
-        private static void CalculateWireLength()
+        public static double CalculateWireLength(double turns, double coreDiameter)
         {
-            PrimaryWireLength = (Math.PI * _data.PrimaryTurns * _data.PrimaryCoreDiameter) / 1000;
+            return Math.PI * turns * coreDiameter / 1000;
         }
 
-        private static void CalculateWireWeight()
+        public static double CalculateWireWeight(double wireDiameter, double wireLength)
         {
             double CuDensity = 8.96;
 
-            double WireRadius = (_data.PrimaryWireDiameter / 2) / 10; // convert to cm
+            double WireRadius = wireDiameter / 2 / 10; // convert to cm
             double WireCrossSection = Math.PI * Math.Pow(WireRadius, 2);
-            double Volume = WireCrossSection * (PrimaryWireLength * 100);
-            PrimaryWireWeight = Volume * CuDensity;
+            double Volume = WireCrossSection * (wireLength * 100);
+            return Volume * CuDensity;
         }
     }
 }

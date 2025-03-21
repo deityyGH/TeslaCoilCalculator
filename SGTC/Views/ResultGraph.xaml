@@ -1,0 +1,56 @@
+﻿<Window x:Class="SGTC.Views.ResultGraph"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SGTC.Views"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="ResultGraph" Height="450" Width="800">
+    <Grid>
+        <lvc:CartesianChart Name="ResonantChart">
+            <lvc:CartesianChart.Series>
+                <!-- Primary Resonance Frequency -->
+                <lvc:LineSeries Values="{Binding PrimaryResonance}" Title="Primary Resonance"
+                            Stroke="Blue" PointGeometrySize="10">
+                    <lvc:LineSeries.DataLabelsTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Point.Y, StringFormat='{}{0:0.00} Hz'}"
+                                   Foreground="Blue"/>
+                        </DataTemplate>
+                    </lvc:LineSeries.DataLabelsTemplate>
+                </lvc:LineSeries>
+
+                <!-- Secondary Resonance (Constant Line) -->
+                <lvc:LineSeries Values="{Binding SecondaryResonance}" Title="Secondary Resonance"
+                            Stroke="Red" PointGeometrySize="0" StrokeDashArray="5 2"/>
+                <lvc:ScatterSeries Values="{Binding BaseValues}" 
+                   Title="Base Value"
+                   Stroke="Green" 
+                   Fill="Green"
+                   StrokeThickness="2"
+                   PointGeometry="{x:Static lvc:DefaultGeometries.Diamond}"
+                   MaxPointShapeDiameter="15">
+                    <lvc:ScatterSeries.DataLabelsTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Point.Y, StringFormat='{}{0:0.00} Hz'}"
+                       Foreground="Green"
+                       FontWeight="Bold"/>
+                        </DataTemplate>
+                    </lvc:ScatterSeries.DataLabelsTemplate>
+                </lvc:ScatterSeries>
+            </lvc:CartesianChart.Series>
+            
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Capacitor Value (nF)"  LabelFormatter="{Binding XFormatter}"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Resonant Frequency (Hz)"  LabelFormatter="{Binding YFormatter}"/>
+            </lvc:CartesianChart.AxisY>
+            <!-- Tooltips -->
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip SelectionMode="SharedXValues"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+    </Grid>
+</Window>

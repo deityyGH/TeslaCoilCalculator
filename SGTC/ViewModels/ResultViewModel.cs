@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SGTC.Views;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace SGTC.ViewModels
 {
@@ -12,10 +15,27 @@ namespace SGTC.ViewModels
     {
         //private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
+        public RelayCommand CalculateCapacitanceGraphCommand { get; set; }
+        //public ResultGraphViewModel ResultGraphViewModel { get; set; }
+
+        public ResultViewModel()
+        {
+            CalculateCapacitanceGraphCommand = new RelayCommand(obj =>
+            {
+                //var userControl = obj as UserControl;
+                ResultGraph ResultGraphWindow = new ResultGraph();
+             //   Window parentWindow = Window.GetWindow(userControl);
+                //ResultGraphWindow.Owner = parentWindow;
+               // ResultGraphWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                ResultGraphWindow.Show();
+            });
+
+        }
 
         // ========= Primary ========= //
-        
-        public string PrimaryResonance
+
+
+        public double PrimaryResonance
         {
             get => _result.PrimaryResonance;
             set
@@ -24,12 +44,12 @@ namespace SGTC.ViewModels
                 {
                     _result.PrimaryResonance = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryResonanceDisplay)); // Notify UI to update
                 }
             }
         }
 
-        
-        public string PrimaryInductance
+        public double PrimaryInductance
         {
             get => _result.PrimaryInductance;
             set
@@ -38,12 +58,12 @@ namespace SGTC.ViewModels
                 {
                     _result.PrimaryInductance = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryInductanceDisplay)); // Notify UI to update
                 }
             }
         }
 
-        
-        public string PrimaryXc
+        public double PrimaryXc
         {
             get => _result.PrimaryXc;
             set
@@ -52,12 +72,12 @@ namespace SGTC.ViewModels
                 {
                     _result.PrimaryXc = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryXcDisplay)); // Notify UI to update
                 }
             }
         }
 
-        
-        public string PrimaryXl
+        public double PrimaryXl
         {
             get => _result.PrimaryXl;
             set
@@ -66,12 +86,12 @@ namespace SGTC.ViewModels
                 {
                     _result.PrimaryXl = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryXlDisplay)); // Notify UI to update
                 }
             }
         }
 
-       
-        public string PrimaryWireLength
+        public double PrimaryWireLength
         {
             get => _result.PrimaryWireLength;
             set
@@ -80,12 +100,12 @@ namespace SGTC.ViewModels
                 {
                     _result.PrimaryWireLength = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryWireLengthDisplay)); // Notify UI to update
                 }
             }
         }
 
-       
-        public string PrimaryWireWeight
+        public double PrimaryWireWeight
         {
             get => _result.PrimaryWireWeight;
             set
@@ -94,11 +114,12 @@ namespace SGTC.ViewModels
                 {
                     _result.PrimaryWireWeight = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryWireWeightDisplay)); // Notify UI to update
                 }
             }
         }
 
-        public string PrimaryCoilHeight
+        public double PrimaryCoilHeight
         {
             get => _result.PrimaryCoilHeight;
             set
@@ -107,11 +128,11 @@ namespace SGTC.ViewModels
                 {
                     _result.PrimaryCoilHeight = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCoilHeightDisplay)); // Notify UI to update
                 }
             }
         }
-
-        public string PrimaryCapacitance
+        public double PrimaryCapacitance
         {
             get => _result.PrimaryCapacitance;
             set
@@ -120,13 +141,25 @@ namespace SGTC.ViewModels
                 {
                     _result.PrimaryCapacitance = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay)); // Notify UI to update
                 }
             }
         }
 
+        public string PrimaryCapacitanceDisplay => UnitConverter.AutoScale(PrimaryCapacitance, UnitConverter.Unit.Farad);
+        public string PrimaryCoilHeightDisplay => $"{PrimaryCoilHeight:F2} mm";
+        public string PrimaryInductanceDisplay => UnitConverter.AutoScale(PrimaryInductance, UnitConverter.Unit.Henry);
+        public string PrimaryResonanceDisplay => UnitConverter.AutoScale(PrimaryResonance, UnitConverter.Unit.Hertz);
+        public string PrimaryXcDisplay => UnitConverter.AutoScale(PrimaryXc, UnitConverter.Unit.Ohm);
+        public string PrimaryXlDisplay => UnitConverter.AutoScale(PrimaryXl, UnitConverter.Unit.Ohm);
+        public string PrimaryWireLengthDisplay => UnitConverter.AutoScale(PrimaryWireLength, UnitConverter.Unit.Meter);
+        public string PrimaryWireWeightDisplay => UnitConverter.AutoScale(PrimaryWireWeight, UnitConverter.Unit.Gram);
+
+
+
 
         // ========= Secondary ========= //
-        public string SecondaryResonance
+        public double SecondaryResonance
         {
             get => _result.SecondaryResonance;
             set
@@ -135,11 +168,12 @@ namespace SGTC.ViewModels
                 {
                     _result.SecondaryResonance = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
 
-        public string SecondaryInductance
+        public double SecondaryInductance
         {
             get => _result.SecondaryInductance;
             set
@@ -148,11 +182,12 @@ namespace SGTC.ViewModels
                 {
                     _result.SecondaryInductance = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
 
-        public string SecondaryXc
+        public double SecondaryXc
         {
             get => _result.SecondaryXc;
             set
@@ -161,11 +196,12 @@ namespace SGTC.ViewModels
                 {
                     _result.SecondaryXc = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
 
-        public string SecondaryXl
+        public double SecondaryXl
         {
             get => _result.SecondaryXl;
             set
@@ -174,11 +210,12 @@ namespace SGTC.ViewModels
                 {
                     _result.SecondaryXl = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
 
-        public string SecondaryWireLength
+        public double SecondaryWireLength
         {
             get => _result.SecondaryWireLength;
             set
@@ -186,12 +223,13 @@ namespace SGTC.ViewModels
                 if (_result.SecondaryWireLength != value)
                 {
                     _result.SecondaryWireLength = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(); 
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
 
-        public string SecondaryWireWeight
+        public double SecondaryWireWeight
         {
             get => _result.SecondaryWireWeight;
             set
@@ -200,11 +238,12 @@ namespace SGTC.ViewModels
                 {
                     _result.SecondaryWireWeight = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
 
-        public string SecondaryCoilHeight
+        public double SecondaryCoilHeight
         {
             get => _result.SecondaryCoilHeight;
             set
@@ -213,24 +252,39 @@ namespace SGTC.ViewModels
                 {
                     _result.SecondaryCoilHeight = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
 
-        public string TopLoadCapacitance
+        public double TotalCapacitance
         {
-            get => _result.TopLoadCapacitance;
+            get => _result.TotalCapacitance;
             set
             {
-                if (_result.TopLoadCapacitance != value)
+                if (_result.TotalCapacitance != value)
                 {
-                    _result.TopLoadCapacitance = value;
+                    _result.TotalCapacitance = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
+                }
+            
+            }
+        }
+        public double NoTopLoadCapacitance
+        {
+            get => _result.NoTopLoadCapacitance;
+            set
+            {
+                if (_result.NoTopLoadCapacitance != value)
+                {
+                    _result.NoTopLoadCapacitance = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
-
-        public string SecondaryResonanceNoTopLoad
+        public double SecondaryResonanceNoTopLoad
         {
             get => _result.SecondaryResonanceNoTopLoad;
             set
@@ -239,8 +293,20 @@ namespace SGTC.ViewModels
                 {
                     _result.SecondaryResonanceNoTopLoad = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
             }
         }
+
+        public string SecondaryTotalCapacitanceDisplay => UnitConverter.AutoScale(TotalCapacitance, UnitConverter.Unit.Farad);
+        public string SecondaryNoTopLoadCapacitanceDisplay => UnitConverter.AutoScale(NoTopLoadCapacitance, UnitConverter.Unit.Farad);
+        public string SecondaryCoilHeightDisplay => $"{SecondaryCoilHeight:F2} mm";
+        public string SecondaryInductanceDisplay => UnitConverter.AutoScale(SecondaryInductance, UnitConverter.Unit.Henry);
+        public string SecondaryResonanceDisplay => UnitConverter.AutoScale(SecondaryResonance, UnitConverter.Unit.Hertz);
+        public string SecondaryResonanceNoTopLoadDisplay => UnitConverter.AutoScale(SecondaryResonanceNoTopLoad, UnitConverter.Unit.Hertz);
+        public string SecondaryXcDisplay => UnitConverter.AutoScale(SecondaryXc, UnitConverter.Unit.Ohm);
+        public string SecondaryXlDisplay => UnitConverter.AutoScale(SecondaryXl, UnitConverter.Unit.Ohm);
+        public string SecondaryWireLengthDisplay => UnitConverter.AutoScale(SecondaryWireLength, UnitConverter.Unit.Meter);
+        public string SecondaryWireWeightDisplay => UnitConverter.AutoScale(SecondaryWireWeight, UnitConverter.Unit.Gram);
     }
 }
