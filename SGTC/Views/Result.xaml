@@ -7,118 +7,173 @@
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="800"
              Background="White">
-    
-    <Grid >
+    <!--Container-->
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+  
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="5,2"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <!-- Style for TextBox -->
-            <Style TargetType="TextBox">
-                <Setter Property="Margin" Value="5,2"/>
-                <Setter Property="Padding" Value="5"/>
-            </Style>
-        </Grid.Resources>
-
         <!-- Column headers -->
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="16" Padding="0 5" >Results</TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="16" Padding="0 5" >Results</TextBlock>
 
-        <!-- Primary coil rows -->
-        <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" FontSize="14" HorizontalAlignment="Center">Primary</TextBlock>
+        <!--Primary-->
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5,2"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
 
-        <TextBlock Grid.Column="0" Grid.Row="2">Resonance</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PrimaryResonanceDisplay, Mode=OneWay}"/>
+                <!-- Style for TextBox -->
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="5,2"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </Grid.Resources>
 
 
-        <TextBlock Grid.Column="0" Grid.Row="3">Inductance</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding PrimaryInductanceDisplay, Mode=OneWay}" />
 
-        <TextBlock Grid.Column="0" Grid.Row="4">Capacitive Reactance (Xc)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding PrimaryXcDisplay, Mode=OneWay}"/>
+            <!-- Primary coil rows -->
+            <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" FontSize="14" HorizontalAlignment="Center">Primary</TextBlock>
 
-        <TextBlock Grid.Column="0" Grid.Row="5">Inductive Reactance (Xl)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding PrimaryXlDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="2">Resonance</TextBlock>
+            <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding PrimaryResonanceDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="6">Wire Length</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding PrimaryWireLengthDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="7">Wire Weight</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding PrimaryWireWeightDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="3">Inductance</TextBlock>
+            <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding PrimaryInductanceDisplay, Mode=OneWay}" />
 
-        <TextBlock Grid.Column="0" Grid.Row="8">Coil Height</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding PrimaryCoilHeightDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="4">Capacitive Reactance (Xc)</TextBlock>
+            <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding PrimaryXcDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="9">Capacitance</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding PrimaryCapacitanceDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="5">Inductive Reactance (Xl)</TextBlock>
+            <TextBox Grid.Column="2" Grid.Row="5" Text="{Binding PrimaryXlDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="10">Turns</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding PrimaryTurns, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="6">Wire Length</TextBlock>
+            <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding PrimaryWireLengthDisplay, Mode=OneWay}"/>
 
+            <TextBlock Grid.Column="0" Grid.Row="7">Wire Weight</TextBlock>
+            <TextBox Grid.Column="2" Grid.Row="7" Text="{Binding PrimaryWireWeightDisplay, Mode=OneWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="8">Coil Height</TextBlock>
+            <TextBox Grid.Column="2" Grid.Row="8" Text="{Binding PrimaryCoilHeightDisplay, Mode=OneWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="9">Capacitance</TextBlock>
+            <Button Grid.Column="1" Grid.Row="9" Command="{Binding CalculateCapacitanceGraphCommand}" Content="Auto"/>
+            <TextBox Grid.Column="2" Grid.Row="9" Text="{Binding PrimaryCapacitanceDisplay, Mode=OneWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="10">Turns</TextBlock>
+            <Button Grid.Column="1" Grid.Row="10" Command="{Binding AutoTurnsCommand}" Content="Auto"/>
+            <TextBox Grid.Column="2" Grid.Row="10" Text="{Binding PrimaryTurns, Mode=OneWay}"/>
+        </Grid>
+
+        
         <!--Secondary-->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5,2"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
 
-        <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" FontSize="14" HorizontalAlignment="Center">Secondary</TextBlock>
+                <!-- Style for TextBox -->
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="5,2"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </Grid.Resources>
+            <!--Secondary-->
 
-        <TextBlock Grid.Column="2" Grid.Row="2" Text="Resonance"/>
-        <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding SecondaryResonanceDisplay, Mode=OneWay}" />
+            <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" FontSize="14" HorizontalAlignment="Center">Secondary</TextBlock>
 
-        <TextBlock Grid.Column="2" Grid.Row="3">Inductance</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding SecondaryInductanceDisplay, Mode=OneWay}" />
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Resonance"/>
+            <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding SecondaryResonanceDisplay, Mode=OneWay}" />
 
-        <TextBlock Grid.Column="2" Grid.Row="4">Capacitive Reactance (Xc)</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding SecondaryXcDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="3">Inductance</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding SecondaryInductanceDisplay, Mode=OneWay}" />
 
-        <TextBlock Grid.Column="2" Grid.Row="5">Inductive Reactance (Xl)</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding SecondaryXlDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="4">Capacitive Reactance (Xc)</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding SecondaryXcDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="2" Grid.Row="6">Wire Length</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="6" Text="{Binding SecondaryWireLengthDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="5">Inductive Reactance (Xl)</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding SecondaryXlDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="2" Grid.Row="7">Wire Weight</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="7" Text="{Binding SecondaryWireWeightDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="6">Wire Length</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="6" Text="{Binding SecondaryWireLengthDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="2" Grid.Row="8">Coil Height</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding SecondaryCoilHeightDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="7">Wire Weight</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="7" Text="{Binding SecondaryWireWeightDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="2" Grid.Row="9">No Top Load Capacitance</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="9" Text="{Binding SecondaryNoTopLoadCapacitanceDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="8">Coil Height</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding SecondaryCoilHeightDisplay, Mode=OneWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="9">No Top Load Capacitance</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="9" Text="{Binding SecondaryNoTopLoadCapacitanceDisplay, Mode=OneWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="10">Total Capacitance</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="10" Text="{Binding SecondaryTotalCapacitanceDisplay, Mode=OneWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="11">Resonance W/O Top Load</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="11" Text="{Binding SecondaryResonanceNoTopLoadDisplay, Mode=OneWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="12">Turns</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="12" Text="{Binding SecondaryTurns, Mode=OneWay}"/>
+        </Grid>
+
         
-        <TextBlock Grid.Column="2" Grid.Row="10">Total Capacitance</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="10" Text="{Binding SecondaryTotalCapacitanceDisplay, Mode=OneWay}"/>
 
-        <TextBlock Grid.Column="2" Grid.Row="11">Resonance W/O Top Load</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="11" Text="{Binding SecondaryResonanceNoTopLoadDisplay, Mode=OneWay}"/>
         
-        <TextBlock Grid.Column="2" Grid.Row="12">Turns</TextBlock>
-        <TextBox Grid.Column="3" Grid.Row="12" Text="{Binding SecondaryTurns, Mode=OneWay}"/>
 
-        <Grid Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="4">
+        <!--<Grid Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -131,7 +186,7 @@
             <Button VerticalAlignment="Bottom" Height="40" Content="Primary Turns" Grid.Column="1"/>
             <Button VerticalAlignment="Bottom" Height="40" Content="Secondary Capacitance" Grid.Column="2"/>
             <Button VerticalAlignment="Bottom" Height="40" Content="Secondary Turns" Grid.Column="3"/>
-        </Grid>
+        </Grid>-->
     </Grid>
     
 </UserControl>
