@@ -39,6 +39,22 @@
                         </DataTemplate>
                     </lvc:ScatterSeries.DataLabelsTemplate>
                 </lvc:ScatterSeries>
+
+                <lvc:ScatterSeries Values="{Binding OptimalValues}" 
+                   Title="Optimal Value"
+                   Stroke="Green" 
+                   Fill="Green"
+                   StrokeThickness="2"
+                   PointGeometry="{x:Static lvc:DefaultGeometries.Diamond}"
+                   MaxPointShapeDiameter="15">
+                    <lvc:ScatterSeries.DataLabelsTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Point.Y, StringFormat='{}{0:0.00} nF'}"
+                       Foreground="Green"
+                       FontWeight="Bold"/>
+                        </DataTemplate>
+                    </lvc:ScatterSeries.DataLabelsTemplate>
+                </lvc:ScatterSeries>
             </lvc:CartesianChart.Series>
             
             <lvc:CartesianChart.AxisX>

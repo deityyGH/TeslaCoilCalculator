@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SGTC.Views"
         xmlns:vm="clr-namespace:SGTC.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
         
         <Grid.ColumnDefinitions>

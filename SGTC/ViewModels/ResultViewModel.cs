@@ -13,27 +13,101 @@ namespace SGTC.ViewModels
 {
     public class ResultViewModel : ObservableObject
     {
-        //private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+        
+        
+        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
         public RelayCommand CalculateCapacitanceGraphCommand { get; set; }
-        //public ResultGraphViewModel ResultGraphViewModel { get; set; }
+
+        private ResultGraph _resultGraphWindow;
 
         public ResultViewModel()
         {
+            ResultGraphViewModel.CapacitanceCalculated += OnCapacitanceCalculated;
+
             CalculateCapacitanceGraphCommand = new RelayCommand(obj =>
             {
-                //var userControl = obj as UserControl;
-                ResultGraph ResultGraphWindow = new ResultGraph();
-             //   Window parentWindow = Window.GetWindow(userControl);
-                //ResultGraphWindow.Owner = parentWindow;
-               // ResultGraphWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                ResultGraphWindow.Show();
-            });
+                // Check if window already exists
+                if (_resultGraphWindow != null)
+                {
+                    // If the window exists but is closed
+                    if (!_resultGraphWindow.IsVisible)
+                    {
+                        _resultGraphWindow = new ResultGraph();
+                        _resultGraphWindow.Show();
+                    }
+                    else
+                    {
+                        _ = _resultGraphWindow.Activate();
+                    }
+                }
+                else
+                {
+                    // First time opening the window
+                    _resultGraphWindow = new ResultGraph();
+                    _resultGraphWindow.Show();
 
+                    _resultGraphWindow.Closed += (sender, args) =>
+                    {
+                        _resultGraphWindow = null;
+                    };
+                }
+            });
+        }
+        
+        private void UpdateAllProperties()
+        {
+            OnPropertyChanged(nameof(PrimaryResonance));
+            OnPropertyChanged(nameof(PrimaryCapacitance));
+            OnPropertyChanged(nameof(PrimaryTurns));
+            OnPropertyChanged(nameof(PrimaryInductance));
+            OnPropertyChanged(nameof(PrimaryXc));
+            OnPropertyChanged(nameof(PrimaryXl));
+            OnPropertyChanged(nameof(PrimaryWireLength));
+            OnPropertyChanged(nameof(PrimaryWireWeight));
+            OnPropertyChanged(nameof(PrimaryCoilHeight));
+
+            OnPropertyChanged(nameof(PrimaryResonanceDisplay));
+            OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
+            OnPropertyChanged(nameof(PrimaryInductanceDisplay));
+            OnPropertyChanged(nameof(PrimaryXcDisplay));
+            OnPropertyChanged(nameof(PrimaryXlDisplay));
+            OnPropertyChanged(nameof(PrimaryWireLengthDisplay));
+            OnPropertyChanged(nameof(PrimaryWireWeightDisplay));
+            OnPropertyChanged(nameof(PrimaryCoilHeightDisplay));
+        }
+
+        private void OnCapacitanceCalculated(object sender, CapacitanceCalculatedEventArgs e)
+        {
+            OptimalCapacitance = e.OptimalCapacitance;
+        }
+
+        private double _optimalCapacitance;
+        public double OptimalCapacitance
+        {
+            get => _optimalCapacitance;
+            set
+            {
+                _optimalCapacitance = value;
+                PrimaryCalculator.CalculatePrimary(_capacitance: _optimalCapacitance);
+                UpdateAllProperties();
+                OnPropertyChanged();
+            }
         }
 
         // ========= Primary ========= //
-
+        public double PrimaryTurns
+        {
+            get => _data.PrimaryTurns;
+            set
+            {
+                if (_data.PrimaryTurns != value)
+                {
+                    _data.PrimaryTurns = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public double PrimaryResonance
         {
@@ -137,12 +211,12 @@ namespace SGTC.ViewModels
             get => _result.PrimaryCapacitance;
             set
             {
-                if (_result.PrimaryCapacitance != value)
-                {
+                //if (_result.PrimaryCapacitance != value)
+                //{
                     _result.PrimaryCapacitance = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay)); // Notify UI to update
-                }
+                //}
             }
         }
 
@@ -298,6 +372,19 @@ namespace SGTC.ViewModels
             }
         }
 
+        public double SecondaryTurns
+        {
+            get => _data.SecondaryTurns;
+            set
+            {
+                if (_data.SecondaryTurns != value)
+                {
+                    _data.SecondaryTurns = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public string SecondaryTotalCapacitanceDisplay => UnitConverter.AutoScale(TotalCapacitance, UnitConverter.Unit.Farad);
         public string SecondaryNoTopLoadCapacitanceDisplay => UnitConverter.AutoScale(NoTopLoadCapacitance, UnitConverter.Unit.Farad);
         public string SecondaryCoilHeightDisplay => $"{SecondaryCoilHeight:F2} mm";
@@ -308,5 +395,6 @@ namespace SGTC.ViewModels
         public string SecondaryXlDisplay => UnitConverter.AutoScale(SecondaryXl, UnitConverter.Unit.Ohm);
         public string SecondaryWireLengthDisplay => UnitConverter.AutoScale(SecondaryWireLength, UnitConverter.Unit.Meter);
         public string SecondaryWireWeightDisplay => UnitConverter.AutoScale(SecondaryWireWeight, UnitConverter.Unit.Gram);
+
     }
 }

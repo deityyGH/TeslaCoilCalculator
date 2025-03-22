@@ -13,40 +13,32 @@ namespace SGTC.Core
     {
         private static readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private static readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
-        //private static double PrimaryResonance { get; set; }
-        //private static double PrimaryInductance { get; set; }
-        //private static double PrimaryXc { get; set; }
-        //private static double PrimaryXl { get; set; }
-        //private static double PrimaryWireLength { get; set; }
-        //private static double PrimaryWireWeight { get; set; }
-        //private static double PrimaryCoilHeight { get; set; }
-        //private static double PrimaryCapacitance { get; set; }
 
-
-
-        //private static readonly UnitCoverter _converter = new UnitCoverter();
-
-        //private static readonly Unit[] Units =
-        //{
-        //    Unit.Pico, Unit.Nano, Unit.Micro, Unit.Milli, Unit.Base, Unit.Kilo, Unit.Mega, Unit.Giga, Unit.Tera
-        //};
-
-        public static void Run()
+        public static void Run(bool calculatePrimary = true, bool calculateSecondary = true)
         {
-            CalculatePrimary();
-            CalculateSecondary();
+            if (calculatePrimary) CalculatePrimary();
+            if (calculateSecondary) CalculateSecondary();
         }
 
-        private static void CalculatePrimary()
+
+        public static void CalculatePrimary(double? _turns = null, double? _coreDiameter = null, double? _wireDiameter = null, double? _wireInsDiameter = null, double? _spacing = null, double? _capacitance = null)
         {
-            double CoilHeight = CalculateCoilHeight(_data.PrimaryWindingType, _data.PrimaryTurns, _data.PrimaryWireInsulationDiameter, _data.PrimaryWireSpacing);
-            double Inductance = CalculateInductance(_data.PrimaryWindingType, _data.PrimaryTurns, _data.PrimaryCoreDiameter, _data.PrimaryWireInsulationDiameter, CoilHeight);
-            double Capacitance = CalculateCapacitance(_data.PrimaryCapacitorConnectionType, _data.PrimaryCapacitance,_data.PrimaryCapacitorAmount);
+            double primaryTurns = (double)(_turns == null ? _data.PrimaryTurns : _turns);
+            double coreDiameter = (double)(_coreDiameter == null ? _data.PrimaryCoreDiameter : _coreDiameter);
+            double wireDiameter = (double)(_wireDiameter == null ? _data.PrimaryWireDiameter : _wireDiameter);
+            double wireInsDiameter = (double)(_wireInsDiameter == null ? _data.PrimaryWireInsulationDiameter : _wireInsDiameter);
+            double spacing = (double)(_spacing == null ? _data.PrimaryWireSpacing : _spacing);
+            double Capacitance = _capacitance == null
+                ? CalculateCapacitance(_data.PrimaryCapacitorConnectionType, _data.PrimaryCapacitance * 1e-9, _data.PrimaryCapacitorAmount)
+                : (double)_capacitance;
+
+            double CoilHeight = CalculateCoilHeight(_data.PrimaryWindingType, primaryTurns, wireInsDiameter, spacing);
+            double Inductance = CalculateInductance(_data.PrimaryWindingType, primaryTurns, coreDiameter, wireInsDiameter, CoilHeight);
             double Resonance = CalculateResonance(Inductance, Capacitance);
             double Xc = CalculateCapacitiveReactance(Resonance, Capacitance);
             double Xl = CalculateInductiveReactance(Resonance, Inductance);
-            double WireLength = CalculateWireLength(_data.PrimaryTurns, _data.PrimaryCoreDiameter);
-            double WireWeight = CalculateWireWeight(_data.PrimaryWireDiameter, WireLength);
+            double WireLength = CalculateWireLength(primaryTurns, coreDiameter);
+            double WireWeight = CalculateWireWeight(wireDiameter, WireLength);
 
             _result.PrimaryCoilHeight = CoilHeight;
             _result.PrimaryInductance = Inductance;
@@ -58,7 +50,7 @@ namespace SGTC.Core
             _result.PrimaryWireWeight = WireWeight;
         }
 
-        private static void CalculateSecondary()
+        public static void CalculateSecondary()
         {
             double CoilHeight = CalculateCoilHeight(PrimaryWindingType.Solenoid, _data.SecondaryTurns, _data.SecondaryWireInsulationDiameter, 0);
             double Inductance = CalculateInductance(PrimaryWindingType.Solenoid, _data.SecondaryTurns, _data.SecondaryCoreDiameter, _data.SecondaryWireInsulationDiameter, CoilHeight);
@@ -83,20 +75,6 @@ namespace SGTC.Core
             _result.TotalCapacitance = Capacitance;
             _result.NoTopLoadCapacitance = CapacitanceNoTopLoad;
         }
-
-        //private static void DisplayData()
-        //{
-        //    _result.PrimaryCoilHeight = $"{PrimaryCoilHeight:F2} mm";
-        //    _result.PrimaryInductance = UnitConverter.AutoScale(PrimaryInductance, UnitConverter.Unit.Henry);
-        //    _result.PrimaryCapacitance = UnitConverter.AutoScale(PrimaryCapacitance, UnitConverter.Unit.Farad);
-        //    _result.PrimaryResonance = UnitConverter.AutoScale(PrimaryResonance, UnitConverter.Unit.Hertz);
-        //    _result.PrimaryXc = UnitConverter.AutoScale(PrimaryXc, UnitConverter.Unit.Ohm);
-        //    _result.PrimaryXl = UnitConverter.AutoScale(PrimaryXl, UnitConverter.Unit.Ohm);
-        //    _result.PrimaryWireLength = UnitConverter.AutoScale(PrimaryWireLength, UnitConverter.Unit.Meter);
-        //    _result.PrimaryWireWeight = UnitConverter.AutoScale(PrimaryWireWeight, UnitConverter.Unit.Gram);
-
-        //}
-
 
 
         public static double CalculateSecondaryTorusCapacitance(double outDiameter, double inDiameter)
@@ -142,19 +120,13 @@ namespace SGTC.Core
 
         public static double CalculateResonance(double primaryInductance, double primaryCapacitance)
         {
-
             double denominator = 2 * Math.PI * Math.Sqrt(primaryInductance * primaryCapacitance);
             return denominator == 0 ? 0 : 1 / denominator;
         }
 
         public static double CalculateCoilHeight(PrimaryWindingType windingType, double turns, double wireInsDiameter, double wireSpacing)
         {
-            if (windingType == PrimaryWindingType.Solenoid)
-            {
-                return turns * (wireInsDiameter + wireSpacing);
-                
-            }
-            return 0;
+            return windingType == PrimaryWindingType.Solenoid ? turns * (wireInsDiameter + wireSpacing) : 0;
         }
 
         public static double CalculateInductance(PrimaryWindingType windingType, double turns, double coreDiameter, double wireInsDiameter, double coilHeight)
@@ -167,11 +139,12 @@ namespace SGTC.Core
                 double diameter = UnitConverter.ConvertMmToIn(coreDiameter + wireInsDiameter);
                 double coilHeightIn = UnitConverter.ConvertMmToIn(coilHeight);
 
-
-                
                 double denominator = (18 * diameter) + (40 * coilHeightIn);
-                if (denominator == 0) return 0;
-                      
+                if (denominator == 0)
+                {
+                    return 0;
+                }
+
                 double PrimaryInductance = Math.Pow(turns, 2) * Math.Pow(diameter, 2) / denominator;
                 PrimaryInductance *= Math.Pow(10, -6);
 
@@ -185,22 +158,22 @@ namespace SGTC.Core
 
         public static double CalculateCapacitance(PrimaryCapacitorConnectionType connectionType, double capacitance, int numberOfCapacitors)
         {
-            double capacitanceBase = capacitance * Math.Pow(10, -9);
+            //double capacitanceBase = capacitance * Math.Pow(10, -9);
             
             if (connectionType == PrimaryCapacitorConnectionType.Parallel)
             {
-                return capacitanceBase * numberOfCapacitors;
+                return capacitance * numberOfCapacitors;
             }
 
             if (numberOfCapacitors == 1)
             {
-                return capacitanceBase;
+                return capacitance;
             }
 
             double totalCapacitance = 0;
             for (int i = 0; i < numberOfCapacitors; i++)
             {
-                totalCapacitance = (1 / capacitanceBase) + totalCapacitance;
+                totalCapacitance = (1 / capacitance) + totalCapacitance;
             }
 
             return totalCapacitance;
