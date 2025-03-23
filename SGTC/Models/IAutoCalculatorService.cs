@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SGTC.Core;
+//using SGTC.Core;
 
 namespace SGTC.Models
 {
@@ -17,6 +17,8 @@ namespace SGTC.Models
 
     public class AutoCalculatorService : IAutoCalculatorService
     {
+        IUnitConverter _unitConverter = new UnitConverter();
+        
         public double CalculateOptimalCapacitance(double targetFrequency, double inductance)
         {
             double denominator = Math.Pow(2 * Math.PI * targetFrequency, 2) * inductance;
@@ -26,10 +28,10 @@ namespace SGTC.Models
         public double CalculateOptimalTurns(double targetResonance, double capacitance, double coreDiameter, double wireInsDiameter, double baseTurns)
         {
             double inductanceH = GetInductance(targetResonance, capacitance);
-            double inductanceUH = UnitConverter.ConvertValue(inductanceH, UnitConverter.Unit.Base, UnitConverter.Unit.Micro);
+            double inductanceUH = _unitConverter.ConvertValue(inductanceH, Unit.Base, Unit.Micro);
 
-            double diameterInches = UnitConverter.ConvertMmToIn(coreDiameter + wireInsDiameter);
-            double wireDiameterInches = UnitConverter.ConvertMmToIn(wireInsDiameter);
+            double diameterInches = _unitConverter.ConvertMmToIn(coreDiameter + wireInsDiameter);
+            double wireDiameterInches = _unitConverter.ConvertMmToIn(wireInsDiameter);
 
             double turns = baseTurns;
             double previousTurns = 0;

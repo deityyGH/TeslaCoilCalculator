@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SGTC.Core
 {
-    public class UnitConverter
+    public class UnitConverter2
     {
 
         public enum UnitType

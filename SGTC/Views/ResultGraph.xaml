@@ -8,9 +8,8 @@
         mc:Ignorable="d"
         Title="ResultGraph" Height="450" Width="800">
     <Grid>
-        <lvc:CartesianChart Name="ResonantChart" LegendLocation="Right">
-            <lvc:CartesianChart.Series>
-                <!-- Primary Resonance Frequency -->
+        <lvc:CartesianChart LegendLocation="Right" Series="{Binding SeriesCollection}">
+            <!--<lvc:CartesianChart.Series>
                 <lvc:LineSeries Values="{Binding PrimaryResonance}" Title="Primary Resonance"
                             Stroke="Blue" PointGeometrySize="10">
                     <lvc:LineSeries.DataLabelsTemplate>
@@ -20,8 +19,6 @@
                         </DataTemplate>
                     </lvc:LineSeries.DataLabelsTemplate>
                 </lvc:LineSeries>
-
-                <!-- Secondary Resonance (Constant Line) -->
                 <lvc:LineSeries Values="{Binding SecondaryResonance}" Title="Secondary Resonance"
                             Stroke="Red" PointGeometrySize="0" StrokeDashArray="5 2"/>
                 <lvc:ScatterSeries Values="{Binding BaseValues}" 
@@ -47,15 +44,10 @@
                    StrokeThickness="2"
                    PointGeometry="{x:Static lvc:DefaultGeometries.Diamond}"
                    MaxPointShapeDiameter="25">
-                    <!--<lvc:ScatterSeries.DataLabelsTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Point.Y}"
-                       Foreground="Green"
-                       FontWeight="Bold"/>
-                        </DataTemplate>
-                    </lvc:ScatterSeries.DataLabelsTemplate>-->
                 </lvc:ScatterSeries>
-            </lvc:CartesianChart.Series>
+            </lvc:CartesianChart.Series>-->
+            
+            
             
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="{Binding XAxisTitle}"  LabelFormatter="{Binding XFormatter}"/>
@@ -63,7 +55,6 @@
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="{Binding YAxisTitle}"  LabelFormatter="{Binding YFormatter}"/>
             </lvc:CartesianChart.AxisY>
-            <!-- Tooltips -->
             <lvc:CartesianChart.DataTooltip>
                 <lvc:DefaultTooltip SelectionMode="SharedXValues"/>
             </lvc:CartesianChart.DataTooltip>

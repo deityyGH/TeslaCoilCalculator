@@ -79,9 +79,9 @@ namespace SGTC.Core
 
             // L = (N^2 * d^2) / (18 * d + 40 * s)
             // where N = turns, d = diameter in inches, s = spacing in inches
-            double diameter = UnitConverter.ConvertMmToIn(_data.SecondaryCoreDiameter + _data.SecondaryWireInsulationDiameter);
+            double diameter = UnitConverter2.ConvertMmToIn(_data.SecondaryCoreDiameter + _data.SecondaryWireInsulationDiameter);
             double turns = _data.SecondaryTurns;
-            double coilHeight = UnitConverter.ConvertMmToIn(SecondaryCoilHeight);
+            double coilHeight = UnitConverter2.ConvertMmToIn(SecondaryCoilHeight);
 
 
 
@@ -116,8 +116,8 @@ namespace SGTC.Core
             {
                 double TorusThickness = (_data.TopLoadTorusOutDiameter - _data.TopLoadTorusInDiameter) / 2;
 
-                double D1 = UnitConverter.ConvertMmToIn(_data.TopLoadTorusOutDiameter);
-                double D2 = UnitConverter.ConvertMmToIn(TorusThickness);
+                double D1 = UnitConverter2.ConvertMmToIn(_data.TopLoadTorusOutDiameter);
+                double D2 = UnitConverter2.ConvertMmToIn(TorusThickness);
 
                 double firstPart = 1.2781 - (D2 / D1);
                 double secondPart = (2 * Math.Pow(Math.PI, 2) * (D1 - D2) * (D2 / 2)) / (4 * Math.PI);

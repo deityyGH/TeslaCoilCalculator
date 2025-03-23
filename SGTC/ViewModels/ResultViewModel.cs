@@ -9,12 +9,13 @@ using SGTC.Views;
 using System.Windows.Controls;
 using System.Windows;
 
+
 namespace SGTC.ViewModels
 {
     public class ResultViewModel : ObservableObject
     {
-        
-        
+
+        IUnitConverter _unitConverter = new UnitConverter();
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
         public RelayCommand AutoPrimaryCapacitanceCommand { get; set; }
@@ -262,15 +263,15 @@ namespace SGTC.ViewModels
             }
         }
 
-        public string PrimaryCapacitanceDisplay => UnitConverter.AutoScale(PrimaryCapacitance, UnitConverter.Unit.Farad);
+        public string PrimaryCapacitanceDisplay => _unitConverter.AutoScale(PrimaryCapacitance, Unit.Farad);
         public string PrimaryTurnsDisplay => $"{PrimaryTurns:F2}";
         public string PrimaryCoilHeightDisplay => $"{PrimaryCoilHeight:F2} mm";
-        public string PrimaryInductanceDisplay => UnitConverter.AutoScale(PrimaryInductance, UnitConverter.Unit.Henry);
-        public string PrimaryResonanceDisplay => UnitConverter.AutoScale(PrimaryResonance, UnitConverter.Unit.Hertz);
-        public string PrimaryXcDisplay => UnitConverter.AutoScale(PrimaryXc, UnitConverter.Unit.Ohm);
-        public string PrimaryXlDisplay => UnitConverter.AutoScale(PrimaryXl, UnitConverter.Unit.Ohm);
-        public string PrimaryWireLengthDisplay => UnitConverter.AutoScale(PrimaryWireLength, UnitConverter.Unit.Meter);
-        public string PrimaryWireWeightDisplay => UnitConverter.AutoScale(PrimaryWireWeight, UnitConverter.Unit.Gram);
+        public string PrimaryInductanceDisplay => _unitConverter.AutoScale(PrimaryInductance, Unit.Henry);
+        public string PrimaryResonanceDisplay => _unitConverter.AutoScale(PrimaryResonance, Unit.Hertz);
+        public string PrimaryXcDisplay => _unitConverter.AutoScale(PrimaryXc, Unit.Ohm);
+        public string PrimaryXlDisplay => _unitConverter.AutoScale(PrimaryXl, Unit.Ohm);
+        public string PrimaryWireLengthDisplay => _unitConverter.AutoScale(PrimaryWireLength, Unit.Meter);
+        public string PrimaryWireWeightDisplay => _unitConverter.AutoScale(PrimaryWireWeight, Unit.Gram);
 
 
 
@@ -428,16 +429,16 @@ namespace SGTC.ViewModels
             }
         }
 
-        public string SecondaryTotalCapacitanceDisplay => UnitConverter.AutoScale(TotalCapacitance, UnitConverter.Unit.Farad);
-        public string SecondaryNoTopLoadCapacitanceDisplay => UnitConverter.AutoScale(NoTopLoadCapacitance, UnitConverter.Unit.Farad);
+        public string SecondaryTotalCapacitanceDisplay => _unitConverter.AutoScale(TotalCapacitance, Unit.Farad);
+        public string SecondaryNoTopLoadCapacitanceDisplay => _unitConverter.AutoScale(NoTopLoadCapacitance, Unit.Farad);
         public string SecondaryCoilHeightDisplay => $"{SecondaryCoilHeight:F2} mm";
-        public string SecondaryInductanceDisplay => UnitConverter.AutoScale(SecondaryInductance, UnitConverter.Unit.Henry);
-        public string SecondaryResonanceDisplay => UnitConverter.AutoScale(SecondaryResonance, UnitConverter.Unit.Hertz);
-        public string SecondaryResonanceNoTopLoadDisplay => UnitConverter.AutoScale(SecondaryResonanceNoTopLoad, UnitConverter.Unit.Hertz);
-        public string SecondaryXcDisplay => UnitConverter.AutoScale(SecondaryXc, UnitConverter.Unit.Ohm);
-        public string SecondaryXlDisplay => UnitConverter.AutoScale(SecondaryXl, UnitConverter.Unit.Ohm);
-        public string SecondaryWireLengthDisplay => UnitConverter.AutoScale(SecondaryWireLength, UnitConverter.Unit.Meter);
-        public string SecondaryWireWeightDisplay => UnitConverter.AutoScale(SecondaryWireWeight, UnitConverter.Unit.Gram);
+        public string SecondaryInductanceDisplay => _unitConverter.AutoScale(SecondaryInductance, Unit.Henry);
+        public string SecondaryResonanceDisplay => _unitConverter.AutoScale(SecondaryResonance, Unit.Hertz);
+        public string SecondaryResonanceNoTopLoadDisplay => _unitConverter.AutoScale(SecondaryResonanceNoTopLoad, Unit.Hertz);
+        public string SecondaryXcDisplay => _unitConverter.AutoScale(SecondaryXc, Unit.Ohm);
+        public string SecondaryXlDisplay => _unitConverter.AutoScale(SecondaryXl, Unit.Ohm);
+        public string SecondaryWireLengthDisplay => _unitConverter.AutoScale(SecondaryWireLength, Unit.Meter);
+        public string SecondaryWireWeightDisplay => _unitConverter.AutoScale(SecondaryWireWeight, Unit.Gram);
 
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Defaults;
+using LiveCharts.Wpf;
 using SGTC.Core;
 using SGTC.Models;
 
@@ -33,21 +35,23 @@ namespace SGTC.ViewModels
         public static event EventHandler<GraphCalculatedEventArgs> GraphCalculated;
 
         private readonly IAutoCalculatorService _calculatorService;
+        private readonly IUnitConverter _unitConverter = new UnitConverter();
         private readonly GraphType _graphType;
         private readonly CoilType _coilType;
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
-
+        
         private delegate double ValueConverter(double value);
-        private ValueConverter NanoToBaseConverter => (value) => UnitConverter.ConvertValue(value, UnitConverter.Unit.Nano, UnitConverter.Unit.Base);
-        private ValueConverter BaseToKiloConverter => (value) => UnitConverter.ConvertValue(value, UnitConverter.Unit.Base, UnitConverter.Unit.Kilo);
-        private ValueConverter BaseToNanoConverter => (value) => UnitConverter.ConvertValue(value, UnitConverter.Unit.Base, UnitConverter.Unit.Nano);
+        private ValueConverter NanoToBaseConverter => (value) => _unitConverter.ConvertValue(value, Unit.Nano, Unit.Base);
+        private ValueConverter BaseToKiloConverter => (value) => _unitConverter.ConvertValue(value, Unit.Base, Unit.Kilo);
+        private ValueConverter BaseToNanoConverter => (value) => _unitConverter.ConvertValue(value, Unit.Base, Unit.Nano);
         private ValueConverter BaseConverter => (value) => value;
 
         public ChartValues<ObservablePoint> PrimaryResonance { get; private set; }
         public ChartValues<ObservablePoint> SecondaryResonance { get; private set; }
         public ChartValues<ObservablePoint> BaseValues { get; private set; }
         public ChartValues<ObservablePoint> OptimalValues { get; private set; }
+        public SeriesCollection SeriesCollection { get; private set; }
 
         public Func<double, string> XFormatter { get; private set; }
         public Func<double, string> YFormatter { get; private set; }
@@ -91,7 +95,54 @@ namespace SGTC.ViewModels
 
             _calculatorService = calculatorService ?? new AutoCalculatorService();
 
+            InitializeChartData();
             SetupChart(_coilType, _graphType);
+        }
+
+        private void InitializeChartData()
+        {
+            PrimaryResonance = new ChartValues<ObservablePoint>();
+            SecondaryResonance = new ChartValues<ObservablePoint>();
+            BaseValues = new ChartValues<ObservablePoint>();
+            OptimalValues = new ChartValues<ObservablePoint>();
+
+            SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Primary Resonance",
+                    Values = PrimaryResonance,
+                    PointGeometry = DefaultGeometries.Circle,
+                    PointGeometrySize = 10,
+                    Stroke = Brushes.Blue
+                },
+                new LineSeries
+                {
+                    Title = "Secondary Resonance",
+                    Values = SecondaryResonance,
+                    PointGeometry = DefaultGeometries.Square,
+                    PointGeometrySize = 10,
+                    Stroke = Brushes.Red
+                },
+                new ScatterSeries
+                {
+                    Title = "Base Values",
+                    Values = BaseValues,
+                    PointGeometry = DefaultGeometries.Triangle,
+                    MaxPointShapeDiameter = 15,
+                    MinPointShapeDiameter = 15,
+                    Fill = Brushes.Coral
+                },
+                new ScatterSeries
+                {
+                    Title = "Optimal Values",
+                    Values = OptimalValues,
+                    PointGeometry = DefaultGeometries.Diamond,
+                    MaxPointShapeDiameter = 15,
+                    MinPointShapeDiameter = 15,
+                    Fill = Brushes.Green
+                }
+            };
         }
 
         private void SetupChart(CoilType coilType, GraphType graphType)
@@ -101,14 +152,10 @@ namespace SGTC.ViewModels
                 if (graphType == GraphType.Capacitance)
                 {
                     SetupCapacitanceGraph();
-                    XAxisTitle = "Capacitance [nF]";
-                    YAxisTitle = "Resonance [kHz]";
                 }
                 else if (graphType == GraphType.Turns)
                 {
                     SetupTurnsGraph();
-                    XAxisTitle = "Turns";
-                    YAxisTitle = "Resonance [kHz]";
                 }
             }
         }
@@ -126,9 +173,8 @@ namespace SGTC.ViewModels
 
         private void SetupTurnsGraph()
         {
-
-            BaseValues = new ChartValues<ObservablePoint>();
-            OptimalValues = new ChartValues<ObservablePoint>();
+            XAxisTitle = "Turns";
+            YAxisTitle = "Resonance [kHz]";
 
             double baseCapacitance = _result.PrimaryCapacitance;
             double baseResonance = _result.PrimaryResonance;
@@ -157,10 +203,8 @@ namespace SGTC.ViewModels
 
         private void SetupCapacitanceGraph()
         {
-            PrimaryResonance = new ChartValues<ObservablePoint>();
-            SecondaryResonance = new ChartValues<ObservablePoint>();
-            BaseValues = new ChartValues<ObservablePoint>();
-            OptimalValues = new ChartValues<ObservablePoint>();
+            XAxisTitle = "Capacitance [nF]";
+            YAxisTitle = "Resonance [kHz]";
 
             double baseCapacitance = _result.PrimaryCapacitance;
             double baseResonance = _result.PrimaryResonance;
@@ -184,13 +228,11 @@ namespace SGTC.ViewModels
             AddPoint(OptimalValues, OptimalCapacitance, secondaryResonance, xConverter: BaseToNanoConverter, yConverter: BaseToKiloConverter);
 
             XFormatter = value => $"{value}";
-            YFormatter = value => UnitConverter.AutoScale(value, UnitConverter.Unit.Hertz);
+            YFormatter = value => _unitConverter.AutoScale(value, Unit.Hertz);
         }
 
         private void PopulateTurnsChart(double baseTurns, double wireInsDiameter, double spacing, double coreDiameter, double capacitance, double targetResonance, int numberOfSteps = 5, double stepSize = 1)
         {
-            PrimaryResonance = new ChartValues<ObservablePoint>();
-            SecondaryResonance = new ChartValues<ObservablePoint>();
             for (int i = -numberOfSteps; i < numberOfSteps; i++)
             {
                 double currentTurns = baseTurns + i * stepSize;
@@ -206,9 +248,6 @@ namespace SGTC.ViewModels
 
         private void PopulateCapacitanceChart(double optimalCapacitance, double primaryInductance, double secondaryResonance, double baseCapacitance)
         {
-            PrimaryResonance = new ChartValues<ObservablePoint>();
-            SecondaryResonance = new ChartValues<ObservablePoint>();
-
             // Create a range that spans from 50% to 150% of base capacitance
             double minCapacitance = optimalCapacitance * 0.5;
             if (minCapacitance < 0)

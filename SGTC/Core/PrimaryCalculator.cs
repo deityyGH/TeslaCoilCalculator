@@ -1,6 +1,5 @@
 ﻿using SGTC.Models;
 using SGTC.ViewModels;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ namespace SGTC.Core
     {
         private static readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private static readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
-
+        //IUnitConverter _unitConverter = new UnitConverter();
         public static void Run(bool calculatePrimary = true, bool calculateSecondary = true)
         {
             if (calculatePrimary) CalculatePrimary();
@@ -87,8 +86,8 @@ namespace SGTC.Core
             
             double TorusThickness = (outDiameter - inDiameter) / 2;
 
-            double D1 = UnitConverter.ConvertMmToIn(outDiameter);
-            double D2 = UnitConverter.ConvertMmToIn(TorusThickness);
+            double D1 = UnitConverter2.ConvertMmToIn(outDiameter);
+            double D2 = UnitConverter2.ConvertMmToIn(TorusThickness);
 
             double firstPart = 1.2781 - (D2 / D1);
             double secondPart = (2 * Math.Pow(Math.PI, 2) * (D1 - D2) * (D2 / 2)) / (4 * Math.PI);
@@ -137,8 +136,8 @@ namespace SGTC.Core
             {
                 // L = (N^2 * d^2) / (18 * d + 40 * s)
                 // where N = turns, d = diameter in inches, s = spacing in inches
-                double diameter = UnitConverter.ConvertMmToIn(coreDiameter + wireInsDiameter);
-                double coilHeightIn = UnitConverter.ConvertMmToIn(coilHeight);
+                double diameter = UnitConverter2.ConvertMmToIn(coreDiameter + wireInsDiameter);
+                double coilHeightIn = UnitConverter2.ConvertMmToIn(coilHeight);
 
                 double denominator = (18 * diameter) + (40 * coilHeightIn);
                 if (denominator == 0)

@@ -85,6 +85,8 @@
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Core\PrimaryCalculator.cs" />
     <Compile Include="Models\IAutoCalculatorService.cs" />
+    <Compile Include="Models\ICoilCalculator.cs" />
+    <Compile Include="Models\IUnitConverter.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NoneViewModel.cs" />
     <Compile Include="ViewModels\PrimaryCircuitViewModel.cs" />
