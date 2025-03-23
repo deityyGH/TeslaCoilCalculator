@@ -93,6 +93,9 @@
     <Compile Include="ViewModels\SphereViewModel.cs" />
     <Compile Include="ViewModels\TopLoadViewModel.cs" />
     <Compile Include="ViewModels\TorusViewModel.cs" />
+    <Compile Include="Views\PrimaryTurnsGraph.xaml.cs">
+      <DependentUpon>PrimaryTurnsGraph.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Result.xaml.cs">
       <DependentUpon>Result.xaml</DependentUpon>
     </Compile>
@@ -118,6 +121,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\PrimaryCircuit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrimaryTurnsGraph.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

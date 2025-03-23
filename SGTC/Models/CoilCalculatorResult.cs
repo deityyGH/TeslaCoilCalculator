@@ -21,6 +21,7 @@ namespace SGTC.Models
         public double PrimaryWireWeight { get; set; }
         public double PrimaryCoilHeight { get; set; }
         public double PrimaryCapacitance { get; set; }
+        public double PrimaryTurns { get; set; }
 
         // Secondary + topload
         public double SecondaryResonance { get; set; }

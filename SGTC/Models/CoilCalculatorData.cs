@@ -22,7 +22,7 @@ namespace SGTC.Models
             }
         }
         // Primary tab
-        public double PrimaryTurns { get; set; } = 10;
+        public double PrimaryTurns { get; set; } = 10.0;
         public double PrimaryCoreDiameter { get; set; } = 87.6;
         public double PrimaryWireDiameter { get; set; } = 1.75;
         public double PrimaryWireInsulationDiameter { get; set; } = 2.4;
@@ -32,6 +32,7 @@ namespace SGTC.Models
         public double PrimaryCapacitance { get; set; } = 6;
         public int PrimaryCapacitorAmount { get; set; } = 4;
 
+        
 
         // Secondary tab
         public double SecondaryTurns { get; set; } = 900;

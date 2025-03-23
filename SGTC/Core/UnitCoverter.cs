@@ -107,8 +107,8 @@ namespace SGTC.Core
         public static double ConvertValue(double value, Unit fromUnit, Unit toUnit)
         {
             int powerDifference = fromUnit.Power - toUnit.Power;
-            return value * Math.Pow(10, powerDifference);
-
+            double convertedValue = value * Math.Pow(10, powerDifference);
+            return Math.Round(convertedValue, 2);
         }
 
         public static double ConvertMmToIn(double mmValue)

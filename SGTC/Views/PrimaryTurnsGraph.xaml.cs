@@ -11,18 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using SGTC.ViewModels;
+
 namespace SGTC.Views
 {
     /// <summary>
-    /// Interaction logic for ResultGraph.xaml
+    /// Interaction logic for PrimaryTurnsGraph.xaml
     /// </summary>
-    public partial class ResultGraph : Window
+    public partial class PrimaryTurnsGraph : Window
     {
-        public ResultGraph(Coil coil, GraphType graphType)
+        public PrimaryTurnsGraph()
         {
             InitializeComponent();
-            DataContext = new ResultGraphViewModel(coil, graphType);
         }
     }
 }

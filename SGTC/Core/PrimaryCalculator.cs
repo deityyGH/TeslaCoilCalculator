@@ -40,6 +40,7 @@ namespace SGTC.Core
             double WireLength = CalculateWireLength(primaryTurns, coreDiameter);
             double WireWeight = CalculateWireWeight(wireDiameter, WireLength);
 
+            _result.PrimaryTurns = primaryTurns;
             _result.PrimaryCoilHeight = CoilHeight;
             _result.PrimaryInductance = Inductance;
             _result.PrimaryCapacitance = Capacitance;

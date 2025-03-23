@@ -87,12 +87,12 @@
             <TextBox Grid.Column="2" Grid.Row="8" Text="{Binding PrimaryCoilHeightDisplay, Mode=OneWay}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="9">Capacitance</TextBlock>
-            <Button Grid.Column="1" Grid.Row="9" Command="{Binding CalculateCapacitanceGraphCommand}" Content="Auto"/>
+            <Button Grid.Column="1" Grid.Row="9" Command="{Binding AutoPrimaryCapacitanceCommand}" Content="Auto"/>
             <TextBox Grid.Column="2" Grid.Row="9" Text="{Binding PrimaryCapacitanceDisplay, Mode=OneWay}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="10">Turns</TextBlock>
-            <Button Grid.Column="1" Grid.Row="10" Command="{Binding AutoTurnsCommand}" Content="Auto"/>
-            <TextBox Grid.Column="2" Grid.Row="10" Text="{Binding PrimaryTurns, Mode=OneWay}"/>
+            <Button Grid.Column="1" Grid.Row="10" Command="{Binding AutoPrimaryTurnsCommand}" Content="Auto"/>
+            <TextBox Grid.Column="2" Grid.Row="10" Text="{Binding PrimaryTurnsDisplay, Mode=OneWay}"/>
         </Grid>
 
         

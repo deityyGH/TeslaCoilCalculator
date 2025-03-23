@@ -17,44 +17,55 @@ namespace SGTC.ViewModels
         
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
-        public RelayCommand CalculateCapacitanceGraphCommand { get; set; }
+        public RelayCommand AutoPrimaryCapacitanceCommand { get; set; }
+        public RelayCommand AutoPrimaryTurnsCommand { get; set; }
 
         private ResultGraph _resultGraphWindow;
 
         public ResultViewModel()
         {
-            ResultGraphViewModel.CapacitanceCalculated += OnCapacitanceCalculated;
+            ResultGraphViewModel.GraphCalculated += OnGraphCalculated;
 
-            CalculateCapacitanceGraphCommand = new RelayCommand(obj =>
+            AutoPrimaryCapacitanceCommand = new RelayCommand(obj =>
             {
-                // Check if window already exists
-                if (_resultGraphWindow != null)
-                {
-                    // If the window exists but is closed
-                    if (!_resultGraphWindow.IsVisible)
-                    {
-                        _resultGraphWindow = new ResultGraph();
-                        _resultGraphWindow.Show();
-                    }
-                    else
-                    {
-                        _ = _resultGraphWindow.Activate();
-                    }
-                }
-                else
-                {
-                    // First time opening the window
-                    _resultGraphWindow = new ResultGraph();
-                    _resultGraphWindow.Show();
+                ShowGraphWindow(Coil.Primary, GraphType.Capacitance);
+            });
 
-                    _resultGraphWindow.Closed += (sender, args) =>
-                    {
-                        _resultGraphWindow = null;
-                    };
-                }
+            AutoPrimaryTurnsCommand = new RelayCommand(obj =>
+            {
+                ShowGraphWindow(Coil.Primary, GraphType.Turns);
             });
         }
         
+        private void ShowGraphWindow(Coil coilType, GraphType graphType)
+        {
+            // Check if window already exists
+            if (_resultGraphWindow != null)
+            {
+                // If the window exists but is closed
+                if (!_resultGraphWindow.IsVisible)
+                {
+                    _resultGraphWindow = new ResultGraph(coilType, graphType);
+                    _resultGraphWindow.Show();
+                }
+                else
+                {
+                    _ = _resultGraphWindow.Activate();
+                }
+            }
+            else
+            {
+                // First time opening the window
+                _resultGraphWindow = new ResultGraph(coilType, graphType);
+                _resultGraphWindow.Show();
+
+                _resultGraphWindow.Closed += (sender, args) =>
+                {
+                    _resultGraphWindow = null;
+                };
+            }
+        }
+
         private void UpdateAllProperties()
         {
             OnPropertyChanged(nameof(PrimaryResonance));
@@ -69,6 +80,7 @@ namespace SGTC.ViewModels
 
             OnPropertyChanged(nameof(PrimaryResonanceDisplay));
             OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
+            OnPropertyChanged(nameof(PrimaryTurnsDisplay));
             OnPropertyChanged(nameof(PrimaryInductanceDisplay));
             OnPropertyChanged(nameof(PrimaryXcDisplay));
             OnPropertyChanged(nameof(PrimaryXlDisplay));
@@ -77,9 +89,26 @@ namespace SGTC.ViewModels
             OnPropertyChanged(nameof(PrimaryCoilHeightDisplay));
         }
 
-        private void OnCapacitanceCalculated(object sender, CapacitanceCalculatedEventArgs e)
+        private void OnGraphCalculated(object sender, GraphCalculatedEventArgs e)
         {
-            OptimalCapacitance = e.OptimalCapacitance;
+            if (e.Coil == Coil.Primary)
+            {
+                switch (e.GraphType)
+                {
+                    case GraphType.Capacitance:
+                        OptimalCapacitance = e.OptimalValue;
+                        _result.PrimaryCapacitance = OptimalCapacitance;
+                        break;
+                    case GraphType.Turns:
+                        OptimalTurns = e.OptimalValue;
+                        _result.PrimaryTurns = OptimalTurns;
+                        break;
+                    case GraphType.TopLoad:
+                        break;
+                    case GraphType.CoreDiameter:
+                        break;
+                }
+            }
         }
 
         private double _optimalCapacitance;
@@ -95,17 +124,30 @@ namespace SGTC.ViewModels
             }
         }
 
+        private double _optimalTurns;
+        public double OptimalTurns
+        {
+            get => _optimalTurns;
+            set
+            {
+                _optimalTurns = value;
+                PrimaryCalculator.CalculatePrimary(_turns: _optimalTurns);
+                UpdateAllProperties();
+                OnPropertyChanged();
+            }
+        }
+
         // ========= Primary ========= //
         public double PrimaryTurns
         {
-            get => _data.PrimaryTurns;
+            get => _result.PrimaryTurns;
             set
             {
-                if (_data.PrimaryTurns != value)
-                {
-                    _data.PrimaryTurns = value;
-                    OnPropertyChanged();
-                }
+
+                _result.PrimaryTurns = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(PrimaryTurnsDisplay));
+                
             }
         }
 
@@ -221,6 +263,7 @@ namespace SGTC.ViewModels
         }
 
         public string PrimaryCapacitanceDisplay => UnitConverter.AutoScale(PrimaryCapacitance, UnitConverter.Unit.Farad);
+        public string PrimaryTurnsDisplay => $"{PrimaryTurns:F2}";
         public string PrimaryCoilHeightDisplay => $"{PrimaryCoilHeight:F2} mm";
         public string PrimaryInductanceDisplay => UnitConverter.AutoScale(PrimaryInductance, UnitConverter.Unit.Henry);
         public string PrimaryResonanceDisplay => UnitConverter.AutoScale(PrimaryResonance, UnitConverter.Unit.Hertz);
