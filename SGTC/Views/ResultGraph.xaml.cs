@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SGTC.ViewModels;
+using SGTC.Models;
 namespace SGTC.Views
 {
     /// <summary>
@@ -19,10 +20,10 @@ namespace SGTC.Views
     /// </summary>
     public partial class ResultGraph : Window
     {
-        public ResultGraph(Coil coil, GraphType graphType)
+        public ResultGraph(CoilType coilType, GraphType graphType)
         {
             InitializeComponent();
-            DataContext = new ResultGraphViewModel(coil, graphType);
+            DataContext = new ResultGraphViewModel(coilType, graphType);
         }
     }
 }

@@ -8,14 +8,14 @@
         mc:Ignorable="d"
         Title="ResultGraph" Height="450" Width="800">
     <Grid>
-        <lvc:CartesianChart Name="ResonantChart">
+        <lvc:CartesianChart Name="ResonantChart" LegendLocation="Right">
             <lvc:CartesianChart.Series>
                 <!-- Primary Resonance Frequency -->
                 <lvc:LineSeries Values="{Binding PrimaryResonance}" Title="Primary Resonance"
                             Stroke="Blue" PointGeometrySize="10">
                     <lvc:LineSeries.DataLabelsTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Point.Y, StringFormat='{}{0:0.00} Hz'}"
+                            <TextBlock Text="{Binding Point.Y, StringFormat='{}{0:0.00} kHz'}"
                                    Foreground="Blue"/>
                         </DataTemplate>
                     </lvc:LineSeries.DataLabelsTemplate>
@@ -26,14 +26,14 @@
                             Stroke="Red" PointGeometrySize="0" StrokeDashArray="5 2"/>
                 <lvc:ScatterSeries Values="{Binding BaseValues}" 
                    Title="Base Value"
-                   Stroke="Green" 
-                   Fill="Green"
+                   Stroke="Blue" 
+                   Fill="Blue"
                    StrokeThickness="2"
                    PointGeometry="{x:Static lvc:DefaultGeometries.Diamond}"
-                   MaxPointShapeDiameter="15">
+                   MaxPointShapeDiameter="25">
                     <lvc:ScatterSeries.DataLabelsTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Point.Y, StringFormat='{}{0:0.00} Hz'}"
+                            <TextBlock Text="{Binding Point.Y}"
                        Foreground="Green"
                        FontWeight="Bold"/>
                         </DataTemplate>
@@ -46,22 +46,22 @@
                    Fill="Green"
                    StrokeThickness="2"
                    PointGeometry="{x:Static lvc:DefaultGeometries.Diamond}"
-                   MaxPointShapeDiameter="15">
-                    <lvc:ScatterSeries.DataLabelsTemplate>
+                   MaxPointShapeDiameter="25">
+                    <!--<lvc:ScatterSeries.DataLabelsTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Point.Y, StringFormat='{}{0:0.00}'}"
+                            <TextBlock Text="{Binding Point.Y}"
                        Foreground="Green"
                        FontWeight="Bold"/>
                         </DataTemplate>
-                    </lvc:ScatterSeries.DataLabelsTemplate>
+                    </lvc:ScatterSeries.DataLabelsTemplate>-->
                 </lvc:ScatterSeries>
             </lvc:CartesianChart.Series>
             
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="{Binding GraphTitleX}"  LabelFormatter="{Binding XFormatter}"/>
+                <lvc:Axis Title="{Binding XAxisTitle}"  LabelFormatter="{Binding XFormatter}"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Resonant Frequency (Hz)"  LabelFormatter="{Binding YFormatter}"/>
+                <lvc:Axis Title="{Binding YAxisTitle}"  LabelFormatter="{Binding YFormatter}"/>
             </lvc:CartesianChart.AxisY>
             <!-- Tooltips -->
             <lvc:CartesianChart.DataTooltip>

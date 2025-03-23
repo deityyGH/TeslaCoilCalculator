@@ -28,16 +28,16 @@ namespace SGTC.ViewModels
 
             AutoPrimaryCapacitanceCommand = new RelayCommand(obj =>
             {
-                ShowGraphWindow(Coil.Primary, GraphType.Capacitance);
+                ShowGraphWindow(CoilType.Primary, GraphType.Capacitance);
             });
 
             AutoPrimaryTurnsCommand = new RelayCommand(obj =>
             {
-                ShowGraphWindow(Coil.Primary, GraphType.Turns);
+                ShowGraphWindow(CoilType.Primary, GraphType.Turns);
             });
         }
         
-        private void ShowGraphWindow(Coil coilType, GraphType graphType)
+        private void ShowGraphWindow(CoilType coilType, GraphType graphType)
         {
             // Check if window already exists
             if (_resultGraphWindow != null)
@@ -91,7 +91,7 @@ namespace SGTC.ViewModels
 
         private void OnGraphCalculated(object sender, GraphCalculatedEventArgs e)
         {
-            if (e.Coil == Coil.Primary)
+            if (e.CoilType == CoilType.Primary)
             {
                 switch (e.GraphType)
                 {
