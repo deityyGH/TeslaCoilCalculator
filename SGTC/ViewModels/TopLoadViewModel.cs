@@ -24,9 +24,9 @@ namespace SGTC.ViewModels
                 TopLoadType.Sphere
             };
 
-            _torusViewModel = new TorusViewModel();
-            _sphereViewModel = new SphereViewModel();
-            _noneViewModel = new NoneViewModel();
+            _torusViewModel = new TorusViewModel(dataService);
+            _sphereViewModel = new SphereViewModel(dataService);
+            _noneViewModel = new NoneViewModel(dataService);
             UpdateTopLoadContentView();
         }
 

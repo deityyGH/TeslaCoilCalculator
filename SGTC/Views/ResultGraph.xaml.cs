@@ -20,10 +20,10 @@ namespace SGTC.Views
     /// </summary>
     public partial class ResultGraph : Window
     {
-        public ResultGraph(CoilType coilType, GraphType graphType)
+        public ResultGraph(ResultGraphViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new ResultGraphViewModel(coilType, graphType);
+            DataContext = viewModel;
         }
     }
 }

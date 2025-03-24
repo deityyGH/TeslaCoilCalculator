@@ -9,17 +9,17 @@ namespace SGTC.Views
 {
     public partial class App : Application
     {
-        public static IHost AppHost { get; private set; }
+        public static IHost? AppHost { get; private set; }
 
         public App()
         {
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddSingleton<IUnitConverter, UnitConverter>();
+                    services.AddTransient<IUnitConverter, UnitConverter>();
                     services.AddSingleton<ICoilDataService, CoilDataService>();
-                    services.AddSingleton<ICoilCalculator, CoilCalculator>();
-
+                    services.AddTransient<ICoilCalculator, CoilCalculator>();
+                    services.AddTransient<IAutoCalculatorService, AutoCalculatorService>();
                     // Register MainViewModel and Window
                     services.AddSingleton<MainViewModel>();
                     services.AddSingleton<MainWindow>();
@@ -29,46 +29,31 @@ namespace SGTC.Views
                     services.AddTransient<SecondaryCircuitViewModel>();
                     services.AddTransient<TopLoadViewModel>();
                     services.AddTransient<ResultViewModel>();
+                    services.AddTransient<ResultGraphViewModel>();
 
                     // Register Views (optional, only if you're using them outside of DataTemplates)
                     services.AddTransient<PrimaryCircuit>();
                     services.AddTransient<SecondaryCircuit>();
                     services.AddTransient<TopLoad>();
                     services.AddTransient<Result>();
+                    services.AddTransient<ResultGraph>();
                 })
                 .Build();
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
-            Console.WriteLine("Starting");
-            AppHost?.Start();
+            await AppHost!.StartAsync(); // Start the host
 
-            try
-            {
-                var startupForm = AppHost?.Services.GetRequiredService<MainWindow>();
-                if (startupForm != null)
-                {
-                    MainWindow = startupForm;
-                    MainWindow.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
-            }
+            var startupForm = AppHost.Services.GetRequiredService<MainWindow>();
+            startupForm.Show();
 
             base.OnStartup(e);
         }
 
         protected override async void OnExit(ExitEventArgs e)
         {
-            Console.WriteLine("Exitting");
-            if (AppHost != null)
-            {
-                await AppHost.StopAsync();
-                AppHost.Dispose();
-            }
+            await AppHost!.StopAsync(); // Stop the host
             base.OnExit(e);
         }
     }

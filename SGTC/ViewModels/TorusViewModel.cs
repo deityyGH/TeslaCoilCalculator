@@ -11,6 +11,11 @@ namespace SGTC.ViewModels
     public class TorusViewModel : ObservableObject
     {
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+        private readonly ICoilDataService _dataService;
+        public TorusViewModel(ICoilDataService dataService)
+        {
+            _dataService = dataService;
+        }
 
         public double TopLoadTorusInDiameter
         {

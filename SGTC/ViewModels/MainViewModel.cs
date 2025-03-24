@@ -40,12 +40,20 @@ namespace SGTC.ViewModels
         public TopLoadViewModel TopLoadViewModel { get; set; }
         public ResultViewModel ResultViewModel { get; set; }
 
-        public MainViewModel(ICoilDataService dataService)
+        public MainViewModel(
+            PrimaryCircuitViewModel primaryViewModel,
+            SecondaryCircuitViewModel secondaryViewModel,
+            TopLoadViewModel topLoadViewModel,
+            ResultViewModel resultViewModel)
         {
-            PrimaryViewModel = new PrimaryCircuitViewModel(dataService);
-            SecondaryViewModel = new SecondaryCircuitViewModel(dataService);
-            TopLoadViewModel = new TopLoadViewModel(dataService);
-            ResultViewModel = new ResultViewModel(dataService);
+            PrimaryViewModel = primaryViewModel;
+            SecondaryViewModel = secondaryViewModel;
+            TopLoadViewModel = topLoadViewModel;
+            ResultViewModel = resultViewModel;
+            //PrimaryViewModel = new PrimaryCircuitViewModel(dataService);
+            //SecondaryViewModel = new SecondaryCircuitViewModel(dataService);
+            //TopLoadViewModel = new TopLoadViewModel(dataService);
+            //ResultViewModel = new ResultViewModel(dataService);
 
             CurrentView = PrimaryViewModel;
 

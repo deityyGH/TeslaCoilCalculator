@@ -34,10 +34,13 @@ namespace SGTC.ViewModels
     {
         public static event EventHandler<GraphCalculatedEventArgs> GraphCalculated;
 
-        private readonly IAutoCalculatorService _calculatorService;
-        private readonly IUnitConverter _unitConverter = new UnitConverter();
-        private readonly GraphType _graphType;
-        private readonly CoilType _coilType;
+        private readonly IAutoCalculatorService _autoCalculator;
+        private readonly IUnitConverter _unitConverter;
+        private readonly ICoilDataService _dataService;
+        private readonly ICoilCalculator _calculator;
+        public CoilType CoilType { get; set; }
+        public GraphType GraphType { get; set; }
+
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
         
@@ -57,6 +60,8 @@ namespace SGTC.ViewModels
         public Func<double, string> YFormatter { get; private set; }
         public string XAxisTitle { get; private set; }
         public string YAxisTitle { get; private set; }
+
+
 
         private double _optimalCapacitance;
         public double OptimalCapacitance
@@ -88,15 +93,21 @@ namespace SGTC.ViewModels
         }
 
 
-        public ResultGraphViewModel(CoilType coilType, GraphType graphType, IAutoCalculatorService calculatorService = null)
+        public ResultGraphViewModel(ICoilDataService dataService, IAutoCalculatorService autoCalculator, ICoilCalculator calculator, IUnitConverter unitConverter)
         {
-            _graphType = graphType;
-            _coilType = coilType;
+            _autoCalculator = autoCalculator;
+            _calculator = calculator;
+            _dataService = dataService;
+            _unitConverter = unitConverter;
+        }
 
-            _calculatorService = calculatorService ?? new AutoCalculatorService();
+        public void SetGraphParameters(CoilType coilType, GraphType graphType)
+        {
+            CoilType = coilType;
+            GraphType = graphType;
 
             InitializeChartData();
-            SetupChart(_coilType, _graphType);
+            SetupChart(coilType, graphType);
         }
 
         private void InitializeChartData()
@@ -187,7 +198,7 @@ namespace SGTC.ViewModels
 
             AddPoint(BaseValues, baseTurns, baseResonance, yConverter: BaseToKiloConverter);
 
-            OptimalTurns = _calculatorService.CalculateOptimalTurns(secondaryResonance, baseCapacitance, coreDiameter, wireInsDiameter);
+            OptimalTurns = _autoCalculator.CalculateOptimalTurns(secondaryResonance, baseCapacitance, coreDiameter, wireInsDiameter);
 
             GraphCalculated?.Invoke(this, new GraphCalculatedEventArgs
             {
@@ -213,7 +224,7 @@ namespace SGTC.ViewModels
 
             AddPoint(BaseValues, baseCapacitance, baseResonance, xConverter: BaseToNanoConverter, yConverter: BaseToKiloConverter);
 
-            OptimalCapacitance = _calculatorService.CalculateOptimalCapacitance(secondaryResonance, primaryInductance);
+            OptimalCapacitance = _autoCalculator.CalculateOptimalCapacitance(secondaryResonance, primaryInductance);
 
             GraphCalculated?.Invoke(this, new GraphCalculatedEventArgs
             {

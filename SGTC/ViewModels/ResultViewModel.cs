@@ -18,13 +18,20 @@ namespace SGTC.ViewModels
         IUnitConverter _unitConverter = new UnitConverter();
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
+        private readonly ICoilDataService _dataService;
         public RelayCommand AutoPrimaryCapacitanceCommand { get; set; }
         public RelayCommand AutoPrimaryTurnsCommand { get; set; }
 
         private ResultGraph _resultGraphWindow;
 
-        public ResultViewModel(ICoilDataService dataService)
+        private readonly ResultGraphViewModel _resultGraphViewModel;
+
+        public ResultViewModel(ICoilDataService dataService, ResultGraphViewModel resultGraphViewModel)
         {
+            _dataService = dataService;
+            _resultGraphViewModel = resultGraphViewModel;
+            
+
             ResultGraphViewModel.GraphCalculated += OnGraphCalculated;
 
             AutoPrimaryCapacitanceCommand = new RelayCommand(obj =>
@@ -40,13 +47,14 @@ namespace SGTC.ViewModels
         
         private void ShowGraphWindow(CoilType coilType, GraphType graphType)
         {
+            _resultGraphViewModel.SetGraphParameters(coilType, graphType);
             // Check if window already exists
             if (_resultGraphWindow != null)
             {
                 // If the window exists but is closed
                 if (!_resultGraphWindow.IsVisible)
                 {
-                    _resultGraphWindow = new ResultGraph(coilType, graphType);
+                    _resultGraphWindow = new ResultGraph(_resultGraphViewModel);
                     _resultGraphWindow.Show();
                 }
                 else
@@ -57,7 +65,7 @@ namespace SGTC.ViewModels
             else
             {
                 // First time opening the window
-                _resultGraphWindow = new ResultGraph(coilType, graphType);
+                _resultGraphWindow = new ResultGraph(_resultGraphViewModel);
                 _resultGraphWindow.Show();
 
                 _resultGraphWindow.Closed += (sender, args) =>

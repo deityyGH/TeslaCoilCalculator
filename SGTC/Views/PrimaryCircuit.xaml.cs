@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace SGTC.Views
 {
-    /// <summary>
-    /// Interaction logic for PrimaryCircuit.xaml
-    /// </summary>
     public partial class PrimaryCircuit : UserControl
     {
         public PrimaryCircuit()

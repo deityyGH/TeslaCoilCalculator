@@ -12,6 +12,12 @@ namespace SGTC.ViewModels
     public class SphereViewModel : ObservableObject
     {
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+        private readonly ICoilDataService _dataService;
+        public SphereViewModel(ICoilDataService dataService)
+        {
+            _dataService = dataService;
+        }
+
         public double TopLoadSphereDiameter
         {
             get => _data.TopLoadSphereDiameter;
