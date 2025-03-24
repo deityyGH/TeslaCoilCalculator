@@ -16,18 +16,12 @@ using SGTC.ViewModels;
 
 namespace SGTC.Views
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = viewModel;
         }
-
-    }
-
-    
+    } 
 }

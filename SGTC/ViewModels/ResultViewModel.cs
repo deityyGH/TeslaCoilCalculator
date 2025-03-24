@@ -23,7 +23,7 @@ namespace SGTC.ViewModels
 
         private ResultGraph _resultGraphWindow;
 
-        public ResultViewModel()
+        public ResultViewModel(ICoilDataService dataService)
         {
             ResultGraphViewModel.GraphCalculated += OnGraphCalculated;
 

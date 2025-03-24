@@ -14,6 +14,24 @@ namespace SGTC.ViewModels
     public class PrimaryCircuitViewModel : ObservableObject
     {
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+        private readonly ICoilDataService _dataService;
+        public PrimaryCircuitViewModel(ICoilDataService dataService)
+        {
+            _dataService = dataService;
+
+            PrimaryWindingTypes = new ObservableCollection<PrimaryWindingType>
+            {
+                PrimaryWindingType.Solenoid,
+                PrimaryWindingType.FlatSpiral,
+                PrimaryWindingType.Conical
+            };
+
+            PrimaryCapacitorConnectionTypes = new ObservableCollection<PrimaryCapacitorConnectionType>
+            {
+                PrimaryCapacitorConnectionType.Series,
+                PrimaryCapacitorConnectionType.Parallel
+            };
+        }
 
         // Combo box
         private ObservableCollection<PrimaryWindingType> _primaryWindingTypes;
@@ -163,22 +181,7 @@ namespace SGTC.ViewModels
         }
 
 
-        public PrimaryCircuitViewModel()
-        {
 
-            PrimaryWindingTypes = new ObservableCollection<PrimaryWindingType>
-            {
-                PrimaryWindingType.Solenoid,
-                PrimaryWindingType.FlatSpiral,
-                PrimaryWindingType.Conical
-            };
-
-            PrimaryCapacitorConnectionTypes = new ObservableCollection<PrimaryCapacitorConnectionType>
-            {
-                PrimaryCapacitorConnectionType.Series,
-                PrimaryCapacitorConnectionType.Parallel
-            };
-        }
 
 
 

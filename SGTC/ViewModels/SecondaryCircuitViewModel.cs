@@ -11,6 +11,12 @@ namespace SGTC.ViewModels
     public class SecondaryCircuitViewModel : ObservableObject
     {
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+        private readonly ICoilDataService _dataService;
+
+        public SecondaryCircuitViewModel(ICoilDataService dataService)
+        {
+            _dataService = dataService;
+        }
 
         public double SecondaryTurns { 
             get => _data.SecondaryTurns;

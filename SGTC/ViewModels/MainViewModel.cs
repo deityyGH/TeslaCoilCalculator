@@ -8,11 +8,15 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using SGTC.Core;
+using SGTC.Models;
 
 namespace SGTC.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
+        public CoilParameters Parameters { get; set; } = new CoilParameters();
+        public CoilResults Results { get; set; } = new CoilResults();
+
         private object _currentView;
         public object CurrentView
         {
@@ -36,12 +40,12 @@ namespace SGTC.ViewModels
         public TopLoadViewModel TopLoadViewModel { get; set; }
         public ResultViewModel ResultViewModel { get; set; }
 
-        public MainViewModel()
+        public MainViewModel(ICoilDataService dataService)
         {
-            PrimaryViewModel = new PrimaryCircuitViewModel();
-            SecondaryViewModel = new SecondaryCircuitViewModel();
-            TopLoadViewModel = new TopLoadViewModel();
-            ResultViewModel = new ResultViewModel();
+            PrimaryViewModel = new PrimaryCircuitViewModel(dataService);
+            SecondaryViewModel = new SecondaryCircuitViewModel(dataService);
+            TopLoadViewModel = new TopLoadViewModel(dataService);
+            ResultViewModel = new ResultViewModel(dataService);
 
             CurrentView = PrimaryViewModel;
 

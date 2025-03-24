@@ -12,6 +12,23 @@ namespace SGTC.ViewModels
     public class TopLoadViewModel : ObservableObject
     {
         private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+        private readonly ICoilDataService _dataService;
+
+        public TopLoadViewModel(ICoilDataService dataService)
+        {
+            _dataService = dataService;
+            TopLoadTypes = new ObservableCollection<TopLoadType>
+            {
+                TopLoadType.None,
+                TopLoadType.Torus,
+                TopLoadType.Sphere
+            };
+
+            _torusViewModel = new TorusViewModel();
+            _sphereViewModel = new SphereViewModel();
+            _noneViewModel = new NoneViewModel();
+            UpdateTopLoadContentView();
+        }
 
         private object _currentTopLoadContentView;
         public object CurrentTopLoadContentView
@@ -55,20 +72,7 @@ namespace SGTC.ViewModels
         public SphereViewModel _sphereViewModel { get; set; }
         public NoneViewModel _noneViewModel { get; set; }
 
-        public TopLoadViewModel()
-        {
-            TopLoadTypes = new ObservableCollection<TopLoadType>
-            {
-                TopLoadType.None,
-                TopLoadType.Torus,
-                TopLoadType.Sphere
-            };
 
-            _torusViewModel = new TorusViewModel();
-            _sphereViewModel = new SphereViewModel();
-            _noneViewModel = new NoneViewModel();
-            UpdateTopLoadContentView();
-        }
 
         private void UpdateTopLoadContentView()
         {
