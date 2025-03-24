@@ -41,8 +41,8 @@ namespace SGTC.ViewModels
         public CoilType CoilType { get; set; }
         public GraphType GraphType { get; set; }
 
-        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
-        private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
+       // private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+       // private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
         
         private delegate double ValueConverter(double value);
         private ValueConverter NanoToBaseConverter => (value) => _unitConverter.ConvertValue(value, Unit.Nano, Unit.Base);
@@ -187,14 +187,14 @@ namespace SGTC.ViewModels
             XAxisTitle = "Turns";
             YAxisTitle = "Resonance [kHz]";
 
-            double baseCapacitance = _result.PrimaryCapacitance;
-            double baseResonance = _result.PrimaryResonance;
-            double secondaryResonance = _result.SecondaryResonance;
-            double baseTurns = _data.PrimaryTurns;
-            double coreDiameter = _data.PrimaryCoreDiameter;
-            double wireInsDiameter = _data.PrimaryWireInsulationDiameter;
-            double coilHeight = _result.PrimaryCoilHeight;
-            double spacing = _data.PrimaryWireSpacing;
+            double baseCapacitance = _dataService.Results.PrimaryCapacitance;
+            double baseResonance = _dataService.Results.PrimaryResonance;
+            double secondaryResonance = _dataService.Results.SecondaryResonance;
+            double baseTurns = _dataService.Parameters.PrimaryTurns;
+            double coreDiameter = _dataService.Parameters.PrimaryCoreDiameter;
+            double wireInsDiameter = _dataService.Parameters.PrimaryWireInsulationDiameter;
+            double coilHeight = _dataService.Results.PrimaryCoilHeight;
+            double spacing = _dataService.Parameters.PrimaryWireSpacing;
 
             AddPoint(BaseValues, baseTurns, baseResonance, yConverter: BaseToKiloConverter);
 
@@ -217,10 +217,10 @@ namespace SGTC.ViewModels
             XAxisTitle = "Capacitance [nF]";
             YAxisTitle = "Resonance [kHz]";
 
-            double baseCapacitance = _result.PrimaryCapacitance;
-            double baseResonance = _result.PrimaryResonance;
-            double secondaryResonance = _result.SecondaryResonance;
-            double primaryInductance = _result.PrimaryInductance;
+            double baseCapacitance = _dataService.Results.PrimaryCapacitance;
+            double baseResonance = _dataService.Results.PrimaryResonance;
+            double secondaryResonance = _dataService.Results.SecondaryResonance;
+            double primaryInductance = _dataService.Results.PrimaryInductance;
 
             AddPoint(BaseValues, baseCapacitance, baseResonance, xConverter: BaseToNanoConverter, yConverter: BaseToKiloConverter);
 
@@ -248,9 +248,9 @@ namespace SGTC.ViewModels
             {
                 double currentTurns = baseTurns + i * stepSize;
 
-                double currentCoilHeight = PrimaryCalculator.CalculateCoilHeight(PrimaryWindingType.Solenoid, currentTurns, wireInsDiameter, spacing);
-                double currentInductance = PrimaryCalculator.CalculateInductance(PrimaryWindingType.Solenoid, currentTurns, coreDiameter, wireInsDiameter, currentCoilHeight);
-                double currentResonance = PrimaryCalculator.CalculateResonance(currentInductance, capacitance);
+                double currentCoilHeight = _calculator.CalculateCoilHeight(PrimaryWindingType.Solenoid, currentTurns, wireInsDiameter, spacing);
+                double currentInductance = _calculator.CalculateInductance(PrimaryWindingType.Solenoid, currentTurns, coreDiameter, wireInsDiameter, currentCoilHeight);
+                double currentResonance = _calculator.CalculateResonance(currentInductance, capacitance);
 
                 AddPoint(PrimaryResonance, currentTurns, currentResonance, yConverter: BaseToKiloConverter);
                 AddPoint(SecondaryResonance, currentTurns, targetResonance, yConverter: BaseToKiloConverter);
@@ -285,7 +285,7 @@ namespace SGTC.ViewModels
             for (int i = 0; i < maxPoints; i++)
             {
                 double capacitance = minCapacitance + (step * i);
-                double resonance = PrimaryCalculator.CalculateResonance(primaryInductance, capacitance);
+                double resonance = _calculator.CalculateResonance(primaryInductance, capacitance);
 
                 AddPoint(PrimaryResonance, capacitance, resonance, xConverter: BaseToNanoConverter, yConverter: BaseToKiloConverter);
                 AddPoint(SecondaryResonance, capacitance, secondaryResonance, xConverter: BaseToNanoConverter, yConverter: BaseToKiloConverter);

@@ -14,8 +14,8 @@ namespace SGTC.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
-        public CoilParameters Parameters { get; set; } = new CoilParameters();
-        public CoilResults Results { get; set; } = new CoilResults();
+        private readonly ICoilCalculator _calculator;
+        private readonly ICoilDataService _dataService;
 
         private object _currentView;
         public object CurrentView
@@ -44,16 +44,17 @@ namespace SGTC.ViewModels
             PrimaryCircuitViewModel primaryViewModel,
             SecondaryCircuitViewModel secondaryViewModel,
             TopLoadViewModel topLoadViewModel,
-            ResultViewModel resultViewModel)
+            ResultViewModel resultViewModel,
+            ICoilCalculator calculator,
+            ICoilDataService dataService)
         {
             PrimaryViewModel = primaryViewModel;
             SecondaryViewModel = secondaryViewModel;
             TopLoadViewModel = topLoadViewModel;
             ResultViewModel = resultViewModel;
-            //PrimaryViewModel = new PrimaryCircuitViewModel(dataService);
-            //SecondaryViewModel = new SecondaryCircuitViewModel(dataService);
-            //TopLoadViewModel = new TopLoadViewModel(dataService);
-            //ResultViewModel = new ResultViewModel(dataService);
+
+            _calculator = calculator;
+            _dataService = dataService;
 
             CurrentView = PrimaryViewModel;
 
@@ -74,10 +75,9 @@ namespace SGTC.ViewModels
 
             ResultViewCommand = new RelayCommand(o =>
             {
-                
-                //SecondaryCalculator.Run(ResultViewModel);
-                PrimaryCalculator.Run();
-                //SecondaryCalculator.Run();
+                _dataService.Results = _calculator.CalculatePrimary(_dataService.Parameters, _dataService.Results);
+                _dataService.Results = _calculator.CalculateSecondary(_dataService.Parameters, _dataService.Results);
+
                 CurrentView = ResultViewModel;
             });
 

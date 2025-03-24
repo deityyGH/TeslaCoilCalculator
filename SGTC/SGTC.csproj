@@ -195,14 +195,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\ObservableObject.cs" />
-    <Compile Include="Core\SecondaryCalculator.cs" />
-    <Compile Include="Core\UnitCoverter.cs" />
-    <Compile Include="Models\CoilCalculatorData.cs" />
+    <Compile Include="bordel\SecondaryCalculator.cs" />
+    <Compile Include="bordel\UnitCoverter.cs" />
+    <Compile Include="bordel\CoilCalculatorData.cs" />
     <Compile Include="Models\CoilParameters.cs" />
-    <Compile Include="Models\CoilCalculatorResult.cs" />
+    <Compile Include="bordel\CoilCalculatorResult.cs" />
     <Compile Include="Models\CoilResults.cs" />
     <Compile Include="Models\Enums.cs" />
-    <Compile Include="Core\PrimaryCalculator.cs" />
+    <Compile Include="bordel\PrimaryCalculator.cs" />
     <Compile Include="Models\IAutoCalculatorService.cs" />
     <Compile Include="Models\ICoilCalculator.cs" />
     <Compile Include="Models\ICoilDataService.cs" />

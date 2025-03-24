@@ -15,9 +15,7 @@ namespace SGTC.ViewModels
     public class ResultViewModel : ObservableObject
     {
 
-        IUnitConverter _unitConverter = new UnitConverter();
-        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
-        private readonly CoilCalculatorResult _result = CoilCalculatorResult.Instance;
+        private readonly IUnitConverter _unitConverter;
         private readonly ICoilDataService _dataService;
         public RelayCommand AutoPrimaryCapacitanceCommand { get; set; }
         public RelayCommand AutoPrimaryTurnsCommand { get; set; }
@@ -26,11 +24,11 @@ namespace SGTC.ViewModels
 
         private readonly ResultGraphViewModel _resultGraphViewModel;
 
-        public ResultViewModel(ICoilDataService dataService, ResultGraphViewModel resultGraphViewModel)
+        public ResultViewModel(ICoilDataService dataService, IUnitConverter unitConverter, ResultGraphViewModel resultGraphViewModel)
         {
             _dataService = dataService;
             _resultGraphViewModel = resultGraphViewModel;
-            
+            _unitConverter = unitConverter;
 
             ResultGraphViewModel.GraphCalculated += OnGraphCalculated;
 
@@ -106,15 +104,17 @@ namespace SGTC.ViewModels
                 {
                     case GraphType.Capacitance:
                         OptimalCapacitance = e.OptimalValue;
-                        _result.PrimaryCapacitance = OptimalCapacitance;
+                        _dataService.Results.PrimaryCapacitance = OptimalCapacitance;
                         break;
                     case GraphType.Turns:
                         OptimalTurns = e.OptimalValue;
-                        _result.PrimaryTurns = OptimalTurns;
+                        _dataService.Results.PrimaryTurns = OptimalTurns;
                         break;
                     case GraphType.TopLoad:
                         break;
                     case GraphType.CoreDiameter:
+                        break;
+                    default:
                         break;
                 }
             }
@@ -149,25 +149,23 @@ namespace SGTC.ViewModels
         // ========= Primary ========= //
         public double PrimaryTurns
         {
-            get => _result.PrimaryTurns;
+            get => _dataService.Results.PrimaryTurns;
             set
             {
-
-                _result.PrimaryTurns = value;
+                _dataService.Results.PrimaryTurns = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(PrimaryTurnsDisplay));
-                
+                OnPropertyChanged(nameof(PrimaryTurnsDisplay)); 
             }
         }
 
         public double PrimaryResonance
         {
-            get => _result.PrimaryResonance;
+            get => _dataService.Results.PrimaryResonance;
             set
             {
-                if (_result.PrimaryResonance != value)
+                if (_dataService.Results.PrimaryResonance != value)
                 {
-                    _result.PrimaryResonance = value;
+                    _dataService.Results.PrimaryResonance = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryResonanceDisplay)); // Notify UI to update
                 }
@@ -176,12 +174,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryInductance
         {
-            get => _result.PrimaryInductance;
+            get => _dataService.Results.PrimaryInductance;
             set
             {
-                if (_result.PrimaryInductance != value)
+                if (_dataService.Results.PrimaryInductance != value)
                 {
-                    _result.PrimaryInductance = value;
+                    _dataService.Results.PrimaryInductance = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryInductanceDisplay)); // Notify UI to update
                 }
@@ -190,12 +188,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryXc
         {
-            get => _result.PrimaryXc;
+            get => _dataService.Results.PrimaryXc;
             set
             {
-                if (_result.PrimaryXc != value)
+                if (_dataService.Results.PrimaryXc != value)
                 {
-                    _result.PrimaryXc = value;
+                    _dataService.Results.PrimaryXc = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryXcDisplay)); // Notify UI to update
                 }
@@ -204,12 +202,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryXl
         {
-            get => _result.PrimaryXl;
+            get => _dataService.Results.PrimaryXl;
             set
             {
-                if (_result.PrimaryXl != value)
+                if (_dataService.Results.PrimaryXl != value)
                 {
-                    _result.PrimaryXl = value;
+                    _dataService.Results.PrimaryXl = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryXlDisplay)); // Notify UI to update
                 }
@@ -218,12 +216,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryWireLength
         {
-            get => _result.PrimaryWireLength;
+            get => _dataService.Results.PrimaryWireLength;
             set
             {
-                if (_result.PrimaryWireLength != value)
+                if (_dataService.Results.PrimaryWireLength != value)
                 {
-                    _result.PrimaryWireLength = value;
+                    _dataService.Results.PrimaryWireLength = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryWireLengthDisplay)); // Notify UI to update
                 }
@@ -232,12 +230,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryWireWeight
         {
-            get => _result.PrimaryWireWeight;
+            get => _dataService.Results.PrimaryWireWeight;
             set
             {
-                if (_result.PrimaryWireWeight != value)
+                if (_dataService.Results.PrimaryWireWeight != value)
                 {
-                    _result.PrimaryWireWeight = value;
+                    _dataService.Results.PrimaryWireWeight = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryWireWeightDisplay)); // Notify UI to update
                 }
@@ -246,12 +244,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryCoilHeight
         {
-            get => _result.PrimaryCoilHeight;
+            get => _dataService.Results.PrimaryCoilHeight;
             set
             {
-                if (_result.PrimaryCoilHeight != value)
+                if (_dataService.Results.PrimaryCoilHeight != value)
                 {
-                    _result.PrimaryCoilHeight = value;
+                    _dataService.Results.PrimaryCoilHeight = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCoilHeightDisplay)); // Notify UI to update
                 }
@@ -259,12 +257,12 @@ namespace SGTC.ViewModels
         }
         public double PrimaryCapacitance
         {
-            get => _result.PrimaryCapacitance;
+            get => _dataService.Results.PrimaryCapacitance;
             set
             {
-                //if (_result.PrimaryCapacitance != value)
+                //if (_dataService.Results.PrimaryCapacitance != value)
                 //{
-                    _result.PrimaryCapacitance = value;
+                    _dataService.Results.PrimaryCapacitance = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay)); // Notify UI to update
                 //}
@@ -287,12 +285,12 @@ namespace SGTC.ViewModels
         // ========= Secondary ========= //
         public double SecondaryResonance
         {
-            get => _result.SecondaryResonance;
+            get => _dataService.Results.SecondaryResonance;
             set
             {
-                if (_result.SecondaryResonance != value)
+                if (_dataService.Results.SecondaryResonance != value)
                 {
-                    _result.SecondaryResonance = value;
+                    _dataService.Results.SecondaryResonance = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -301,12 +299,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryInductance
         {
-            get => _result.SecondaryInductance;
+            get => _dataService.Results.SecondaryInductance;
             set
             {
-                if (_result.SecondaryInductance != value)
+                if (_dataService.Results.SecondaryInductance != value)
                 {
-                    _result.SecondaryInductance = value;
+                    _dataService.Results.SecondaryInductance = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -315,12 +313,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryXc
         {
-            get => _result.SecondaryXc;
+            get => _dataService.Results.SecondaryXc;
             set
             {
-                if (_result.SecondaryXc != value)
+                if (_dataService.Results.SecondaryXc != value)
                 {
-                    _result.SecondaryXc = value;
+                    _dataService.Results.SecondaryXc = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -329,12 +327,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryXl
         {
-            get => _result.SecondaryXl;
+            get => _dataService.Results.SecondaryXl;
             set
             {
-                if (_result.SecondaryXl != value)
+                if (_dataService.Results.SecondaryXl != value)
                 {
-                    _result.SecondaryXl = value;
+                    _dataService.Results.SecondaryXl = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -343,12 +341,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryWireLength
         {
-            get => _result.SecondaryWireLength;
+            get => _dataService.Results.SecondaryWireLength;
             set
             {
-                if (_result.SecondaryWireLength != value)
+                if (_dataService.Results.SecondaryWireLength != value)
                 {
-                    _result.SecondaryWireLength = value;
+                    _dataService.Results.SecondaryWireLength = value;
                     OnPropertyChanged(); 
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -357,12 +355,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryWireWeight
         {
-            get => _result.SecondaryWireWeight;
+            get => _dataService.Results.SecondaryWireWeight;
             set
             {
-                if (_result.SecondaryWireWeight != value)
+                if (_dataService.Results.SecondaryWireWeight != value)
                 {
-                    _result.SecondaryWireWeight = value;
+                    _dataService.Results.SecondaryWireWeight = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -371,12 +369,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryCoilHeight
         {
-            get => _result.SecondaryCoilHeight;
+            get => _dataService.Results.SecondaryCoilHeight;
             set
             {
-                if (_result.SecondaryCoilHeight != value)
+                if (_dataService.Results.SecondaryCoilHeight != value)
                 {
-                    _result.SecondaryCoilHeight = value;
+                    _dataService.Results.SecondaryCoilHeight = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -385,12 +383,12 @@ namespace SGTC.ViewModels
 
         public double TotalCapacitance
         {
-            get => _result.TotalCapacitance;
+            get => _dataService.Results.TotalCapacitance;
             set
             {
-                if (_result.TotalCapacitance != value)
+                if (_dataService.Results.TotalCapacitance != value)
                 {
-                    _result.TotalCapacitance = value;
+                    _dataService.Results.TotalCapacitance = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -399,12 +397,12 @@ namespace SGTC.ViewModels
         }
         public double NoTopLoadCapacitance
         {
-            get => _result.NoTopLoadCapacitance;
+            get => _dataService.Results.NoTopLoadCapacitance;
             set
             {
-                if (_result.NoTopLoadCapacitance != value)
+                if (_dataService.Results.NoTopLoadCapacitance != value)
                 {
-                    _result.NoTopLoadCapacitance = value;
+                    _dataService.Results.NoTopLoadCapacitance = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -412,12 +410,12 @@ namespace SGTC.ViewModels
         }
         public double SecondaryResonanceNoTopLoad
         {
-            get => _result.SecondaryResonanceNoTopLoad;
+            get => _dataService.Results.SecondaryResonanceNoTopLoad;
             set
             {
-                if (_result.SecondaryResonanceNoTopLoad != value)
+                if (_dataService.Results.SecondaryResonanceNoTopLoad != value)
                 {
-                    _result.SecondaryResonanceNoTopLoad = value;
+                    _dataService.Results.SecondaryResonanceNoTopLoad = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(PrimaryCapacitanceDisplay));
                 }
@@ -426,12 +424,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryTurns
         {
-            get => _data.SecondaryTurns;
+            get => _dataService.Parameters.SecondaryTurns;
             set
             {
-                if (_data.SecondaryTurns != value)
+                if (_dataService.Parameters.SecondaryTurns != value)
                 {
-                    _data.SecondaryTurns = value;
+                    _dataService.Parameters.SecondaryTurns = value;
                     OnPropertyChanged();
                 }
             }

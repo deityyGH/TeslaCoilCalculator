@@ -17,8 +17,12 @@ namespace SGTC.Models
 
     public class AutoCalculatorService : IAutoCalculatorService
     {
-        IUnitConverter _unitConverter = new UnitConverter();
-        
+        private readonly IUnitConverter _unitConverter;
+        public AutoCalculatorService(IUnitConverter unitConverter)
+        {
+            _unitConverter = unitConverter;
+        }
+
         public double CalculateOptimalCapacitance(double targetFrequency, double inductance)
         {
             double denominator = Math.Pow(2 * Math.PI * targetFrequency, 2) * inductance;

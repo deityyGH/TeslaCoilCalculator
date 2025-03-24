@@ -10,7 +10,6 @@ namespace SGTC.ViewModels
 {
     public class SecondaryCircuitViewModel : ObservableObject
     {
-        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly ICoilDataService _dataService;
 
         public SecondaryCircuitViewModel(ICoilDataService dataService)
@@ -19,12 +18,12 @@ namespace SGTC.ViewModels
         }
 
         public double SecondaryTurns { 
-            get => _data.SecondaryTurns;
+            get => _dataService.Parameters.SecondaryTurns;
             set
             {
-                if (_data.SecondaryTurns != value)
+                if (_dataService.Parameters.SecondaryTurns != value)
                 {
-                    _data.SecondaryTurns = value;
+                    _dataService.Parameters.SecondaryTurns = value;
                     OnPropertyChanged();
                 }
             }
@@ -32,12 +31,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryCoreDiameter
         {
-            get => _data.SecondaryCoreDiameter;
+            get => _dataService.Parameters.SecondaryCoreDiameter;
             set
             {
-                if (_data.SecondaryCoreDiameter != value)
+                if (_dataService.Parameters.SecondaryCoreDiameter != value)
                 {
-                    _data.SecondaryCoreDiameter = value;
+                    _dataService.Parameters.SecondaryCoreDiameter = value;
                     OnPropertyChanged();
                 }
             }
@@ -45,12 +44,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryWireDiameter
         {
-            get => _data.SecondaryWireDiameter;
+            get => _dataService.Parameters.SecondaryWireDiameter;
             set
             {
-                if (_data.SecondaryWireDiameter != value)
+                if (_dataService.Parameters.SecondaryWireDiameter != value)
                 {
-                    _data.SecondaryWireDiameter = value;
+                    _dataService.Parameters.SecondaryWireDiameter = value;
                     OnPropertyChanged();
                 }
             }
@@ -58,12 +57,12 @@ namespace SGTC.ViewModels
 
         public double SecondaryWireInsulationDiameter
         {
-            get => _data.SecondaryWireInsulationDiameter;
+            get => _dataService.Parameters.SecondaryWireInsulationDiameter;
             set
             {
-                if (_data.SecondaryWireInsulationDiameter != value)
+                if (_dataService.Parameters.SecondaryWireInsulationDiameter != value)
                 {
-                    _data.SecondaryWireInsulationDiameter = value;
+                    _dataService.Parameters.SecondaryWireInsulationDiameter = value;
                     OnPropertyChanged();
                 }
             }

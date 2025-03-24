@@ -10,7 +10,7 @@ namespace SGTC.ViewModels
 {
     public class TorusViewModel : ObservableObject
     {
-        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
+        //private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly ICoilDataService _dataService;
         public TorusViewModel(ICoilDataService dataService)
         {
@@ -19,12 +19,12 @@ namespace SGTC.ViewModels
 
         public double TopLoadTorusInDiameter
         {
-            get => _data.TopLoadTorusInDiameter;
+            get => _dataService.Parameters.TopLoadTorusInDiameter;
             set
             {
-                if (_data.TopLoadTorusInDiameter != value)
+                if (_dataService.Parameters.TopLoadTorusInDiameter != value)
                 {
-                    _data.TopLoadTorusInDiameter = value;
+                    _dataService.Parameters.TopLoadTorusInDiameter = value;
                     OnPropertyChanged();
                 }
             }
@@ -32,12 +32,12 @@ namespace SGTC.ViewModels
 
         public double TopLoadTorusOutDiameter
         {
-            get => _data.TopLoadTorusOutDiameter;
+            get => _dataService.Parameters.TopLoadTorusOutDiameter;
             set
             {
-                if (_data.TopLoadTorusOutDiameter != value)
+                if (_dataService.Parameters.TopLoadTorusOutDiameter != value)
                 {
-                    _data.TopLoadTorusOutDiameter = value;
+                    _dataService.Parameters.TopLoadTorusOutDiameter = value;
                     OnPropertyChanged();
                 }
             }

@@ -9,7 +9,7 @@ namespace SGTC.Models
 
     public interface IUnitConverter
     {
-        double ConvertValue(double value, Unit fromUnit, Unit toUnit);
+        double ConvertValue(double value, Unit fromUnit, Unit toUnit, bool round = false);
         string AutoScale(double value, Unit baseUnit);
         (double, string) AutoScaleNumber(double value, Unit baseUnit);
         double ConvertMmToIn(double mmValue);
@@ -81,11 +81,16 @@ namespace SGTC.Models
 
 
 
-        public double ConvertValue(double value, Unit fromUnit, Unit toUnit)
+        public double ConvertValue(double value, Unit fromUnit, Unit toUnit, bool round)
         {
             int powerDifference = fromUnit.Power - toUnit.Power;
             double convertedValue = value * Math.Pow(10, powerDifference);
-            return Math.Round(convertedValue, 2);
+            if (round)
+            {
+                return Math.Round(convertedValue, 2);
+            }
+                
+            return convertedValue;
         }
 
         public double ConvertMmToIn(double mmValue)

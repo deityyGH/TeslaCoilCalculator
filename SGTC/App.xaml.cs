@@ -28,6 +28,9 @@ namespace SGTC.Views
                     services.AddTransient<PrimaryCircuitViewModel>();
                     services.AddTransient<SecondaryCircuitViewModel>();
                     services.AddTransient<TopLoadViewModel>();
+                    services.AddTransient<TorusViewModel>();
+                    services.AddTransient<SphereViewModel>();
+                    services.AddTransient<NoneViewModel>();
                     services.AddTransient<ResultViewModel>();
                     services.AddTransient<ResultGraphViewModel>();
 

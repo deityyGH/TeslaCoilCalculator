@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using SGTC.Models;
 using SGTC.Core;
 
@@ -13,7 +7,6 @@ namespace SGTC.ViewModels
 {
     public class PrimaryCircuitViewModel : ObservableObject
     {
-        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly ICoilDataService _dataService;
         public PrimaryCircuitViewModel(ICoilDataService dataService)
         {
@@ -59,12 +52,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryTurns
         {
-            get => _data.PrimaryTurns;
+            get => _dataService.Parameters.PrimaryTurns;
             set
             {
-                if (_data.PrimaryTurns != value)
+                if (_dataService.Parameters.PrimaryTurns != value)
                 {
-                    _data.PrimaryTurns = value;
+                    _dataService.Parameters.PrimaryTurns = value;
                     OnPropertyChanged();
                 }
             }
@@ -72,12 +65,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryCoreDiameter
         {
-            get => _data.PrimaryCoreDiameter;
+            get => _dataService.Parameters.PrimaryCoreDiameter;
             set
             {
-                if (_data.PrimaryCoreDiameter != value)
+                if (_dataService.Parameters.PrimaryCoreDiameter != value)
                 {
-                    _data.PrimaryCoreDiameter = value;
+                    _dataService.Parameters.PrimaryCoreDiameter = value;
                     OnPropertyChanged();
                 }
             }
@@ -85,12 +78,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryWireDiameter
         {
-            get => _data.PrimaryWireDiameter;
+            get => _dataService.Parameters.PrimaryWireDiameter;
             set
             {
-                if (_data.PrimaryWireDiameter != value)
+                if (_dataService.Parameters.PrimaryWireDiameter != value)
                 {
-                    _data.PrimaryWireDiameter = value;
+                    _dataService.Parameters.PrimaryWireDiameter = value;
                     OnPropertyChanged();
                 }
             }
@@ -100,12 +93,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryWireInsulationDiameter
         {
-            get => _data.PrimaryWireInsulationDiameter;
+            get => _dataService.Parameters.PrimaryWireInsulationDiameter;
             set
             {
-                if (_data.PrimaryWireInsulationDiameter != value)
+                if (_dataService.Parameters.PrimaryWireInsulationDiameter != value)
                 {
-                    _data.PrimaryWireInsulationDiameter = value;
+                    _dataService.Parameters.PrimaryWireInsulationDiameter = value;
                     OnPropertyChanged();
                 }
             }
@@ -113,12 +106,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryWireSpacing
         {
-            get => _data.PrimaryWireSpacing;
+            get => _dataService.Parameters.PrimaryWireSpacing;
             set
             {
-                if (_data.PrimaryWireSpacing != value)
+                if (_dataService.Parameters.PrimaryWireSpacing != value)
                 {
-                    _data.PrimaryWireSpacing = value;
+                    _dataService.Parameters.PrimaryWireSpacing = value;
                     OnPropertyChanged();
                 }
             }
@@ -126,12 +119,12 @@ namespace SGTC.ViewModels
 
         public PrimaryWindingType SelectedPrimaryWindingType
         {
-            get => _data.PrimaryWindingType;
+            get => _dataService.Parameters.PrimaryWindingType;
             set
             {
-                if (_data.PrimaryWindingType != value)
+                if (_dataService.Parameters.PrimaryWindingType != value)
                 {
-                    _data.PrimaryWindingType = value;
+                    _dataService.Parameters.PrimaryWindingType = value;
                     OnPropertyChanged();
                 }
             }
@@ -140,13 +133,13 @@ namespace SGTC.ViewModels
 
         public PrimaryCapacitorConnectionType SelectedPrimaryCapacitorConnectionType
         {
-            get => _data.PrimaryCapacitorConnectionType;
+            get => _dataService.Parameters.PrimaryCapacitorConnectionType;
             set
             {
-                Console.WriteLine(_data.PrimaryCapacitorConnectionType);
-                if (_data.PrimaryCapacitorConnectionType != value)
+                Console.WriteLine(_dataService.Parameters.PrimaryCapacitorConnectionType);
+                if (_dataService.Parameters.PrimaryCapacitorConnectionType != value)
                 {
-                    _data.PrimaryCapacitorConnectionType = value;
+                    _dataService.Parameters.PrimaryCapacitorConnectionType = value;
                     OnPropertyChanged();
                 }
             }
@@ -155,12 +148,12 @@ namespace SGTC.ViewModels
 
         public double PrimaryCapacitance
         {
-            get => _data.PrimaryCapacitance;
+            get => _dataService.Parameters.PrimaryCapacitance;
             set
             {
-                if (_data.PrimaryCapacitance != value)
+                if (_dataService.Parameters.PrimaryCapacitance != value)
                 {
-                    _data.PrimaryCapacitance = value;
+                    _dataService.Parameters.PrimaryCapacitance = value;
                     OnPropertyChanged();
                 }
             }
@@ -169,12 +162,12 @@ namespace SGTC.ViewModels
 
         public int PrimaryCapacitorAmount
         {
-            get => _data.PrimaryCapacitorAmount;
+            get => _dataService.Parameters.PrimaryCapacitorAmount;
             set
             {
-                if (_data.PrimaryCapacitorAmount != value)
+                if (_dataService.Parameters.PrimaryCapacitorAmount != value)
                 {
-                    _data.PrimaryCapacitorAmount = value;
+                    _dataService.Parameters.PrimaryCapacitorAmount = value;
                     OnPropertyChanged();
                 }
             }

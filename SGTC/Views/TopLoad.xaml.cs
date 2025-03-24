@@ -8,7 +8,12 @@ namespace SGTC.Views
         public TopLoad()
         {
             InitializeComponent();
-            //DataContext = new TopLoadViewModel();
+        }
+
+        public TopLoad(TopLoadViewModel viewModel)
+        {
+            InitializeComponent();
+            DataContext = viewModel;
         }
 
     }

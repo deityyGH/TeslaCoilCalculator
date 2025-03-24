@@ -11,6 +11,10 @@ namespace SGTC.Models
     {
         CoilResults CalculatePrimary(CoilParameters parameters, CoilResults results);
         CoilResults CalculateSecondary(CoilParameters parameters, CoilResults results);
+        double CalculateResonance(double primaryInductance, double primaryCapacitance);
+        double CalculateCoilHeight(PrimaryWindingType windingType, double turns, double wireInsDiameter, double wireSpacing);
+        double CalculateInductance(PrimaryWindingType windingType, double turns, double coreDiameter, double wireInsDiameter, double coilHeight);
+
     }
 
     public class CoilCalculator : ICoilCalculator
@@ -30,8 +34,13 @@ namespace SGTC.Models
 
             double Capacitance = CalculateCapacitance(
                 parameters.PrimaryCapacitorConnectionType,
-                convertedCapacitance,
+                parameters.PrimaryCapacitance,
                 parameters.PrimaryCapacitorAmount);
+
+            Capacitance = _unitConverter.ConvertValue(
+                Capacitance,
+                Unit.Nano,
+                Unit.Base);
 
             double CoilHeight = CalculateCoilHeight(
                 parameters.PrimaryWindingType,

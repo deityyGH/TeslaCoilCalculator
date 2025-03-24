@@ -11,12 +11,24 @@ namespace SGTC.ViewModels
 {
     public class TopLoadViewModel : ObservableObject
     {
-        private readonly CoilCalculatorData _data = CoilCalculatorData.Instance;
         private readonly ICoilDataService _dataService;
 
-        public TopLoadViewModel(ICoilDataService dataService)
+        public TorusViewModel TorusViewModel { get; set; }
+        public SphereViewModel SphereViewModel { get; set; }
+        public NoneViewModel NoneViewModel { get; set; }
+
+        public TopLoadViewModel(
+            TorusViewModel torusViewModel,
+            SphereViewModel sphereViewModel,
+            NoneViewModel noneViewModel,
+            ICoilDataService dataService)
         {
+            TorusViewModel = torusViewModel;
+            SphereViewModel = sphereViewModel;
+            NoneViewModel = noneViewModel;
+
             _dataService = dataService;
+
             TopLoadTypes = new ObservableCollection<TopLoadType>
             {
                 TopLoadType.None,
@@ -24,9 +36,7 @@ namespace SGTC.ViewModels
                 TopLoadType.Sphere
             };
 
-            _torusViewModel = new TorusViewModel(dataService);
-            _sphereViewModel = new SphereViewModel(dataService);
-            _noneViewModel = new NoneViewModel(dataService);
+
             UpdateTopLoadContentView();
         }
 
@@ -42,46 +52,41 @@ namespace SGTC.ViewModels
         }
 
         // Combobox
-        private ObservableCollection<TopLoadType> _topLoadTypes;
-        public ObservableCollection<TopLoadType> TopLoadTypes
-        {
-            get => _topLoadTypes;
-            set
-            {
-                _topLoadTypes = value;
-                OnPropertyChanged();
-            }
-        }
+        //private ObservableCollection<TopLoadType> _topLoadTypes;
+        //public ObservableCollection<TopLoadType> TopLoadTypes
+        //{
+        //    get => _topLoadTypes;
+        //    set
+        //    {
+        //        _topLoadTypes = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        public ObservableCollection<TopLoadType> TopLoadTypes { get; }
+
 
         public TopLoadType SelectedTopLoadType
         {
-            get => _data.TopLoadType;
+            get => _dataService.Parameters.TopLoadType;
             set
             {
-                if (_data.TopLoadType != value)
+                if (_dataService.Parameters.TopLoadType != value)
                 {
-                    _data.TopLoadType = value;
+                    _dataService.Parameters.TopLoadType = value;
                     OnPropertyChanged();
                     UpdateTopLoadContentView();
                 }
             }
         }
 
-        //private readonly NoneViewModel _noneViewModel;
-        public TorusViewModel _torusViewModel { get; set; }
-        public SphereViewModel _sphereViewModel { get; set; }
-        public NoneViewModel _noneViewModel { get; set; }
-
-
 
         private void UpdateTopLoadContentView()
         {
             CurrentTopLoadContentView = SelectedTopLoadType switch
             {
-                TopLoadType.Torus => _torusViewModel,
-                TopLoadType.Sphere => _sphereViewModel,
-                TopLoadType.None => _noneViewModel,
-                _ => _noneViewModel
+                TopLoadType.Torus => TorusViewModel,
+                TopLoadType.Sphere => SphereViewModel,
+                _ => NoneViewModel
             };
         }
     }
