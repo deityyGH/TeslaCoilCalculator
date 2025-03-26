@@ -11,16 +11,23 @@ namespace SGTC.Models
     public interface IAutoCalculatorService
     {
         double CalculateOptimalCapacitance(double targetFrequency, double inductance);
-        double CalculateOptimalTurns(double targetResonance, double capacitance, double coreDiameter, double wireInsDiameter, double baseTurns = 10);
+        double CalculateOptimalTurns(double targetResonance, double capacitance, double coreDiameter, double wireInsDiameter, double baseTurns = 10, bool round = false);
         double GetInductance(double resonance, double capacitance);
     }
 
     public class AutoCalculatorService : IAutoCalculatorService
     {
         private readonly IUnitConverter _unitConverter;
-        public AutoCalculatorService(IUnitConverter unitConverter)
+        private readonly IUnitConverterFactory _converterFactory;
+
+        private readonly Func<double, double> BaseToMicroConverter;
+
+        public AutoCalculatorService(IUnitConverter unitConverter, IUnitConverterFactory converterFactory)
         {
             _unitConverter = unitConverter;
+            _converterFactory = converterFactory;
+
+            BaseToMicroConverter = _converterFactory.CreateConverter(Unit.Base, Unit.Micro);
         }
 
         public double CalculateOptimalCapacitance(double targetFrequency, double inductance)
@@ -29,13 +36,13 @@ namespace SGTC.Models
             return 1 / denominator;
         }
 
-        public double CalculateOptimalTurns(double targetResonance, double capacitance, double coreDiameter, double wireInsDiameter, double baseTurns)
+        public double CalculateOptimalTurns(double targetResonance, double capacitance, double coreDiameter, double wireInsDiameter, double baseTurns, bool round)
         {
-            double inductanceH = GetInductance(targetResonance, capacitance);
-            double inductanceUH = _unitConverter.ConvertValue(inductanceH, Unit.Base, Unit.Micro);
+            double inductance = GetInductance(targetResonance, capacitance);
+            inductance = BaseToMicroConverter(inductance);
 
-            double diameterInches = _unitConverter.ConvertMmToIn(coreDiameter + wireInsDiameter);
-            double wireDiameterInches = _unitConverter.ConvertMmToIn(wireInsDiameter);
+            double diameterInches = _unitConverter.ConvertMToIn(coreDiameter + wireInsDiameter);
+            double wireDiameterInches = _unitConverter.ConvertMToIn(wireInsDiameter);
 
             double turns = baseTurns;
             double previousTurns = 0;
@@ -46,7 +53,7 @@ namespace SGTC.Models
             for (int i = 0; i < maxIterations; i++)
             {
                 double estimatedHeightInches = turns * wireDiameterInches;
-                double numerator = inductanceUH * ((18 * diameterInches) + (40 * estimatedHeightInches));
+                double numerator = inductance * ((18 * diameterInches) + (40 * estimatedHeightInches));
                 double denominator = Math.Pow(diameterInches, 2);
 
                 turns = Math.Sqrt(numerator / denominator);
@@ -58,8 +65,7 @@ namespace SGTC.Models
 
                 previousTurns = turns;
             }
-
-            return Math.Round(turns * 2) / 2;
+            return round ? Math.Round(turns * 2) / 2 : turns;
         }
 
         public double GetInductance(double resonance, double capacitance)

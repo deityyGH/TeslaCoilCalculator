@@ -42,20 +42,21 @@
 
 
         <!-- Column headers -->
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="16" Padding="0 5">Secondary Circuit</TextBlock>
+        <TextBlock Grid.Column="0" HorizontalAlignment="Left" FontSize="16" Padding="0 5">Secondary Circuit</TextBlock>
+        <TextBlock Style="{StaticResource ErrorTextBlockStyle}" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ErrorMessage}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
         <!-- Primary coil rows -->
         <TextBlock Grid.Column="0" Grid.Row="1">Turns</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SecondaryTurns}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SecondaryTurns, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="2">Core Diameter (mm)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SecondaryCoreDiameter}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SecondaryCoreDiameter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="3">Wire Diameter (mm)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SecondaryWireDiameter}" x:Name="SecondaryWireDiameterInput"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SecondaryWireDiameter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="SecondaryWireDiameterInput"/>
 
         <TextBlock Grid.Column="0" Grid.Row="4">Wire Insulation Diameter  (mm)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SecondaryWireInsulationDiameter}"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SecondaryWireInsulationDiameter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
     </Grid>
 </UserControl>

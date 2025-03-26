@@ -4,6 +4,8 @@ using System;
 using System.Windows;
 using SGTC.ViewModels;
 using SGTC.Models;
+using Microsoft.Extensions.Logging;
+using Karambolo.Extensions.Logging.File;
 
 namespace SGTC.Views
 {
@@ -20,6 +22,7 @@ namespace SGTC.Views
                     services.AddSingleton<ICoilDataService, CoilDataService>();
                     services.AddTransient<ICoilCalculator, CoilCalculator>();
                     services.AddTransient<IAutoCalculatorService, AutoCalculatorService>();
+                    services.AddTransient<IUnitConverterFactory, UnitConverterFactory>();
                     // Register MainViewModel and Window
                     services.AddSingleton<MainViewModel>();
                     services.AddSingleton<MainWindow>();
@@ -40,6 +43,13 @@ namespace SGTC.Views
                     services.AddTransient<TopLoad>();
                     services.AddTransient<Result>();
                     services.AddTransient<ResultGraph>();
+
+                    services.AddLogging(configure =>
+                    {
+                        configure.AddConsole();
+                        configure.AddDebug();
+                        configure.SetMinimumLevel(LogLevel.Information);
+                    });
                 })
                 .Build();
         }

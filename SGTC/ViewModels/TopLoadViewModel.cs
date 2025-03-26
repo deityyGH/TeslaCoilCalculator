@@ -51,19 +51,7 @@ namespace SGTC.ViewModels
             }
         }
 
-        // Combobox
-        //private ObservableCollection<TopLoadType> _topLoadTypes;
-        //public ObservableCollection<TopLoadType> TopLoadTypes
-        //{
-        //    get => _topLoadTypes;
-        //    set
-        //    {
-        //        _topLoadTypes = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
         public ObservableCollection<TopLoadType> TopLoadTypes { get; }
-
 
         public TopLoadType SelectedTopLoadType
         {
@@ -79,15 +67,23 @@ namespace SGTC.ViewModels
             }
         }
 
-
         private void UpdateTopLoadContentView()
         {
             CurrentTopLoadContentView = SelectedTopLoadType switch
             {
                 TopLoadType.Torus => TorusViewModel,
                 TopLoadType.Sphere => SphereViewModel,
+                TopLoadType.None => NoneViewModel,
                 _ => NoneViewModel
             };
         }
+
+        public bool IsFormValid => SelectedTopLoadType switch
+        {
+            TopLoadType.Torus => TorusViewModel.IsFormValid,
+            TopLoadType.Sphere => SphereViewModel.IsFormValid,
+            TopLoadType.None => true,
+            _ => true
+        };
     }
 }

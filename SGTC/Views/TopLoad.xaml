@@ -44,9 +44,12 @@
 
         <!-- Column Headers -->
         <TextBlock Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="16" Padding="0 5">Top Load</TextBlock>
+        <TextBlock Style="{StaticResource ErrorTextBlockStyle}" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ErrorMessage}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
         <!-- Top Load Rows -->
         <TextBlock Grid.Column="0" Grid.Row="1">Top Load Type</TextBlock>
+
+        
         <ComboBox Grid.Column="1" Grid.Row="1" x:Name="TopLoadTypeInput" SelectedIndex="0" ItemsSource="{Binding TopLoadTypes}" SelectedItem="{Binding SelectedTopLoadType}">
         </ComboBox>
 
@@ -77,10 +80,10 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Grid.Row="0">Inner Diameter (mm)</TextBlock>
-                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding TopLoadTorusInDiameter}" x:Name="TopLoadTorusInDiameterInput"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding TopLoadTorusInDiameter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="TopLoadTorusInDiameterInput"/>
 
                         <TextBlock Grid.Column="0" Grid.Row="1">Outer Diameter (mm)</TextBlock>
-                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding TopLoadTorusOutDiameter}" x:Name="TopLoadTorusOutDiameterInput"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding TopLoadTorusOutDiameter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="TopLoadTorusOutDiameterInput"/>
                     </Grid>
                 </DataTemplate>
 
@@ -107,7 +110,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Grid.Row="0">Diameter (mm)</TextBlock>
-                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding TopLoadSphereDiameter}" x:Name="TopLoadBallDiameterInput"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding TopLoadSphereDiameter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="TopLoadBallDiameterInput"/>
                     </Grid>
                 </DataTemplate>
 

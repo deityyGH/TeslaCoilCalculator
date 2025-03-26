@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SGTC.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,27 +21,24 @@ namespace SGTC.Models
     public class CoilCalculator : ICoilCalculator
     {
         private readonly IUnitConverter _unitConverter;
-        public CoilCalculator(IUnitConverter unitConverter)
+        private readonly IUnitConverterFactory _converterFactory;
+
+        private readonly Func<double, double> MicroToBaseConverter;
+        private readonly Func<double, double> PicoToBaseConverter;
+
+        public CoilCalculator(IUnitConverter unitConverter, IUnitConverterFactory converterFactory)
         {
             _unitConverter = unitConverter;
+            _converterFactory = converterFactory;
+
+            MicroToBaseConverter = _converterFactory.CreateConverter(Unit.Micro, Unit.Base);
+            PicoToBaseConverter = _converterFactory.CreateConverter(Unit.Pico, Unit.Base);
         }
 
         public CoilResults CalculatePrimary(CoilParameters parameters, CoilResults results)
         {
-            double convertedCapacitance = _unitConverter.ConvertValue(
-                parameters.PrimaryCapacitance,
-                Unit.Nano,
-                Unit.Base);
-
             double Capacitance = CalculateCapacitance(
-                parameters.PrimaryCapacitorConnectionType,
-                parameters.PrimaryCapacitance,
-                parameters.PrimaryCapacitorAmount);
-
-            Capacitance = _unitConverter.ConvertValue(
-                Capacitance,
-                Unit.Nano,
-                Unit.Base);
+                parameters.PrimaryCapacitance);
 
             double CoilHeight = CalculateCoilHeight(
                 parameters.PrimaryWindingType,
@@ -91,21 +89,23 @@ namespace SGTC.Models
         public CoilResults CalculateSecondary(CoilParameters parameters, CoilResults results)
         {
             double CoilHeight = CalculateCoilHeight(
-                PrimaryWindingType.Solenoid,
+                parameters.PrimaryWindingType,
                 parameters.SecondaryTurns,
                 parameters.SecondaryWireInsulationDiameter,
                 0);
 
             double Inductance = CalculateInductance(
-                PrimaryWindingType.Solenoid,
+                parameters.PrimaryWindingType,
                 parameters.SecondaryTurns,
                 parameters.SecondaryCoreDiameter,
                 parameters.SecondaryWireInsulationDiameter,
                 CoilHeight);
 
-            double TopLoadCapacitance = CalculateSecondaryTorusCapacitance(
+            double TopLoadCapacitance = CalculateTopLoadCapacitance(
+                parameters.TopLoadType,
                 parameters.TopLoadTorusOutDiameter,
-                parameters.TopLoadTorusInDiameter);
+                parameters.TopLoadTorusInDiameter,
+                parameters.TopLoadSphereDiameter);
 
             double Capacitance = CalculateSecondaryCoilCapacitance(
                 parameters.SecondaryWireInsulationDiameter,
@@ -113,8 +113,6 @@ namespace SGTC.Models
                 parameters.SecondaryCoreDiameter,
                 TopLoadCapacitance,
                 true);
-
-
 
             double CapacitanceNoTopLoad = CalculateSecondaryCoilCapacitance(
                 parameters.SecondaryWireInsulationDiameter,
@@ -156,13 +154,31 @@ namespace SGTC.Models
             results.SecondaryWireLength = WireLength;
             results.SecondaryWireWeight = WireWeight;
             results.TotalCapacitance = Capacitance;
-            results.NoTopLoadCapacitance = CapacitanceNoTopLoad;
+            results.TopLoadCapacitance = TopLoadCapacitance;
 
             return results;
         }
 
 
-        public double CalculateSecondaryTorusCapacitance(double outDiameter, double inDiameter)
+        public double CalculateTopLoadCapacitance(TopLoadType topLoadType, double torusOutDiameter, double torusInDiameter, double sphereDiameter)
+        {
+            if (topLoadType == TopLoadType.Torus)
+            {
+                return CalculateSecondaryTorusCapacitance(torusOutDiameter, torusInDiameter);
+            }
+
+            else if (topLoadType == TopLoadType.Sphere)
+            {
+                return 0;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
+
+        private double CalculateSecondaryTorusCapacitance(double outDiameter, double inDiameter)
         {
             // C = 2.8 * (1.2781 - (D2/D1)) * SQRT((2 * pi^2 * (D1-D2) * (D2/2)) \ 4 * pi)
             // D1 -> outside diameter of toroid in inches
@@ -171,29 +187,30 @@ namespace SGTC.Models
 
             double TorusThickness = (outDiameter - inDiameter) / 2;
 
-            double D1 = _unitConverter.ConvertMmToIn(outDiameter);
-            double D2 = _unitConverter.ConvertMmToIn(TorusThickness);
+            double D1 = _unitConverter.ConvertMToIn(outDiameter);
+            double D2 = _unitConverter.ConvertMToIn(TorusThickness);
 
             double firstPart = 1.2781 - (D2 / D1);
             double secondPart = (2 * Math.Pow(Math.PI, 2) * (D1 - D2) * (D2 / 2)) / (4 * Math.PI);
             double TopLoadCapacitance = 2.8 * firstPart * Math.Sqrt(secondPart);
-            TopLoadCapacitance *= Math.Pow(10, -12);
-
-            return TopLoadCapacitance;
+            //TopLoadCapacitance *= Math.Pow(10, -12);
+            //TopLoadCapacitance = _unitConverter.ConvertValue(TopLoadCapacitance, Unit.Pico, Unit.Base);
+            return PicoToBaseConverter(TopLoadCapacitance);
 
         }
 
         public double CalculateSecondaryCoilCapacitance(double wireInsDiameter, double coilHeight, double coreDiameter, double topLoadCapacitance, bool useStrayC = true)
         {
-            double strayCapacitance = 0;
+            double strayCapacitance = 7;
 
-            double SecondaryCoilCapacitance = (wireInsDiameter / 10) * ((coilHeight / 10) * (coreDiameter / 10));
-            SecondaryCoilCapacitance *= Math.Pow(10, -12);
+            double SecondaryCoilCapacitance = wireInsDiameter / 10 * ((coilHeight / 10) * (coreDiameter / 10));
+            //SecondaryCoilCapacitance *= Math.Pow(10, -12);
 
+            SecondaryCoilCapacitance = PicoToBaseConverter(SecondaryCoilCapacitance);
 
             if (useStrayC)
             {
-                strayCapacitance = 7 * Math.Pow(10, -12);
+                strayCapacitance = PicoToBaseConverter(strayCapacitance);
             }
 
             return SecondaryCoilCapacitance + strayCapacitance + topLoadCapacitance;
@@ -217,8 +234,9 @@ namespace SGTC.Models
             {
                 // L = (N^2 * d^2) / (18 * d + 40 * s)
                 // where N = turns, d = diameter in inches, s = spacing in inches
-                double diameter = _unitConverter.ConvertMmToIn(coreDiameter + wireInsDiameter);
-                double coilHeightIn = _unitConverter.ConvertMmToIn(coilHeight);
+                // result in uH
+                double diameter = _unitConverter.ConvertMToIn(coreDiameter + wireInsDiameter);
+                double coilHeightIn = _unitConverter.ConvertMToIn(coilHeight);
 
                 double denominator = (18 * diameter) + (40 * coilHeightIn);
                 if (denominator == 0)
@@ -227,9 +245,9 @@ namespace SGTC.Models
                 }
 
                 double PrimaryInductance = Math.Pow(turns, 2) * Math.Pow(diameter, 2) / denominator;
-                PrimaryInductance *= Math.Pow(10, -6);
+                //PrimaryInductance = _unitConverter.ConvertValue(PrimaryInductance, Unit.Micro, Unit.Base);
 
-                return PrimaryInductance;
+                return MicroToBaseConverter(PrimaryInductance);
             }
 
             return 0;
@@ -237,27 +255,10 @@ namespace SGTC.Models
 
 
 
-        public double CalculateCapacitance(PrimaryCapacitorConnectionType connectionType, double capacitance, int numberOfCapacitors)
+        public double CalculateCapacitance(double capacitance)
         {
-            //double capacitanceBase = capacitance * Math.Pow(10, -9);
 
-            if (connectionType == PrimaryCapacitorConnectionType.Parallel)
-            {
-                return capacitance * numberOfCapacitors;
-            }
-
-            if (numberOfCapacitors == 1)
-            {
-                return capacitance;
-            }
-
-            double totalCapacitance = 0;
-            for (int i = 0; i < numberOfCapacitors; i++)
-            {
-                totalCapacitance = (1 / capacitance) + totalCapacitance;
-            }
-
-            return totalCapacitance;
+            return capacitance;
         }
 
 
@@ -273,17 +274,19 @@ namespace SGTC.Models
 
         public double CalculateWireLength(double turns, double coreDiameter)
         {
-            return Math.PI * turns * coreDiameter / 1000;
+            return Math.PI * turns * coreDiameter;
         }
 
         public double CalculateWireWeight(double wireDiameter, double wireLength)
         {
-            double CuDensity = 8.96;
+            double CuDensity = 8.96;  // g/cm³
 
-            double WireRadius = wireDiameter / 2 / 10; // convert to cm
-            double WireCrossSection = Math.PI * Math.Pow(WireRadius, 2);
-            double Volume = WireCrossSection * (wireLength * 100);
-            return Volume * CuDensity;
+            double WireRadius = wireDiameter / 2;  // m
+            double WireCrossSection = Math.PI * Math.Pow(WireRadius * 100, 2); // cm²
+            double Volume = WireCrossSection * (wireLength * 100); // cm³
+            double WireWeight = Volume * CuDensity; // g
+
+            return WireWeight;
         }
     }
 }

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SGTC.ViewModels
 {
-    public class NoneViewModel
+    public class NoneViewModel : IValidatable
     {
-        private readonly ICoilDataService _dataService;
-        public NoneViewModel(ICoilDataService dataService)
+        public NoneViewModel()
         {
-            _dataService = dataService;
         }
+
+        public bool IsFormValid => true;
     }
 }

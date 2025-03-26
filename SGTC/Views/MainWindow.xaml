@@ -38,7 +38,6 @@
         <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
             <ContentControl Content="{Binding CurrentView}">
                 <ContentControl.Resources>
-
                     <!-- Primary Circuit -->
                     <DataTemplate DataType="{x:Type vm:PrimaryCircuitViewModel}">
                         <local:PrimaryCircuit/>
@@ -58,8 +57,6 @@
                     <DataTemplate DataType="{x:Type vm:ResultViewModel}">
                         <local:Result/>
                     </DataTemplate>
-                    
-                    
                 </ContentControl.Resources>
             </ContentControl>
         </Grid>

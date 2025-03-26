@@ -86,13 +86,13 @@
             <TextBlock Grid.Column="0" Grid.Row="8">Coil Height</TextBlock>
             <TextBox Grid.Column="2" Grid.Row="8" Text="{Binding PrimaryCoilHeightDisplay, Mode=OneWay}"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="9">Capacitance</TextBlock>
-            <Button Grid.Column="1" Grid.Row="9" Command="{Binding AutoPrimaryCapacitanceCommand}" Content="Auto"/>
-            <TextBox Grid.Column="2" Grid.Row="9" Text="{Binding PrimaryCapacitanceDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="9">Turns</TextBlock>
+            <Button Grid.Column="1" Grid.Row="9" Command="{Binding AutoPrimaryTurnsCommand}" Content="Auto"/>
+            <TextBox Grid.Column="2" Grid.Row="9" Text="{Binding PrimaryTurns}"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="10">Turns</TextBlock>
-            <Button Grid.Column="1" Grid.Row="10" Command="{Binding AutoPrimaryTurnsCommand}" Content="Auto"/>
-            <TextBox Grid.Column="2" Grid.Row="10" Text="{Binding PrimaryTurnsDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="10">Capacitance</TextBlock>
+            <Button Grid.Column="1" Grid.Row="10" Command="{Binding AutoPrimaryCapacitanceCommand}" Content="Auto"/>
+            <TextBox Grid.Column="2" Grid.Row="10" Text="{Binding PrimaryCapacitanceDisplay, Mode=OneWay}"/>
         </Grid>
 
         
@@ -156,17 +156,19 @@
             <TextBlock Grid.Column="0" Grid.Row="8">Coil Height</TextBlock>
             <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding SecondaryCoilHeightDisplay, Mode=OneWay}"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="9">No Top Load Capacitance</TextBlock>
-            <TextBox Grid.Column="3" Grid.Row="9" Text="{Binding SecondaryNoTopLoadCapacitanceDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="9">Turns</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="9" Text="{Binding SecondaryTurns}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="10">Total Capacitance</TextBlock>
             <TextBox Grid.Column="3" Grid.Row="10" Text="{Binding SecondaryTotalCapacitanceDisplay, Mode=OneWay}"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="11">Resonance W/O Top Load</TextBlock>
-            <TextBox Grid.Column="3" Grid.Row="11" Text="{Binding SecondaryResonanceNoTopLoadDisplay, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="11">Top Load Capacitance</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="11" Text="{Binding SecondaryTopLoadCapacitanceDisplay, Mode=OneWay}"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="12">Turns</TextBlock>
-            <TextBox Grid.Column="3" Grid.Row="12" Text="{Binding SecondaryTurns, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="12">Resonance W/O Top Load</TextBlock>
+            <TextBox Grid.Column="3" Grid.Row="12" Text="{Binding SecondaryResonanceNoTopLoadDisplay, Mode=OneWay}"/>
+
+
         </Grid>
 
         

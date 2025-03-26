@@ -27,7 +27,7 @@ namespace SGTC.Models
         public double SecondaryWireWeight { get; set; }
         public double SecondaryCoilHeight { get; set; }
         public double TotalCapacitance { get; set; }
-        public double NoTopLoadCapacitance { get; set; }
+        public double TopLoadCapacitance { get; set; }
         public double SecondaryResonanceNoTopLoad { get; set; }
     }
 }

@@ -2,15 +2,40 @@
 using System.Collections.ObjectModel;
 using SGTC.Models;
 using SGTC.Core;
+using System.Collections.Generic;
+using System.Linq;
+using System.ComponentModel;
+using Microsoft.Extensions.Logging;
 
 namespace SGTC.ViewModels
 {
-    public class PrimaryCircuitViewModel : ObservableObject
+    public enum CapacitanceUnit
+    {
+        Base,
+        Milli,
+        Micro,
+        Nano,
+        Pico
+    }
+    
+    public class PrimaryCircuitViewModel : CalculatorValidationViewModel
     {
         private readonly ICoilDataService _dataService;
-        public PrimaryCircuitViewModel(ICoilDataService dataService)
+        private readonly IUnitConverterFactory _converterFactory;
+
+        private Func<double, double> MilliToBaseConverter;
+        private Func<double, double> BaseToMilliConverter;
+        private Func<double, double> XToBaseConverter => _converterFactory.CreateConverter(SelectedCapacitanceUnit, Unit.Base);
+        private Func<double, double> BaseToXConverter => _converterFactory.CreateConverter(Unit.Base, SelectedCapacitanceUnit);
+
+        public PrimaryCircuitViewModel(ICoilDataService dataService, IUnitConverterFactory converterFactory)
         {
             _dataService = dataService;
+            _converterFactory = converterFactory;
+
+            SetupValidationRules();
+            MilliToBaseConverter = _converterFactory.CreateConverter(Unit.Milli, Unit.Base);
+            BaseToMilliConverter = _converterFactory.CreateConverter(Unit.Base, Unit.Milli);
 
             PrimaryWindingTypes = new ObservableCollection<PrimaryWindingType>
             {
@@ -19,11 +44,68 @@ namespace SGTC.ViewModels
                 PrimaryWindingType.Conical
             };
 
-            PrimaryCapacitorConnectionTypes = new ObservableCollection<PrimaryCapacitorConnectionType>
+
+
+        }
+
+        protected override void SetupValidationRules()
+        {
+            AddValidationRule(nameof(PrimaryCapacitance), () =>
             {
-                PrimaryCapacitorConnectionType.Series,
-                PrimaryCapacitorConnectionType.Parallel
-            };
+                if (!IsPositive(PrimaryCapacitance))
+                {
+                    return "Primarycap wrong";
+                }
+                return null;
+            });
+
+            
+            AddValidationRule(nameof(PrimaryTurns), () =>
+            {
+                if (!IsPositive(PrimaryTurns))
+                {
+                    return "Turns must be greater than zero.";
+                }
+                return null;
+            });
+
+
+            AddValidationRule(nameof(PrimaryCoreDiameter), () =>
+            {
+                if (!IsPositive(PrimaryCoreDiameter))
+                {
+                    return "Core Diameter must be greater than zero.";
+                }
+                return null;
+            });
+
+            AddValidationRule(nameof(PrimaryWireDiameter), () =>
+            {
+                if (!IsPositive(PrimaryWireDiameter))
+                {
+                    return "Wire Diameter must be greater than zero.";
+                }
+                return null;
+            });
+
+            AddValidationRule(nameof(PrimaryWireInsulationDiameter), () =>
+            {
+                if (!IsPositive(PrimaryWireInsulationDiameter))
+                {
+                    return "Wire Insulation Diameter must be greater than zero.";
+                }
+                return null;
+            });
+
+            AddValidationRule(nameof(PrimaryWireSpacing), () =>
+            {
+                if (!IsPositiveOrZero(PrimaryWireSpacing))
+                {
+                    return "Wire Spacing must be greater or equal to zero.";
+                }
+                return null;
+            });
+
         }
 
         // Combo box
@@ -49,6 +131,27 @@ namespace SGTC.ViewModels
             }
         }
 
+        public List<Unit> CapacitanceUnits { get; } = new List<Unit>
+        {
+            Unit.Pico,   // pF
+            Unit.Nano,   // nF
+            Unit.Micro,  // µF
+            Unit.Milli   // mF
+        };
+
+        private Unit _selectedCapacitanceUnit = Unit.Nano;
+        public Unit SelectedCapacitanceUnit
+        {
+            get => _selectedCapacitanceUnit;
+            set
+            {
+                _selectedCapacitanceUnit = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(PrimaryCapacitance));
+
+            }
+        }
+
 
         public double PrimaryTurns
         {
@@ -65,55 +168,41 @@ namespace SGTC.ViewModels
 
         public double PrimaryCoreDiameter
         {
-            get => _dataService.Parameters.PrimaryCoreDiameter;
+            get => BaseToMilliConverter(_dataService.Parameters.PrimaryCoreDiameter);
             set
             {
-                if (_dataService.Parameters.PrimaryCoreDiameter != value)
-                {
-                    _dataService.Parameters.PrimaryCoreDiameter = value;
-                    OnPropertyChanged();
-                }
+                _dataService.Parameters.PrimaryCoreDiameter = MilliToBaseConverter(value);
+                OnPropertyChanged();
             }
         }
 
         public double PrimaryWireDiameter
         {
-            get => _dataService.Parameters.PrimaryWireDiameter;
+            get => BaseToMilliConverter(_dataService.Parameters.PrimaryWireDiameter);
             set
             {
-                if (_dataService.Parameters.PrimaryWireDiameter != value)
-                {
-                    _dataService.Parameters.PrimaryWireDiameter = value;
-                    OnPropertyChanged();
-                }
+                _dataService.Parameters.PrimaryWireDiameter = MilliToBaseConverter(value);
+                OnPropertyChanged();
             }
         }
 
-        
-
         public double PrimaryWireInsulationDiameter
         {
-            get => _dataService.Parameters.PrimaryWireInsulationDiameter;
+            get => BaseToMilliConverter(_dataService.Parameters.PrimaryWireInsulationDiameter);
             set
             {
-                if (_dataService.Parameters.PrimaryWireInsulationDiameter != value)
-                {
-                    _dataService.Parameters.PrimaryWireInsulationDiameter = value;
-                    OnPropertyChanged();
-                }
+                _dataService.Parameters.PrimaryWireInsulationDiameter = MilliToBaseConverter(value);
+                OnPropertyChanged();
             }
         }
 
         public double PrimaryWireSpacing
         {
-            get => _dataService.Parameters.PrimaryWireSpacing;
+            get => BaseToMilliConverter(_dataService.Parameters.PrimaryWireSpacing);
             set
             {
-                if (_dataService.Parameters.PrimaryWireSpacing != value)
-                {
-                    _dataService.Parameters.PrimaryWireSpacing = value;
-                    OnPropertyChanged();
-                }
+                _dataService.Parameters.PrimaryWireSpacing = MilliToBaseConverter(value);
+                OnPropertyChanged();
             }
         }
 
@@ -130,59 +219,15 @@ namespace SGTC.ViewModels
             }
         }
 
-
-        public PrimaryCapacitorConnectionType SelectedPrimaryCapacitorConnectionType
-        {
-            get => _dataService.Parameters.PrimaryCapacitorConnectionType;
-            set
-            {
-                Console.WriteLine(_dataService.Parameters.PrimaryCapacitorConnectionType);
-                if (_dataService.Parameters.PrimaryCapacitorConnectionType != value)
-                {
-                    _dataService.Parameters.PrimaryCapacitorConnectionType = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
+        
         public double PrimaryCapacitance
         {
-            get => _dataService.Parameters.PrimaryCapacitance;
+            get => BaseToXConverter(_dataService.Parameters.PrimaryCapacitance);
             set
             {
-                if (_dataService.Parameters.PrimaryCapacitance != value)
-                {
-                    _dataService.Parameters.PrimaryCapacitance = value;
-                    OnPropertyChanged();
-                }
+                _dataService.Parameters.PrimaryCapacitance = XToBaseConverter(value);
+                OnPropertyChanged();
             }
         }
-
-
-        public int PrimaryCapacitorAmount
-        {
-            get => _dataService.Parameters.PrimaryCapacitorAmount;
-            set
-            {
-                if (_dataService.Parameters.PrimaryCapacitorAmount != value)
-                {
-                    _dataService.Parameters.PrimaryCapacitorAmount = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-
-
-
-
-
-
-        // ====== Units ====== //
-
-
-
     }
 }

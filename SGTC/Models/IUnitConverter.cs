@@ -13,6 +13,8 @@ namespace SGTC.Models
         string AutoScale(double value, Unit baseUnit);
         (double, string) AutoScaleNumber(double value, Unit baseUnit);
         double ConvertMmToIn(double mmValue);
+
+        double ConvertMToIn(double mValue);
     }
 
     public readonly struct Unit
@@ -21,13 +23,14 @@ namespace SGTC.Models
         public int Power { get; }  // Power of 10
         public string Symbol { get; }  // Hz, F, H
         public string UnitType { get; }  // Frequency, Capacitance, Inductance
-
+        
         private Unit(string name, int power, string symbol, string unitType)
         {
             Name = name;
             Power = power;
             Symbol = symbol;
             UnitType = unitType;
+            
         }
 
         public static readonly Unit Pico = new Unit("Pico", -12, "p", "General");
@@ -45,6 +48,7 @@ namespace SGTC.Models
         public static readonly Unit Henry = new Unit("Henry", 0, "H", "Inductance");
         public static readonly Unit Ohm = new Unit("Ohm", 0, "Ω", "Resistance");
         public static readonly Unit Meter = new Unit("Meter", 0, "m", "Length");
+        public static readonly Unit Inch = new Unit("Inch", 0, "in", "Length");
         public static readonly Unit Gram = new Unit("Gram", 0, "g", "Weight");
 
         public override string ToString() => $"{Name} ({Symbol})";
@@ -76,7 +80,8 @@ namespace SGTC.Models
             int power = (int)Math.Floor(Math.Log10(value) / 3) * 3;
             Unit bestUnit = Units.Any(u => u.Power == power) ? Units.First(u => u.Power == power) : baseUnit;
 
-            return (value / Math.Pow(10, bestUnit.Power), bestUnit.Symbol);
+            double scaledValue = value / Math.Pow(10, bestUnit.Power);
+            return (scaledValue, $"{bestUnit.Symbol}{baseUnit.Symbol}");
         }
 
 
@@ -85,17 +90,17 @@ namespace SGTC.Models
         {
             int powerDifference = fromUnit.Power - toUnit.Power;
             double convertedValue = value * Math.Pow(10, powerDifference);
-            if (round)
-            {
-                return Math.Round(convertedValue, 2);
-            }
-                
-            return convertedValue;
+            return round ? Math.Round(convertedValue, 2) : convertedValue;
         }
 
         public double ConvertMmToIn(double mmValue)
         {
             return mmValue / 25.4;
+        }
+
+        public double ConvertMToIn(double mValue)
+        {
+            return mValue * 39.370079;
         }
     }
 }
