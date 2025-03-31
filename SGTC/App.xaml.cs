@@ -23,6 +23,7 @@ namespace SGTC.Views
                     services.AddTransient<ICoilCalculator, CoilCalculator>();
                     services.AddTransient<IAutoCalculatorService, AutoCalculatorService>();
                     services.AddTransient<IUnitConverterFactory, UnitConverterFactory>();
+                    services.AddTransient<ILengthConverter, BaseLengthConverter>();
                     // Register MainViewModel and Window
                     services.AddSingleton<MainViewModel>();
                     services.AddSingleton<MainWindow>();

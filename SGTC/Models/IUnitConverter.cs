@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SGTC.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,11 @@ namespace SGTC.Models
         string AutoScale(double value, Unit baseUnit);
         (double, string) AutoScaleNumber(double value, Unit baseUnit);
         double ConvertMmToIn(double mmValue);
-
         double ConvertMToIn(double mValue);
+        double ConvertCmToMm(double cmValue);
+        double ConvertInToMm(double inValue);
+        double ConvertToMm(LengthUnitType fromUnit, double value);
+        double ConvertFromMm(LengthUnitType toUnit, double value);
     }
 
     public readonly struct Unit
@@ -93,14 +97,44 @@ namespace SGTC.Models
             return round ? Math.Round(convertedValue, 2) : convertedValue;
         }
 
-        public double ConvertMmToIn(double mmValue)
+        public double ConvertMmToCm(double cmValue) => cmValue / 10;
+        public double ConvertMmToIn(double mmValue) => mmValue / 25.4;
+
+        public double ConvertCmToMm(double cmValue) => cmValue * 10;
+
+
+        public double ConvertInToMm(double inValue) => inValue * 25.4;
+
+        public double ConvertMToMm(double mValue) => mValue * 1000;
+        public double ConvertMToCm(double mValue) => mValue * 100;
+        public double ConvertMToIn(double mValue) => mValue * 39.370079;
+
+        public double ConvertToMm(LengthUnitType fromUnit, double value)
         {
-            return mmValue / 25.4;
+            return fromUnit switch
+            {
+                LengthUnitType.Centimeter => ConvertCmToMm(value),
+                LengthUnitType.Inch => ConvertInToMm(value),
+                LengthUnitType.Millimeter => value,
+                _ => value
+            };
         }
 
-        public double ConvertMToIn(double mValue)
+
+
+
+
+        public double ConvertFromMm(LengthUnitType toUnit, double value)
         {
-            return mValue * 39.370079;
+            return toUnit switch
+            {
+                LengthUnitType.Centimeter => ConvertMmToCm(value),
+                LengthUnitType.Inch => ConvertMmToIn(value),
+                LengthUnitType.Millimeter => value,
+                _ => value
+            };
         }
+
+
     }
 }

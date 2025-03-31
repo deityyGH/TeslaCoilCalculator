@@ -13,6 +13,13 @@ using System.Windows;
 
 namespace SGTC.ViewModels
 {
+    public enum LengthUnitType
+    {
+        Millimeter,
+        Centimeter,
+        Inch
+    }
+
     public class MainViewModel : ObservableObject
     {
         private readonly ICoilCalculator _calculator;
@@ -26,6 +33,19 @@ namespace SGTC.ViewModels
             {
                 _currentView = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<LengthUnitType> LengthUnits { get; set; }
+
+        public LengthUnitType SelectedLengthUnit
+        {
+            get => _dataService.Parameters.LengthUnitType;
+            set
+            {
+                _dataService.Parameters.LengthUnitType = value;
+                OnPropertyChanged();
+                PrimaryViewModel.UpdateLengthParameters();
             }
         }
 
@@ -56,6 +76,13 @@ namespace SGTC.ViewModels
 
             _calculator = calculator;
             _dataService = dataService;
+
+            LengthUnits = new ObservableCollection<LengthUnitType>
+            {
+                LengthUnitType.Millimeter,
+                LengthUnitType.Centimeter,
+                LengthUnitType.Inch
+            };
 
             CurrentView = PrimaryViewModel;
 
@@ -103,6 +130,9 @@ namespace SGTC.ViewModels
             });
 
         }
+
+        
+
 
         private bool ValidateAllViewModels()
         {

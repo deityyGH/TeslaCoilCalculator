@@ -25,6 +25,7 @@ namespace SGTC.ViewModels
 
         private readonly ResultGraphViewModel _resultGraphViewModel;
 
+        public ResultViewModel() { }
         public ResultViewModel(ICoilDataService dataService, ICoilCalculator calculator, IUnitConverter unitConverter, ResultGraphViewModel resultGraphViewModel)
         {
             _dataService = dataService;

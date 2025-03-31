@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:SGTC.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:ResultViewModel, IsDesignTimeCreatable=True}"
              xmlns:local="clr-namespace:SGTC.Views"
              mc:Ignorable="d" 
+
              d:DesignHeight="550" d:DesignWidth="800"
              Background="White">
     <!--Container-->
@@ -87,11 +90,11 @@
             <TextBox Grid.Column="2" Grid.Row="8" Text="{Binding PrimaryCoilHeightDisplay, Mode=OneWay}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="9">Turns</TextBlock>
-            <Button Grid.Column="1" Grid.Row="9" Command="{Binding AutoPrimaryTurnsCommand}" Content="Auto"/>
+            <Button Grid.Column="1" Grid.Row="9" Command="{Binding AutoPrimaryTurnsCommand}"  Content="Auto" Style="{DynamicResource AutoButton}"/>
             <TextBox Grid.Column="2" Grid.Row="9" Text="{Binding PrimaryTurns}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="10">Capacitance</TextBlock>
-            <Button Grid.Column="1" Grid.Row="10" Command="{Binding AutoPrimaryCapacitanceCommand}" Content="Auto"/>
+            <Button Grid.Column="1" Grid.Row="10" Command="{Binding AutoPrimaryCapacitanceCommand}" Content="Auto" Style="{DynamicResource AutoButton}"/>
             <TextBox Grid.Column="2" Grid.Row="10" Text="{Binding PrimaryCapacitanceDisplay, Mode=OneWay}"/>
         </Grid>
 

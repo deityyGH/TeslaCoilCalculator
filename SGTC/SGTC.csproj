@@ -201,6 +201,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\CapacitanceUnitToDisplayConverter.cs" />
+    <Compile Include="Converters\LengthUnitToDisplayConverter.cs" />
     <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="bordel\SecondaryCalculator.cs" />
     <Compile Include="bordel\UnitCoverter.cs" />
@@ -214,10 +215,12 @@
     <Compile Include="Models\IAutoCalculatorService.cs" />
     <Compile Include="Models\ICoilCalculator.cs" />
     <Compile Include="Models\ICoilDataService.cs" />
+    <Compile Include="Models\ILengthConverter.cs" />
     <Compile Include="Models\IUnitConverterFactory.cs" />
     <Compile Include="Models\IUnitConverter.cs" />
     <Compile Include="Models\IValidatable.cs" />
     <Compile Include="Models\IValidatableViewModel.cs" />
+    <Compile Include="Models\LengthCalculator.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NoneViewModel.cs" />
     <Compile Include="ViewModels\PrimaryCircuitViewModel.cs" />
@@ -239,6 +242,10 @@
     <Compile Include="Views\TopLoad.xaml.cs">
       <DependentUpon>TopLoad.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\ButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\TextBlockStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

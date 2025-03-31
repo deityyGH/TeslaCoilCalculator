@@ -5,19 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SGTC.Views"
         xmlns:vm="clr-namespace:SGTC.ViewModels"
+        xmlns:con="clr-namespace:SGTC.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
+    <Window.Resources>
+        <con:LengthUnitToDisplayConverter x:Key="LengthUnitToDisplayConverter"/>
+    </Window.Resources>
     <Grid>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
@@ -28,15 +33,31 @@
             <Button x:Name="PrimaryCircuitButton" Content="Primary" Width="100" Padding="5" Command="{Binding PrimaryViewCommand}"/>
             <Button x:Name="SecondaryCircuitButton" Content="Secondary" Width="100" Padding="5" Command="{Binding SecondaryViewCommand}" />
             <Button x:Name="TopLoadButton" Content="Top Load" Width="100" Padding="5" Command="{Binding TopLoadViewCommand}"/>
-            
+
         </StackPanel>
         <StackPanel Grid.Column="2" Grid.Row="1">
             <Button x:Name="ResultButton" Content="Result" Width="100"  HorizontalAlignment="Right" Padding="5" Command="{Binding ResultViewCommand}"/>
         </StackPanel>
-        
+
+
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical">
+            <TextBlock Text="Length unit"/>
+            <ComboBox ItemsSource="{Binding LengthUnits}" SelectedItem="{Binding SelectedLengthUnit}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource LengthUnitToDisplayConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
         <!-- Calculators -->
-        <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
-            <ContentControl Content="{Binding CurrentView}">
+        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="71*"/>
+                <ColumnDefinition Width="681*"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl Content="{Binding CurrentView}" Grid.ColumnSpan="2">
                 <ContentControl.Resources>
                     <!-- Primary Circuit -->
                     <DataTemplate DataType="{x:Type vm:PrimaryCircuitViewModel}">
@@ -60,7 +81,7 @@
                 </ContentControl.Resources>
             </ContentControl>
         </Grid>
-        
+
     </Grid>
 
 </Window>

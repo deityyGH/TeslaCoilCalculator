@@ -22,16 +22,26 @@ namespace SGTC.ViewModels
     {
         private readonly ICoilDataService _dataService;
         private readonly IUnitConverterFactory _converterFactory;
+        private readonly IUnitConverter _unitConverter;
+
+        private ILengthConverter _lengthConverter;
+        private LengthCalculator _lengthCalculator;
 
         private Func<double, double> MilliToBaseConverter;
         private Func<double, double> BaseToMilliConverter;
         private Func<double, double> XToBaseConverter => _converterFactory.CreateConverter(SelectedCapacitanceUnit, Unit.Base);
         private Func<double, double> BaseToXConverter => _converterFactory.CreateConverter(Unit.Base, SelectedCapacitanceUnit);
 
-        public PrimaryCircuitViewModel(ICoilDataService dataService, IUnitConverterFactory converterFactory)
+        public PrimaryCircuitViewModel(ICoilDataService dataService, IUnitConverterFactory converterFactory, IUnitConverter converter, ILengthConverter lengthConverter)
         {
             _dataService = dataService;
             _converterFactory = converterFactory;
+            _unitConverter = converter;
+            _lengthConverter = lengthConverter;
+
+            //ILengthConverter baseConverter = new BaseLengthConverter();
+            _lengthCalculator = new LengthCalculator(_lengthConverter);
+            
 
             SetupValidationRules();
             MilliToBaseConverter = _converterFactory.CreateConverter(Unit.Milli, Unit.Base);
@@ -43,9 +53,6 @@ namespace SGTC.ViewModels
                 PrimaryWindingType.FlatSpiral,
                 PrimaryWindingType.Conical
             };
-
-
-
         }
 
         protected override void SetupValidationRules()
@@ -108,7 +115,6 @@ namespace SGTC.ViewModels
 
         }
 
-        // Combo box
         private ObservableCollection<PrimaryWindingType> _primaryWindingTypes;
         public ObservableCollection<PrimaryWindingType> PrimaryWindingTypes
         {
@@ -152,6 +158,13 @@ namespace SGTC.ViewModels
             }
         }
 
+        public void UpdateLengthParameters()
+        {
+            OnPropertyChanged(nameof(PrimaryCoreDiameter));
+            OnPropertyChanged(nameof(PrimaryWireDiameter));
+            OnPropertyChanged(nameof(PrimaryWireInsulationDiameter));
+            OnPropertyChanged(nameof(PrimaryWireSpacing));
+        }
 
         public double PrimaryTurns
         {
@@ -168,10 +181,11 @@ namespace SGTC.ViewModels
 
         public double PrimaryCoreDiameter
         {
-            get => BaseToMilliConverter(_dataService.Parameters.PrimaryCoreDiameter);
+            get => _unitConverter.ConvertFromMm(_dataService.Parameters.LengthUnitType, BaseToMilliConverter(_dataService.Parameters.PrimaryCoreDiameter));//BaseToMilliConverter(_dataService.Parameters.PrimaryCoreDiameter);
             set
             {
-                _dataService.Parameters.PrimaryCoreDiameter = MilliToBaseConverter(value);
+                double convertedValue = _unitConverter.ConvertToMm(_dataService.Parameters.LengthUnitType, value);
+                _dataService.Parameters.PrimaryCoreDiameter = MilliToBaseConverter(convertedValue);
                 OnPropertyChanged();
             }
         }
