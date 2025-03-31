@@ -61,6 +61,8 @@ namespace SGTC.ViewModels
         public TopLoadViewModel TopLoadViewModel { get; set; }
         public ResultViewModel ResultViewModel { get; set; }
 
+        public MainViewModel() { }
+
         public MainViewModel(
             PrimaryCircuitViewModel primaryViewModel,
             SecondaryCircuitViewModel secondaryViewModel,
