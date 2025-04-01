@@ -71,8 +71,6 @@
             </ComboBox>
         </Grid>
 
-
-
         <TextBlock Grid.Column="0" Grid.Row="2">Core Diameter (mm)</TextBlock>
         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PrimaryCoreDiameter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="PrimaryCoreDiameterInput"/>
 
