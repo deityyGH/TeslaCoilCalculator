@@ -32,6 +32,7 @@ namespace SGTC.ViewModels
         private Func<double, double> XToBaseConverter => _converterFactory.CreateConverter(SelectedCapacitanceUnit, Unit.Base);
         private Func<double, double> BaseToXConverter => _converterFactory.CreateConverter(Unit.Base, SelectedCapacitanceUnit);
 
+        public PrimaryCircuitViewModel() { }
         public PrimaryCircuitViewModel(ICoilDataService dataService, IUnitConverterFactory converterFactory, IUnitConverter converter, ILengthConverter lengthConverter)
         {
             _dataService = dataService;
