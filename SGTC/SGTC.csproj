@@ -206,6 +206,10 @@
     <Compile Include="bordel\SecondaryCalculator.cs" />
     <Compile Include="bordel\UnitCoverter.cs" />
     <Compile Include="bordel\CoilCalculatorData.cs" />
+    <Compile Include="del\calc.xaml.cs">
+      <DependentUpon>calc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="del\code.cs" />
     <Compile Include="Models\CalculatorValidationViewModel.cs" />
     <Compile Include="Models\CoilParameters.cs" />
     <Compile Include="bordel\CoilCalculatorResult.cs" />
@@ -242,6 +246,10 @@
     <Compile Include="Views\TopLoad.xaml.cs">
       <DependentUpon>TopLoad.xaml</DependentUpon>
     </Compile>
+    <Page Include="del\calc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\ButtonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
