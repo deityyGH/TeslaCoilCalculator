@@ -210,6 +210,10 @@
       <DependentUpon>calc.xaml</DependentUpon>
     </Compile>
     <Compile Include="del\code.cs" />
+    <Compile Include="del\MVVM\MainViewModel.cs" />
+    <Compile Include="del\MVVM\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\CalculatorValidationViewModel.cs" />
     <Compile Include="Models\CoilParameters.cs" />
     <Compile Include="bordel\CoilCalculatorResult.cs" />
@@ -247,6 +251,10 @@
       <DependentUpon>TopLoad.xaml</DependentUpon>
     </Compile>
     <Page Include="del\calc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="del\MVVM\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
